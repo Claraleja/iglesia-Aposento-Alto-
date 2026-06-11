@@ -1,0 +1,3760 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iglesia Digital — Plantilla</title>
+<!-- 👇 Cambia este slug por el de la iglesia en cada deploy -->
+<meta name="iglesia-slug" content="aposento-alto">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ─── CONFIG DE IGLESIA (personalizar por cliente) ─── */
+:root {
+  --iglesia-nombre: "Iglesia Vida Nueva";
+  --c-gold:   #C9A84C;
+  --c-gold2:  #E8C97A;
+  --c-dark:   #0E0C0A;
+  --c-dark2:  #1A1713;
+  --c-dark3:  #252118;
+  --c-dark4:  #302B20;
+  --c-text:   #E8E2D5;
+  --c-muted:  #9A9080;
+  --c-line:   rgba(201,168,76,0.18);
+  --f-display: 'Cormorant Garamond', Georgia, serif;
+  --f-body:    'DM Sans', sans-serif;
+  --radius:    10px;
+  --trans:     0.25s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--c-dark);
+  color: var(--c-text);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ─── TIPOGRAFÍA ─── */
+h1, h2, h3 { font-family: var(--f-display); font-weight: 600; line-height: 1.2; }
+h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--c-gold); margin-bottom: 0.5rem; }
+h3 { font-size: 1.2rem; color: var(--c-text); }
+p  { color: var(--c-muted); }
+
+a { color: var(--c-gold); text-decoration: none; transition: opacity var(--trans); }
+a:hover { opacity: 0.75; }
+
+.section-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  font-family: var(--f-body);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* ─── LAYOUT ─── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+section { padding: 5rem 0; }
+.divider { width: 48px; height: 1px; background: var(--c-gold); margin: 1rem 0 1.5rem; }
+
+/* ─── FONDO TEXTURAL ─── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,168,76,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 90%, rgba(201,168,76,0.04) 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+body > * { position: relative; z-index: 1; }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(14,12,10,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--c-line);
+  padding: 0 1.5rem;
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 0.75rem;
+  cursor: pointer;
+}
+.nav-logo-icon {
+  width: 40px; height: 40px;
+  background: var(--c-gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  color: var(--c-dark);
+  font-family: var(--f-display);
+  font-weight: 600;
+  transition: transform var(--trans);
+  user-select: none;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.nav-logo-icon img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+  background: #fff;
+}
+.nav-logo:hover .nav-logo-icon { transform: scale(1.08); }
+/* Logo rectangular opcional — para logos que no son cuadrados */
+.nav-logo-icon.logo-rect {
+  width: auto; max-width: 120px; height: 40px;
+  border-radius: 8px; padding: 3px 8px;
+  background: transparent;
+}
+.nav-logo-icon.logo-rect img {
+  object-fit: contain; border-radius: 0; background: transparent;
+}
+.nav-name {
+  font-family: var(--f-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--c-text);
+}
+.nav-links {
+  display: flex; gap: 2rem;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  color: var(--c-muted);
+  transition: color var(--trans);
+}
+.nav-links a:hover { color: var(--c-gold); opacity: 1; }
+.nav-menu-btn {
+  display: none;
+  background: none; border: none;
+  color: var(--c-text); font-size: 1.5rem; cursor: pointer;
+}
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 64px; left: 0; right: 0;
+    background: rgba(14,12,10,0.97);
+    padding: 1.5rem;
+    gap: 1.2rem;
+    border-bottom: 1px solid var(--c-line);
+  }
+  .nav-menu-btn { display: block; }
+}
+
+/* ─── HERO ─── */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding-top: 64px;
+  border-bottom: 1px solid var(--c-line);
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+@media (max-width: 768px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500;
+  border: 1px solid var(--c-line);
+  padding: 0.35rem 0.85rem; border-radius: 100px;
+  margin-bottom: 1.5rem;
+}
+.hero-title {
+  font-family: var(--f-display);
+  font-size: clamp(2.6rem, 6vw, 4.5rem);
+  font-weight: 600;
+  color: var(--c-text);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--c-gold);
+}
+.hero-verse {
+  font-family: var(--f-display);
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--c-muted);
+  border-left: 2px solid var(--c-gold);
+  padding-left: 1rem;
+  margin: 1.5rem 0 2rem;
+  line-height: 1.6;
+}
+.hero-verse cite {
+  display: block;
+  font-size: 0.8rem;
+  font-style: normal;
+  color: var(--c-gold);
+  margin-top: 0.4rem;
+  letter-spacing: 0.05em;
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-family: var(--f-body);
+  font-size: 0.9rem; font-weight: 500;
+  cursor: pointer; transition: all var(--trans);
+  border: none;
+}
+.btn-gold {
+  background: var(--c-gold); color: var(--c-dark);
+}
+.btn-gold:hover { background: var(--c-gold2); opacity: 1; transform: translateY(-1px); }
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--c-line);
+  color: var(--c-text);
+}
+.btn-outline:hover { border-color: var(--c-gold); color: var(--c-gold); opacity: 1; }
+
+/* Hero visual — cruz ornamental */
+.hero-visual {
+  display: flex; align-items: center; justify-content: center;
+}
+.cross-wrap {
+  position: relative; width: 260px; height: 320px;
+}
+.cross-outer {
+  position: absolute; inset: 0;
+  border: 1px solid var(--c-line);
+  border-radius: 50%;
+}
+.cross-mid {
+  position: absolute; inset: 30px;
+  border: 1px solid rgba(201,168,76,0.1);
+  border-radius: 50%;
+}
+.cross-svg {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.cross-glow {
+  position: absolute; inset: 60px;
+  background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: pulse 4s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.08)} }
+
+/* ─── HERO IMAGE BOX ─── */
+.hero-img-box {
+  width: 280px; height: 340px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--c-line);
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-img-box img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
+.hero-img-box .cross-wrap {
+  width: 260px; height: 320px;
+}
+
+
+/* ─── HORARIOS ─── */
+.horarios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+.horario-card {
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: border-color var(--trans);
+}
+.horario-card:hover { border-color: rgba(201,168,76,0.4); }
+.horario-dia {
+  font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500; margin-bottom: 0.4rem;
+}
+.horario-servicio { font-size: 1rem; color: var(--c-text); font-weight: 500; margin-bottom: 0.2rem; }
+.horario-hora { font-family: var(--f-display); font-size: 1.4rem; color: var(--c-gold); }
+
+/* ─── PREDICAS ─── */
+#predicas { background: var(--c-dark2); }
+.predicas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+.predica-card {
+  background: var(--c-dark3);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform var(--trans), border-color var(--trans);
+}
+.predica-card:hover { transform: translateY(-3px); border-color: rgba(201,168,76,0.35); }
+.predica-portada {
+  width: 100%; height: 190px;
+  background: var(--c-dark4);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.predica-portada img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.predica-card:hover .predica-portada img { transform: scale(1.04); }
+.predica-portada::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, var(--c-dark3) 100%);
+  pointer-events: none;
+}
+.predica-portada-placeholder {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0.5rem; color: var(--c-muted);
+}
+.predica-portada-placeholder span { font-size: 2.8rem; }
+.predica-portada-placeholder small { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.predica-body { padding: 1.25rem; }
+.predica-serie {
+  font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500; margin-bottom: 0.5rem;
+}
+.predica-titulo { font-size: 1.05rem; color: var(--c-text); font-weight: 500; margin-bottom: 0.3rem; }
+.predica-fecha { font-size: 0.8rem; color: var(--c-muted); margin-bottom: 1rem; }
+
+/* ─── REPRODUCTOR CUSTOM ─── */
+audio { display: none; } /* ocultar el nativo */
+
+.player-wrap {
+  background: var(--c-dark4);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  margin-top: 0.75rem;
+}
+.player-controls {
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.player-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--c-gold); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all var(--trans);
+  color: var(--c-dark);
+}
+.player-btn:hover { background: var(--c-gold2); transform: scale(1.06); }
+.player-btn svg { width: 14px; height: 14px; fill: currentColor; }
+.player-info { flex: 1; min-width: 0; }
+.player-progress {
+  width: 100%; height: 4px;
+  background: rgba(201,168,76,0.2);
+  border-radius: 2px; cursor: pointer;
+  position: relative; margin-bottom: 0.35rem;
+}
+.player-progress-fill {
+  height: 100%; background: var(--c-gold);
+  border-radius: 2px; width: 0%;
+  transition: width 0.1s linear;
+  pointer-events: none;
+}
+.player-times {
+  display: flex; justify-content: space-between;
+  font-size: 0.68rem; color: var(--c-muted);
+  font-variant-numeric: tabular-nums;
+}
+.player-vol {
+  display: flex; align-items: center; gap: 0.4rem;
+  flex-shrink: 0;
+}
+.player-vol-icon { font-size: 0.9rem; cursor: pointer; }
+.player-vol input[type=range] {
+  width: 60px; height: 3px;
+  accent-color: var(--c-gold); cursor: pointer;
+}
+.player-loading {
+  font-size: 0.75rem; color: var(--c-muted);
+  display: none; text-align: center; padding: 0.25rem 0;
+}
+
+/* ─── SPOTIFY EMBED ─── */
+.spotify-wrap {
+  margin-top: 0.75rem; border-radius: 10px; overflow: hidden;
+}
+.spotify-wrap iframe {
+  width: 100%; border: none; border-radius: 10px;
+  display: block;
+}
+
+/* ─── BADGE TIPO AUDIO ─── */
+.predica-tipo-badge {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 0.2rem 0.65rem;
+  border-radius: 100px; margin-bottom: 0.5rem;
+}
+.badge-audio { background: rgba(201,168,76,0.12); color: var(--c-gold); }
+.badge-spotify { background: rgba(30,215,96,0.12); color: #1ed760; }
+.badge-pronto  { background: rgba(154,144,128,0.12); color: var(--c-muted); }
+
+/* ─── PARA NIÑOS ─── */
+.ninos-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+@media (max-width: 768px) { .ninos-intro { grid-template-columns: 1fr; } }
+.ninos-recursos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.recurso-item {
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: all var(--trans);
+  cursor: pointer;
+}
+.recurso-item:hover { border-color: rgba(201,168,76,0.45); transform: translateY(-2px); }
+.recurso-img {
+  width: 100%; aspect-ratio: 4/3;
+  background: var(--c-dark3);
+  overflow: hidden; position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.recurso-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.recurso-item:hover .recurso-img img { transform: scale(1.05); }
+.recurso-img-placeholder {
+  font-size: 2.2rem;
+  color: var(--c-muted);
+  display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+}
+.recurso-img-placeholder small { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.recurso-body { padding: 0.9rem 1rem 1rem; display: flex; flex-direction: column; gap: 0.35rem; flex: 1; }
+.recurso-nombre { font-size: 0.88rem; color: var(--c-text); font-weight: 500; line-height: 1.3; }
+.recurso-tipo {
+  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500;
+}
+.recurso-abrir {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  margin-top: 0.5rem;
+  background: var(--c-gold); color: var(--c-dark);
+  border: none; border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.78rem; font-weight: 500;
+  font-family: var(--f-body);
+  cursor: pointer; transition: background var(--trans);
+  align-self: flex-start;
+}
+.recurso-abrir:hover { background: var(--c-gold2); }
+.ninos-visual {
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  text-align: center;
+  font-size: 4rem;
+  line-height: 1;
+}
+.ninos-visual p {
+  font-family: var(--f-display);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--c-muted);
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+/* ─── EVENTOS ─── */
+#eventos { background: var(--c-dark2); }
+.eventos-list { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1rem; }
+.evento-item {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+  background: var(--c-dark3);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  transition: border-color var(--trans);
+}
+@media (max-width: 500px) {
+  .evento-item { grid-template-columns: 60px 1fr; }
+  .evento-badge { display: none; }
+}
+.evento-item:hover { border-color: rgba(201,168,76,0.35); }
+.evento-fecha {
+  text-align: center;
+  background: var(--c-dark4);
+  border-radius: 8px;
+  padding: 0.6rem 0.4rem;
+}
+.evento-mes {
+  font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500;
+}
+.evento-dia { font-family: var(--f-display); font-size: 1.8rem; color: var(--c-text); line-height: 1; }
+.evento-nombre { font-size: 1rem; color: var(--c-text); font-weight: 500; margin-bottom: 0.2rem; }
+.evento-desc { font-size: 0.85rem; color: var(--c-muted); }
+.evento-badge {
+  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--c-gold); border: 1px solid var(--c-line);
+  padding: 0.3rem 0.75rem; border-radius: 100px; white-space: nowrap;
+}
+
+/* ─── PORCARTS ─── */
+.porcarts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+.porcart {
+  aspect-ratio: 1;
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--trans);
+  position: relative;
+  overflow: hidden;
+}
+.porcart-bg {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: 0; transition: opacity var(--trans);
+}
+.porcart.has-bg .porcart-bg { opacity: 1; }
+.porcart-overlay {
+  position: absolute; inset: 0;
+  background: rgba(10,8,6,0.62);
+  display: none;
+}
+.porcart.has-bg .porcart-overlay { display: block; }
+.porcart::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(201,168,76,0.06) 0%, transparent 70%);
+  opacity: 0; transition: opacity var(--trans);
+}
+.porcart:hover { border-color: rgba(201,168,76,0.5); transform: translateY(-2px); }
+.porcart:hover::before { opacity: 1; }
+.porcart-content { position: relative; z-index: 1; }
+.porcart-verse {
+  font-family: var(--f-display);
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--c-text);
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+.porcart-ref {
+  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500;
+}
+.porcart-share {
+  position: absolute; bottom: 0.75rem; right: 0.75rem; z-index: 2;
+  font-size: 0.7rem; color: var(--c-muted); opacity: 0;
+  transition: opacity var(--trans);
+}
+.porcart:hover .porcart-share { opacity: 1; }
+
+/* ─── DONACIONES (toggle on/off) ─── */
+#donaciones { background: var(--c-dark2); display: none; }
+#donaciones.visible { display: block; }
+.donaciones-inner {
+  max-width: 600px; margin: 0 auto; text-align: center;
+}
+.dona-card {
+  background: var(--c-dark3);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  margin-top: 2rem;
+}
+.dona-link-btn {
+  display: inline-block;
+  background: var(--c-gold);
+  color: var(--c-dark);
+  padding: 0.85rem 2rem;
+  border-radius: var(--radius);
+  font-weight: 500;
+  margin-top: 1.5rem;
+  transition: all var(--trans);
+  cursor: pointer;
+  border: none;
+  font-family: var(--f-body);
+  font-size: 1rem;
+}
+.dona-link-btn:hover { background: var(--c-gold2); opacity: 1; transform: translateY(-1px); }
+
+/* ─── SOBRE NOSOTROS ─── */
+.sobre-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+@media (max-width: 768px) { .sobre-grid { grid-template-columns: 1fr; } }
+.pastor-card {
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: 2rem;
+  text-align: center;
+}
+.pastor-avatar {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: var(--c-gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-display);
+  font-size: 1.8rem;
+  color: var(--c-dark);
+  margin: 0 auto 1rem;
+}
+.pastor-nombre { font-size: 1.15rem; color: var(--c-text); font-weight: 500; margin-bottom: 0.2rem; }
+.pastor-rol { font-size: 0.8rem; color: var(--c-gold); letter-spacing: 0.1em; text-transform: uppercase; }
+.pastor-bio { font-size: 0.9rem; color: var(--c-muted); margin-top: 1rem; line-height: 1.6; }
+.info-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+.info-list li {
+  display: flex; gap: 1rem; align-items: flex-start;
+  font-size: 0.9rem; color: var(--c-muted);
+}
+.info-icon { color: var(--c-gold); font-size: 1rem; margin-top: 0.1rem; flex-shrink: 0; }
+.info-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-gold); font-weight: 500; display: block; margin-bottom: 0.15rem; }
+.info-val { color: var(--c-text); }
+
+
+/* ─── PASTOR FOTO ─── */
+.pastor-card-full { text-align: center; }
+.pastor-foto-box {
+  width: 120px; height: 120px;
+  border-radius: 50%; overflow: hidden;
+  margin: 0 auto 1rem;
+  border: 2px solid var(--c-line);
+  display: flex; align-items: center; justify-content: center;
+  background: var(--c-dark2);
+}
+.pastor-foto-box img {
+  width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+}
+
+/* ─── GALERÍA ─── */
+.galeria-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem; margin-top: 1rem;
+}
+.galeria-item {
+  aspect-ratio: 4/3;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  position: relative;
+}
+.galeria-item img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.galeria-item:hover img { transform: scale(1.04); }
+.galeria-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(10,8,6,0.85));
+  padding: 0.75rem 0.75rem 0.5rem;
+  font-size: 0.78rem; color: var(--c-text);
+  opacity: 0; transition: opacity 0.3s;
+}
+.galeria-item:hover .galeria-caption { opacity: 1; }
+.galeria-empty {
+  grid-column: 1/-1;
+  text-align: center; padding: 2rem;
+  font-size: 0.9rem; color: var(--c-muted);
+  border: 1px dashed var(--c-line); border-radius: var(--radius);
+}
+
+/* ─── TESTIMONIOS ─── */
+.testimonios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem; margin-top: 1rem;
+}
+.testimonio-card {
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+.testimonio-texto {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--c-text);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+.testimonio-autor {
+  font-size: 0.8rem;
+  color: var(--c-gold);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--c-dark);
+  border-top: 1px solid var(--c-line);
+  padding: 3rem 0 2rem;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: start;
+}
+@media (max-width: 640px) { .footer-inner { grid-template-columns: 1fr; } }
+.footer-name {
+  font-family: var(--f-display);
+  font-size: 1.3rem;
+  color: var(--c-text);
+  margin-bottom: 0.4rem;
+}
+.footer-copy { font-size: 0.8rem; color: var(--c-muted); margin-top: 1rem; }
+.social-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+.social-link {
+  width: 40px; height: 40px;
+  border: 1px solid var(--c-line);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem;
+  color: var(--c-muted);
+  transition: all var(--trans);
+}
+.social-link:hover { border-color: var(--c-gold); color: var(--c-gold); opacity: 1; }
+
+/* ─── PANEL ADMIN ─── */
+#admin-overlay {
+  display: none; position: fixed; inset: 0; z-index: 999;
+  background: rgba(10,8,6,0.95);
+  backdrop-filter: blur(8px);
+  overflow-y: auto;
+}
+#admin-overlay.open { display: block; }
+.admin-wrap {
+  max-width: 860px; margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+.admin-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--c-line);
+}
+.admin-title { font-family: var(--f-display); font-size: 1.6rem; color: var(--c-gold); }
+.admin-close {
+  background: none; border: 1px solid var(--c-line);
+  color: var(--c-muted); padding: 0.4rem 1rem;
+  border-radius: var(--radius); cursor: pointer;
+  font-family: var(--f-body); font-size: 0.85rem;
+  transition: all var(--trans);
+}
+.admin-close:hover { border-color: var(--c-gold); color: var(--c-gold); }
+.admin-tabs {
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.admin-tab {
+  background: none;
+  border: 1px solid var(--c-line);
+  color: var(--c-muted);
+  padding: 0.4rem 1rem;
+  border-radius: 100px; cursor: pointer;
+  font-family: var(--f-body); font-size: 0.82rem;
+  transition: all var(--trans);
+}
+.admin-tab.active, .admin-tab:hover {
+  border-color: var(--c-gold); color: var(--c-gold);
+}
+.admin-panel { display: none; }
+.admin-panel.active { display: block; }
+
+/* Formularios admin */
+.admin-form { display: flex; flex-direction: column; gap: 1rem; }
+.admin-label {
+  font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500; display: block; margin-bottom: 0.35rem;
+}
+.admin-input, .admin-textarea, .admin-select {
+  width: 100%;
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  color: var(--c-text);
+  padding: 0.7rem 1rem;
+  font-family: var(--f-body); font-size: 0.9rem;
+  transition: border-color var(--trans);
+  outline: none;
+}
+.admin-input:focus, .admin-textarea:focus, .admin-select:focus {
+  border-color: var(--c-gold);
+}
+.admin-textarea { resize: vertical; min-height: 90px; }
+.admin-select option { background: var(--c-dark2); }
+.admin-btn {
+  background: var(--c-gold); color: var(--c-dark);
+  border: none; padding: 0.75rem 1.5rem;
+  border-radius: var(--radius); cursor: pointer;
+  font-family: var(--f-body); font-weight: 500; font-size: 0.9rem;
+  transition: all var(--trans); align-self: flex-start;
+}
+.admin-btn:hover { background: var(--c-gold2); transform: translateY(-1px); }
+.admin-btn-danger {
+  background: transparent;
+  border: 1px solid #c0392b; color: #e74c3c;
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius); cursor: pointer;
+  font-size: 0.8rem; font-family: var(--f-body);
+  transition: all var(--trans);
+}
+.admin-btn-danger:hover { background: rgba(231,76,60,0.1); }
+.admin-section-title {
+  font-family: var(--f-display);
+  font-size: 1.1rem; color: var(--c-text);
+  margin-bottom: 1.25rem; padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--c-line);
+}
+.admin-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+.admin-list-item {
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--c-dark2); border: 1px solid var(--c-line);
+  border-radius: var(--radius); padding: 0.85rem 1rem;
+  font-size: 0.88rem; color: var(--c-text);
+}
+.admin-list-item-info { display: flex; flex-direction: column; gap: 0.15rem; }
+.admin-list-item-sub { font-size: 0.75rem; color: var(--c-muted); }
+.admin-toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--c-dark2); border: 1px solid var(--c-line);
+  border-radius: var(--radius); padding: 1rem 1.25rem;
+}
+.admin-toggle-label { font-size: 0.9rem; color: var(--c-text); }
+.admin-toggle-sub { font-size: 0.78rem; color: var(--c-muted); margin-top: 0.15rem; }
+.toggle-switch {
+  width: 44px; height: 24px;
+  background: var(--c-dark4);
+  border-radius: 12px; border: 1px solid var(--c-line);
+  position: relative; cursor: pointer; transition: background var(--trans);
+  flex-shrink: 0;
+}
+.toggle-switch.on { background: var(--c-gold); border-color: var(--c-gold); }
+.toggle-knob {
+  position: absolute; top: 2px; left: 2px;
+  width: 18px; height: 18px;
+  background: #fff; border-radius: 50%;
+  transition: transform var(--trans);
+}
+.toggle-switch.on .toggle-knob { transform: translateX(20px); }
+.admin-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 500px) { .admin-grid-2 { grid-template-columns: 1fr; } }
+
+/* Login */
+#admin-login {
+  max-width: 380px; margin: 8rem auto;
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  text-align: center;
+}
+#admin-login h2 { font-size: 1.4rem; margin-bottom: 0.4rem; }
+#admin-login p { font-size: 0.85rem; margin-bottom: 1.5rem; }
+.login-error { color: #e74c3c; font-size: 0.82rem; margin-top: 0.5rem; display: none; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
+  background: var(--c-dark2);
+  border: 1px solid var(--c-gold);
+  border-radius: var(--radius);
+  padding: 0.85rem 1.25rem;
+  font-size: 0.88rem; color: var(--c-text);
+  opacity: 0; transform: translateY(10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ─── Animación entrada ─── */
+
+/* ─── CITAS DE ORACIÓN ─── */
+#oracion { display: none; background: var(--c-dark2); }
+#oracion.visible { display: block; }
+
+.oracion-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 4rem;
+  align-items: start;
+}
+@media (max-width: 768px) { .oracion-inner { grid-template-columns: 1fr; } }
+
+.oracion-intro p { margin-bottom: 1rem; }
+.oracion-horarios-lista {
+  list-style: none;
+  margin-top: 1.25rem;
+  display: flex; flex-direction: column; gap: 0.6rem;
+}
+.oracion-horarios-lista li {
+  display: flex; align-items: center; gap: 0.75rem;
+  font-size: 0.9rem; color: var(--c-text);
+  background: var(--c-dark3);
+  border: 1px solid var(--c-line);
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+}
+.oracion-horarios-lista li span.dia {
+  font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500; min-width: 70px;
+}
+
+/* Formulario de solicitud */
+.oracion-form-card {
+  background: var(--c-dark3);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: 2rem;
+}
+.oracion-form-card h3 {
+  font-family: var(--f-display);
+  font-size: 1.3rem;
+  color: var(--c-gold);
+  margin-bottom: 0.3rem;
+}
+.oracion-form-card > p {
+  font-size: 0.85rem;
+  color: var(--c-muted);
+  margin-bottom: 1.5rem;
+}
+.oracion-form { display: flex; flex-direction: column; gap: 1rem; }
+.oracion-label {
+  font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500; display: block; margin-bottom: 0.35rem;
+}
+.oracion-input, .oracion-select, .oracion-textarea {
+  width: 100%;
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  color: var(--c-text);
+  padding: 0.7rem 1rem;
+  font-family: var(--f-body); font-size: 0.9rem;
+  transition: border-color var(--trans);
+  outline: none;
+}
+.oracion-input:focus, .oracion-select:focus, .oracion-textarea:focus {
+  border-color: var(--c-gold);
+}
+.oracion-select option { background: var(--c-dark2); }
+.oracion-textarea { resize: vertical; min-height: 90px; }
+.oracion-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 500px) { .oracion-grid-2 { grid-template-columns: 1fr; } }
+
+.oracion-submit {
+  background: #25D366; /* WhatsApp verde */
+  color: #fff;
+  border: none; padding: 0.85rem 1.5rem;
+  border-radius: var(--radius); cursor: pointer;
+  font-family: var(--f-body); font-weight: 500; font-size: 0.95rem;
+  transition: all var(--trans);
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+}
+.oracion-submit:hover { background: #1ebe5d; transform: translateY(-1px); }
+.oracion-nota {
+  font-size: 0.75rem; color: var(--c-muted); text-align: center; margin-top: 0.5rem;
+}
+
+/* Días de cita — calendario simple */
+.dias-cita-grid {
+  display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem;
+}
+.dia-chip {
+  padding: 0.35rem 0.85rem;
+  border-radius: 100px;
+  border: 1px solid var(--c-line);
+  font-size: 0.8rem;
+  color: var(--c-muted);
+  cursor: pointer;
+  transition: all var(--trans);
+  background: var(--c-dark3);
+  user-select: none;
+}
+.dia-chip.selected {
+  border-color: var(--c-gold);
+  color: var(--c-gold);
+  background: rgba(201,168,76,0.08);
+}
+.hora-select-wrap { position: relative; }
+
+
+/* ─── EXPORT BANNER ─── */
+.export-progress {
+  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  background: var(--c-dark2); border: 1px solid var(--c-gold);
+  border-radius: var(--radius); padding: 1rem 1.5rem;
+  font-size: 0.88rem; color: var(--c-text);
+  z-index: 9999; display: none;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  text-align: center; min-width: 260px;
+}
+.export-progress.show { display: block; }
+.export-bar {
+  width: 100%; height: 4px;
+  background: var(--c-dark4); border-radius: 2px;
+  margin-top: 0.6rem; overflow: hidden;
+}
+.export-bar-fill {
+  height: 100%; background: var(--c-gold);
+  border-radius: 2px; width: 0%;
+  transition: width 0.4s ease;
+}
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.fade-up { animation: fadeUp 0.6s ease forwards; opacity: 0; }
+.delay-1 { animation-delay: 0.15s; }
+.delay-2 { animation-delay: 0.3s; }
+.delay-3 { animation-delay: 0.45s; }
+</style>
+<!-- Supabase JS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo" id="logoBtn" title="Inicio">
+      <div class="nav-logo-icon" id="adminTrigger"><span id="logoLetra">V</span></div>
+      <span class="nav-name">Iglesia Vida Nueva</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#horarios">Horarios</a></li>
+      <li><a href="#predicas">Predicas</a></li>
+      <li><a href="#ninos">Niños</a></li>
+      <li><a href="#eventos">Eventos</a></li>
+      <li><a href="#sobre">Nosotros</a></li>
+      <li id="nav-oracion" style="display:none"><a href="#oracion">Oración</a></li>
+    </ul>
+    <button class="nav-menu-btn" id="menuBtn" aria-label="Menú">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow fade-up">✦ Bienvenidos</div>
+        <h1 class="hero-title fade-up delay-1">
+          Una familia,<br><em>un propósito</em>
+        </h1>
+        <blockquote class="hero-verse fade-up delay-2">
+          "Porque donde dos o tres se reúnen en mi nombre,<br>allí estoy yo en medio de ellos."
+          <cite>— Mateo 18:20</cite>
+        </blockquote>
+        <div class="hero-actions fade-up delay-3">
+          <a href="#predicas" class="btn btn-gold">Escuchar predicas</a>
+          <a href="#sobre" class="btn btn-outline">Conócenos</a>
+        </div>
+      </div>
+      <div class="hero-visual" id="heroVisualWrap">
+        <div class="cross-wrap">
+          <div class="cross-outer"></div>
+          <div class="cross-mid"></div>
+          <div class="cross-glow"></div>
+          <div class="cross-svg">
+            <svg width="90" height="110" viewBox="0 0 90 110" fill="none">
+              <rect x="37" y="0" width="16" height="110" rx="4" fill="none" stroke="#C9A84C" stroke-width="1.5" opacity="0.7"/>
+              <rect x="0" y="30" width="90" height="16" rx="4" fill="none" stroke="#C9A84C" stroke-width="1.5" opacity="0.7"/>
+              <rect x="40" y="3" width="10" height="104" rx="3" fill="#C9A84C" opacity="0.15"/>
+              <rect x="3" y="33" width="84" height="10" rx="3" fill="#C9A84C" opacity="0.15"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HORARIOS -->
+<section id="horarios">
+  <div class="container">
+    <span class="section-label">Únete a nosotros</span>
+    <h2>Horarios de culto</h2>
+    <div class="divider"></div>
+    <div class="horarios-grid" id="horariosGrid">
+      <!-- Generado por JS -->
+    </div>
+  </div>
+</section>
+
+<!-- PREDICAS -->
+<section id="predicas">
+  <div class="container">
+    <span class="section-label">La Palabra</span>
+    <h2>Predicas recientes</h2>
+    <div class="divider"></div>
+    <div class="predicas-grid" id="predicasGrid">
+      <!-- Generado por JS -->
+    </div>
+  </div>
+</section>
+
+<!-- NIÑOS -->
+<section id="ninos">
+  <div class="container">
+    <span class="section-label">Los más pequeños</span>
+    <h2>Ministerio infantil</h2>
+    <div class="divider"></div>
+    <div class="ninos-intro">
+      <div>
+        <p style="color:var(--c-text); font-size:1.05rem; margin-bottom:1rem;">
+          Aquí los niños aprenden que Dios los ama a través de historias, juegos y recursos diseñados especialmente para ellos.
+        </p>
+        <p>Cada domingo tenemos una clase especial para niños de 4 a 12 años durante el culto principal.</p>
+        <div class="ninos-recursos" id="ninosRecursos">
+          <!-- Generado por JS -->
+        </div>
+      </div>
+      <div class="ninos-visual">
+        ✦ 🕊️ ✦
+        <p>"Dejen que los niños vengan a mí"<br>— Marcos 10:14</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTOS -->
+<section id="eventos">
+  <div class="container">
+    <span class="section-label">En la congregación</span>
+    <h2>Próximos eventos</h2>
+    <div class="divider"></div>
+    <div class="eventos-list" id="eventosList">
+      <!-- Generado por JS -->
+    </div>
+  </div>
+</section>
+
+<!-- PORCARTS -->
+<section id="porcarts">
+  <div class="container">
+    <span class="section-label">Comparte la Palabra</span>
+    <h2>Versículos del mes</h2>
+    <div class="divider"></div>
+    <div class="porcarts-grid" id="porcartsGrid">
+      <!-- Generado por JS -->
+    </div>
+  </div>
+</section>
+
+<!-- DONACIONES (oculto por defecto) -->
+<section id="donaciones">
+  <div class="container">
+    <div class="donaciones-inner">
+      <span class="section-label">Apoya el ministerio</span>
+      <h2>Dar con fe</h2>
+      <div class="divider" style="margin:0 auto 1rem;"></div>
+      <p style="text-align:center;">"Cada uno debe dar según lo que haya decidido en su corazón." — 2 Corintios 9:7</p>
+      <div class="dona-card">
+        <p id="donacionesTexto">Tu generosidad hace posible seguir llevando la Palabra.</p>
+        <button class="dona-link-btn" id="donacionesBtn" onclick="window.open(datos.donacionesUrl,'_blank')">Dar ahora</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CITAS DE ORACIÓN (oculto por defecto) -->
+<section id="oracion">
+  <div class="container">
+    <span class="section-label">Ministerio de intercesión</span>
+    <h2>Solicitar cita de oración</h2>
+    <div class="divider"></div>
+    <div class="oracion-inner">
+
+      <!-- Info izquierda -->
+      <div class="oracion-intro">
+        <p style="color:var(--c-text);font-size:1.05rem;"
+          id="oracionDescripcion">Estamos aquí para orar contigo. Nuestros intercesores estarán disponibles para escucharte y llevar tu petición delante de Dios.</p>
+        <p>"La oración eficaz del justo puede mucho." — Santiago 5:16</p>
+        <div style="margin-top:1.5rem;">
+          <span class="oracion-label">Horarios disponibles</span>
+          <ul class="oracion-horarios-lista" id="oracionHorariosList">
+            <!-- generado por JS -->
+          </ul>
+        </div>
+        <div style="margin-top:1.5rem;padding:1.25rem;background:var(--c-dark3);border:1px solid var(--c-line);border-radius:var(--radius);">
+          <p style="font-size:0.82rem;color:var(--c-muted);line-height:1.6;">
+            📲 Al enviar tu solicitud se abrirá <strong style="color:var(--c-text);">WhatsApp</strong> con un mensaje ya redactado para que la iglesia pueda confirmar tu cita.
+          </p>
+        </div>
+      </div>
+
+      <!-- Formulario derecha -->
+      <div class="oracion-form-card">
+        <h3>Tu petición de oración</h3>
+        <p>Completa el formulario y serás contactado en breve.</p>
+        <div class="oracion-form">
+          <div class="oracion-grid-2">
+            <div>
+              <label class="oracion-label">Tu nombre</label>
+              <input class="oracion-input" id="ora-nombre" placeholder="¿Cómo te llamas?">
+            </div>
+            <div>
+              <label class="oracion-label">Tu teléfono (WhatsApp)</label>
+              <input class="oracion-input" id="ora-tel" placeholder="+1 555 000 0000" type="tel">
+            </div>
+          </div>
+          <div>
+            <label class="oracion-label">Tipo de petición</label>
+            <select class="oracion-select" id="ora-tipo">
+              <option value="Salud">🙏 Salud y sanidad</option>
+              <option value="Familia">👨‍👩‍👧 Familia y hogar</option>
+              <option value="Trabajo">💼 Trabajo y provisión</option>
+              <option value="Salvación">✝️ Salvación de un ser querido</option>
+              <option value="Consejería">💬 Consejería espiritual</option>
+              <option value="Otro">📖 Otro tema</option>
+            </select>
+          </div>
+          <div>
+            <label class="oracion-label">Día preferido</label>
+            <div class="dias-cita-grid" id="diasCitaGrid">
+              <!-- generado por JS -->
+            </div>
+          </div>
+          <div>
+            <label class="oracion-label">Hora preferida</label>
+            <select class="oracion-select" id="ora-hora">
+              <option value="Mañana (9am–12pm)">Mañana (9am–12pm)</option>
+              <option value="Tarde (2pm–5pm)">Tarde (2pm–5pm)</option>
+              <option value="Noche (6pm–8pm)">Noche (6pm–8pm)</option>
+            </select>
+          </div>
+          <div>
+            <label class="oracion-label">Tu petición (opcional, puedes compartirla en privado por WhatsApp)</label>
+            <textarea class="oracion-textarea" id="ora-peticion" placeholder="Puedes escribir algo breve o dejarlo en blanco y compartirlo directamente por WhatsApp..."></textarea>
+          </div>
+          <button class="oracion-submit" onclick="enviarSolicitudOracion()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.534 5.857L.054 23.45a.75.75 0 00.918.918l5.593-1.48A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.896 0-3.674-.5-5.21-1.378l-.374-.216-3.878 1.026 1.026-3.878-.216-.374A9.946 9.946 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            Enviar solicitud por WhatsApp
+          </button>
+          <p class="oracion-nota">Tu información es confidencial y solo será usada para confirmar tu cita.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE NOSOTROS / CONÓCENOS -->
+<section id="sobre">
+  <div class="container">
+    <span class="section-label">Conócenos</span>
+    <h2>Nuestra iglesia</h2>
+    <div class="divider"></div>
+
+    <!-- Pastor + foto + bio -->
+    <div class="sobre-grid" style="margin-bottom:3rem;">
+      <div class="pastor-card-full">
+        <div id="pastorFotoBox" class="pastor-foto-box">
+          <div class="pastor-avatar" id="pastorAvatar">JM</div>
+        </div>
+        <div class="pastor-nombre" id="pastorNombre">Pastor Juan Martínez</div>
+        <div class="pastor-rol" id="pastorRol">Pastor Principal</div>
+        <p class="pastor-bio" id="pastorBio">Más de 15 años al servicio de la comunidad, predicando la Palabra con amor y convicción.</p>
+      </div>
+      <div>
+        <ul class="info-list">
+          <li>
+            <span class="info-icon">📍</span>
+            <div>
+              <span class="info-label">Dirección</span>
+              <span class="info-val" id="infoDir">123 Calle Principal, Ciudad</span>
+            </div>
+          </li>
+          <li>
+            <span class="info-icon">📞</span>
+            <div>
+              <span class="info-label">Teléfono</span>
+              <span class="info-val" id="infoTel">+1 (555) 000-0000</span>
+            </div>
+          </li>
+          <li>
+            <span class="info-icon">✉️</span>
+            <div>
+              <span class="info-label">Correo</span>
+              <span class="info-val" id="infoEmail">info@iglesiavidanueva.com</span>
+            </div>
+          </li>
+          <li>
+            <span class="info-icon">📖</span>
+            <div>
+              <span class="info-label">Misión</span>
+              <span class="info-val" id="infoMision">Llevar la esperanza del evangelio a toda familia.</span>
+            </div>
+          </li>
+          <li>
+            <span class="info-icon">🎥</span>
+            <div>
+              <span class="info-label">Canal de YouTube / Video</span>
+              <span class="info-val" id="infoYTLink" style="display:none">
+                <a id="infoYTa" href="#" target="_blank">Ver canal</a>
+              </span>
+              <span class="info-val" id="infoYTEmpty" style="color:var(--c-muted);font-size:0.85rem;">No configurado</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Galería / portafolio de la iglesia -->
+    <span class="section-label">Galería de la congregación</span>
+    <div class="galeria-grid" id="galeriaGrid">
+      <!-- Generado por JS -->
+    </div>
+
+    <!-- Testimonios -->
+    <div style="margin-top:3rem;">
+      <span class="section-label">Testimonios</span>
+      <div class="testimonios-grid" id="testimoniosGrid">
+        <!-- Generado por JS -->
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-name" id="footerNombre">Iglesia Vida Nueva</div>
+      <p style="font-size:0.85rem;" id="footerSlogan">Todos son bienvenidos.</p>
+      <p class="footer-copy" id="footerCopy">© 2025 Iglesia Vida Nueva · Diseño por Ministerio Digital</p>
+    </div>
+    <div class="social-links" id="socialLinks">
+      <!-- Generado por JS -->
+    </div>
+  </div>
+</footer>
+
+<!-- PANEL ADMIN -->
+<div id="admin-overlay">
+  <!-- Login -->
+  <div id="admin-login">
+    <h2>Panel de administración</h2>
+    <p>Ingresa la contraseña de la iglesia</p>
+    <label class="admin-label">Contraseña</label>
+    <input class="admin-input" type="password" id="adminPass" placeholder="••••••••"
+      onkeydown="if(event.key==='Enter')adminLogin()">
+    <div class="login-error" id="loginError">Contraseña incorrecta</div>
+    <br><br>
+    <button class="admin-btn" onclick="adminLogin()">Entrar</button>
+    <br><br>
+    <button class="admin-close" onclick="cerrarAdmin()">Cancelar</button>
+  </div>
+
+  <!-- Panel completo -->
+  <div id="admin-panel" style="display:none">
+    <div class="admin-wrap">
+      <div class="admin-header">
+        <div class="admin-title" id="adminTitleNombre">Panel — Iglesia Vida Nueva</div>
+        <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+          <button class="admin-btn" onclick="exportarSitio()" style="background:var(--c-gold);color:var(--c-dark);font-size:0.82rem;padding:0.5rem 1rem;display:flex;align-items:center;gap:0.4rem;">
+            ⬇ Descargar sitio actualizado
+          </button>
+          <button class="admin-close" onclick="cerrarAdmin()">✕ Cerrar</button>
+        </div>
+      </div>
+      <!-- Banner Supabase activo -->
+      <div style="background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.25);border-radius:8px;padding:0.85rem 1.1rem;margin-bottom:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+        <span style="font-size:1.1rem;flex-shrink:0;">✅</span>
+        <div style="font-size:0.8rem;color:var(--c-muted);line-height:1.55;">
+          <strong style="color:#27ae60;">Conectado a Supabase.</strong>
+          Los cambios que hagas aquí se guardan automáticamente en la base de datos y se ven en el sitio al instante. No necesitas descargar ni subir nada.
+        </div>
+      </div>
+      <div class="admin-tabs">
+        <button class="admin-tab active" onclick="showTab('tab-iglesia',this)">Iglesia</button>
+        <button class="admin-tab" onclick="showTab('tab-predicas',this)">Predicas</button>
+        <button class="admin-tab" onclick="showTab('tab-eventos',this)">Eventos</button>
+        <button class="admin-tab" onclick="showTab('tab-ninos',this)">Niños</button>
+        <button class="admin-tab" onclick="showTab('tab-porcarts',this)">Porcarts</button>
+        <button class="admin-tab" onclick="showTab('tab-donaciones',this)">Donaciones</button>
+        <button class="admin-tab" onclick="showTab('tab-conocenos',this)">Conócenos</button>
+        <button class="admin-tab" onclick="showTab('tab-oracion',this)">Oración</button>
+        <button class="admin-tab" onclick="showTab('tab-seguridad',this)">🔐 Seguridad</button>
+      </div>
+
+      <!-- TAB: Iglesia -->
+      <div class="admin-panel active" id="tab-iglesia">
+        <div class="admin-section-title">Datos generales</div>
+        <div class="admin-form">
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">Nombre de la iglesia</label>
+              <input class="admin-input" id="cfg-nombre" placeholder="Iglesia Vida Nueva">
+            </div>
+            <div>
+              <label class="admin-label">Letra (si no tienes logo)</label>
+              <input class="admin-input" id="cfg-letra" placeholder="V" maxlength="2">
+            </div>
+          </div>
+          <!-- Logo -->
+          <div>
+            <label class="admin-label">Logo de la iglesia (URL de imagen)</label>
+            <div style="display:flex;gap:0.5rem;align-items:flex-start;">
+              <input class="admin-input" id="cfg-logo-url"
+                placeholder="Pega URL o usa el botón para subir desde tu dispositivo"
+                oninput="previsualizarLogo(this.value)" style="flex:1;">
+              <button onclick="dispararSelectorArchivo('cfg-logo-url', previsualizarLogo)"
+                style="background:var(--c-dark3);border:1px solid var(--c-line);color:var(--c-text);
+                padding:0.7rem 0.9rem;border-radius:var(--radius);cursor:pointer;
+                font-size:0.8rem;white-space:nowrap;font-family:var(--f-body);flex-shrink:0;">
+                📁 Subir
+              </button>
+            </div>
+            <p style="font-size:0.75rem;color:var(--c-muted);margin-top:0.3rem;">
+              Puedes pegar un enlace de Google Drive, Dropbox, o subir directamente desde tu dispositivo.
+              Los enlaces de Drive se convierten automáticamente.
+            </p>
+            <!-- Preview del logo -->
+            <div id="logo-preview-wrap" style="margin-top:0.75rem;display:none;">
+              <div style="font-size:0.72rem;color:var(--c-muted);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.1em;">Vista previa</div>
+              <div style="display:flex;align-items:center;gap:1rem;background:var(--c-dark);padding:0.75rem 1rem;border-radius:8px;border:1px solid var(--c-line);">
+                <div style="width:44px;height:44px;border-radius:50%;overflow:hidden;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <img id="logo-preview-img" src="" alt="Logo" style="width:100%;height:100%;object-fit:contain;">
+                </div>
+                <span style="font-family:var(--f-display);font-size:1rem;color:var(--c-text);" id="logo-preview-nombre">Iglesia Vida Nueva</span>
+              </div>
+              <button onclick="quitarLogo()" style="margin-top:0.5rem;background:none;border:1px solid var(--c-line);color:var(--c-muted);padding:0.3rem 0.85rem;border-radius:6px;font-size:0.78rem;cursor:pointer;font-family:var(--f-body);">✕ Quitar logo y usar letra</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="admin-label">Versículo principal (hero)</label>
+            <input class="admin-input" id="cfg-versiculo" placeholder="Texto del versículo">
+          </div>
+          <div>
+            <label class="admin-label">Referencia (ej. Juan 3:16)</label>
+            <input class="admin-input" id="cfg-versiculo-ref" placeholder="Juan 3:16">
+          </div>
+          <div>
+            <label class="admin-label">Misión de la iglesia</label>
+            <input class="admin-input" id="cfg-mision" placeholder="Llevar la esperanza...">
+          </div>
+        </div>
+        <br>
+        <div class="admin-section-title">Contacto</div>
+        <div class="admin-form">
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">Dirección</label>
+              <input class="admin-input" id="cfg-dir" placeholder="123 Calle Principal">
+            </div>
+            <div>
+              <label class="admin-label">Teléfono</label>
+              <input class="admin-input" id="cfg-tel" placeholder="+1 (555) 000-0000">
+            </div>
+          </div>
+          <div>
+            <label class="admin-label">Correo</label>
+            <input class="admin-input" id="cfg-email" placeholder="info@iglesia.com">
+          </div>
+        </div>
+        <br>
+        <div class="admin-section-title">Pastor principal</div>
+        <div class="admin-form">
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">Nombre del pastor</label>
+              <input class="admin-input" id="cfg-pastor" placeholder="Pastor Juan Martínez">
+            </div>
+            <div>
+              <label class="admin-label">Iniciales del pastor</label>
+              <input class="admin-input" id="cfg-pastor-ini" placeholder="JM" maxlength="3">
+            </div>
+          </div>
+          <div>
+            <label class="admin-label">Biografía breve</label>
+            <textarea class="admin-textarea" id="cfg-pastor-bio" placeholder="Más de 15 años al servicio..."></textarea>
+          </div>
+        </div>
+        <br>
+        <div class="admin-section-title">Redes sociales</div>
+        <div class="admin-form">
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">Facebook (URL)</label>
+              <input class="admin-input" id="cfg-fb" placeholder="https://facebook.com/...">
+            </div>
+            <div>
+              <label class="admin-label">Instagram (URL)</label>
+              <input class="admin-input" id="cfg-ig" placeholder="https://instagram.com/...">
+            </div>
+          </div>
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">YouTube (URL)</label>
+              <input class="admin-input" id="cfg-yt" placeholder="https://youtube.com/...">
+            </div>
+            <div>
+              <label class="admin-label">WhatsApp (número)</label>
+              <input class="admin-input" id="cfg-wa" placeholder="+15550000000">
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="admin-section-title">Horarios de culto</div>
+        <div class="admin-form" id="horarios-form">
+          <!-- Generado por JS -->
+        </div>
+        <br>
+        <button class="admin-btn" onclick="guardarDatos()">Guardar todo</button>
+      </div>
+
+      <!-- TAB: Predicas -->
+      <div class="admin-panel" id="tab-predicas">
+        <div class="admin-section-title">Agregar predica</div>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Título de la predica</label>
+            <input class="admin-input" id="pred-titulo" placeholder="ej. El poder de la fe">
+          </div>
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">Predicador</label>
+              <input class="admin-input" id="pred-pred" placeholder="Pastor Juan Martínez">
+            </div>
+            <div>
+              <label class="admin-label">Serie / tema</label>
+              <input class="admin-input" id="pred-serie" placeholder="ej. Avivamiento">
+            </div>
+          </div>
+          <div style="background:var(--c-dark3);border:1px solid var(--c-line);border-radius:8px;padding:1rem;display:flex;flex-direction:column;gap:0.75rem;">
+            <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-gold);font-weight:500;">Opción A — Audio directo</div>
+            <div>
+              <label class="admin-label">URL del audio (Google Drive, Dropbox, MP3 directo...)</label>
+              <input class="admin-input" id="pred-audio" placeholder="https://drive.google.com/uc?id=...">
+              <p style="font-size:0.72rem;color:var(--c-muted);margin-top:0.25rem;">Drive: abre el archivo → Compartir → "Cualquier persona con el enlace" → copia el ID y usa: drive.google.com/uc?id=ID</p>
+            </div>
+          </div>
+          <div style="background:var(--c-dark3);border:1px solid rgba(30,215,96,0.2);border-radius:8px;padding:1rem;display:flex;flex-direction:column;gap:0.75rem;">
+            <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:#1ed760;font-weight:500;">Opción B — Spotify Podcast</div>
+            <div>
+              <label class="admin-label">URL del episodio en Spotify</label>
+              <input class="admin-input" id="pred-spotify" placeholder="https://open.spotify.com/episode/...">
+              <p style="font-size:0.72rem;color:var(--c-muted);margin-top:0.25rem;">Si tienes podcast en Spotify, pega el link del episodio aquí. Spotify tiene prioridad sobre el audio directo.</p>
+            </div>
+          </div>
+          <div>
+            <label class="admin-label">URL de imagen de portada</label>
+            <div style="display:flex;gap:0.5rem;">
+              <input class="admin-input" id="pred-imagen"
+                placeholder="URL o subir desde dispositivo"
+                oninput="this.value=convertirUrlImagen(this.value)" style="flex:1;">
+              <button onclick="dispararSelectorArchivo('pred-imagen')"
+                style="background:var(--c-dark3);border:1px solid var(--c-line);color:var(--c-text);
+                padding:0.7rem 0.9rem;border-radius:var(--radius);cursor:pointer;
+                font-size:0.8rem;white-space:nowrap;font-family:var(--f-body);flex-shrink:0;">📁 Subir</button>
+            </div>
+          </div>
+          <button class="admin-btn" onclick="agregarPredica()">Agregar predica</button>
+        </div>
+        <div class="admin-list" id="admin-predicas-list"></div>
+      </div>
+
+      <!-- TAB: Eventos -->
+      <div class="admin-panel" id="tab-eventos">
+        <div class="admin-section-title">Agregar evento</div>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Nombre del evento</label>
+            <input class="admin-input" id="ev-nombre" placeholder="ej. Noche de Alabanza">
+          </div>
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">Fecha</label>
+              <input class="admin-input" type="date" id="ev-fecha">
+            </div>
+            <div>
+              <label class="admin-label">Etiqueta (badge)</label>
+              <input class="admin-input" id="ev-badge" placeholder="ej. Especial">
+            </div>
+          </div>
+          <div>
+            <label class="admin-label">Descripción breve</label>
+            <textarea class="admin-textarea" id="ev-desc" placeholder="Descripción del evento..."></textarea>
+          </div>
+          <button class="admin-btn" onclick="agregarEvento()">Agregar evento</button>
+        </div>
+        <div class="admin-list" id="admin-eventos-list"></div>
+      </div>
+
+      <!-- TAB: Niños -->
+      <div class="admin-panel" id="tab-ninos">
+        <div class="admin-section-title">Agregar recurso infantil</div>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Nombre del recurso</label>
+            <input class="admin-input" id="nino-nombre" placeholder="ej. Luna y la Receta Secreta">
+          </div>
+          <div>
+            <label class="admin-label">Tipo de recurso</label>
+            <select class="admin-select" id="nino-tipo">
+              <option value="Libro PDF">Libro PDF</option>
+              <option value="Coloreable">Coloreable</option>
+              <option value="Audio cuento">Audio cuento</option>
+              <option value="Actividad">Actividad</option>
+            </select>
+          </div>
+          <div>
+            <label class="admin-label">Imagen de carátula</label>
+            <div style="display:flex;gap:0.5rem;">
+              <input class="admin-input" id="nino-imagen"
+                placeholder="URL o subir desde dispositivo"
+                oninput="this.value=convertirUrlImagen(this.value)" style="flex:1;">
+              <button onclick="dispararSelectorArchivo('nino-imagen')"
+                style="background:var(--c-dark3);border:1px solid var(--c-line);color:var(--c-text);
+                padding:0.7rem 0.9rem;border-radius:var(--radius);cursor:pointer;
+                font-size:0.8rem;white-space:nowrap;font-family:var(--f-body);flex-shrink:0;">📁 Subir</button>
+            </div>
+            <p style="font-size:0.75rem;color:var(--c-muted);margin-top:0.3rem;">Esta imagen se muestra antes del botón de abrir.</p>
+          </div>
+          <div>
+            <label class="admin-label">URL para abrir el recurso (Drive, PDF...)</label>
+            <input class="admin-input" id="nino-url" placeholder="https://drive.google.com/...">
+          </div>
+          <button class="admin-btn" onclick="agregarRecursoNino()">Agregar recurso</button>
+        </div>
+        <div class="admin-list" id="admin-ninos-list"></div>
+      </div>
+
+      <!-- TAB: Porcarts -->
+      <div class="admin-panel" id="tab-porcarts">
+        <div class="admin-section-title">Agregar porcart / versículo</div>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Texto del versículo</label>
+            <textarea class="admin-textarea" id="pc-texto" placeholder="Escribe el versículo..."></textarea>
+          </div>
+          <div>
+            <label class="admin-label">Referencia (ej. Filipenses 4:13)</label>
+            <input class="admin-input" id="pc-ref" placeholder="Filipenses 4:13">
+          </div>
+          <div>
+            <label class="admin-label">Imagen de fondo (opcional)</label>
+            <div style="display:flex;gap:0.5rem;">
+              <input class="admin-input" id="pc-bg"
+                placeholder="URL o subir desde dispositivo"
+                oninput="this.value=convertirUrlImagen(this.value)" style="flex:1;">
+              <button onclick="dispararSelectorArchivo('pc-bg')"
+                style="background:var(--c-dark3);border:1px solid var(--c-line);color:var(--c-text);
+                padding:0.7rem 0.9rem;border-radius:var(--radius);cursor:pointer;
+                font-size:0.8rem;white-space:nowrap;font-family:var(--f-body);flex-shrink:0;">📁 Subir</button>
+            </div>
+            <p style="font-size:0.75rem;color:var(--c-muted);margin-top:0.3rem;">Se oscurece automáticamente para que el texto se lea bien.</p>
+          </div>
+          <button class="admin-btn" onclick="agregarPorcart()">Agregar porcart</button>
+        </div>
+        <div class="admin-list" id="admin-porcarts-list"></div>
+      </div>
+
+      <!-- TAB: Donaciones -->
+      <div class="admin-panel" id="tab-donaciones">
+        <div class="admin-section-title">Configurar donaciones</div>
+        <div class="admin-toggle-row">
+          <div>
+            <div class="admin-toggle-label">Mostrar sección de donaciones</div>
+            <div class="admin-toggle-sub">Si está apagado, nadie la verá en el sitio</div>
+          </div>
+          <div class="toggle-switch" id="dona-toggle" onclick="toggleDonaciones()">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+        <br>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Enlace para donar (PayPal, CashApp, Zelle...)</label>
+            <input class="admin-input" id="dona-url" placeholder="https://paypal.me/...">
+          </div>
+          <div>
+            <label class="admin-label">Mensaje de la sección</label>
+            <textarea class="admin-textarea" id="dona-texto" placeholder="Tu generosidad hace posible..."></textarea>
+          </div>
+          <button class="admin-btn" onclick="guardarDonaciones()">Guardar</button>
+        </div>
+      </div>
+
+      <!-- TAB: Conócenos -->
+      <div class="admin-panel" id="tab-conocenos">
+        <div class="admin-section-title">Imagen principal (hero)</div>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">URL de imagen del pastor o iglesia (Google Drive, Dropbox, imgur...)</label>
+            <div style="display:flex;gap:0.5rem;">
+              <input class="admin-input" id="con-hero-url"
+                placeholder="URL o subir desde dispositivo"
+                oninput="this.value=convertirUrlImagen(this.value)" style="flex:1;">
+              <button onclick="dispararSelectorArchivo('con-hero-url')"
+                style="background:var(--c-dark3);border:1px solid var(--c-line);color:var(--c-text);
+                padding:0.7rem 0.9rem;border-radius:var(--radius);cursor:pointer;
+                font-size:0.8rem;white-space:nowrap;font-family:var(--f-body);flex-shrink:0;">📁 Subir</button>
+            </div>
+            <p style="font-size:0.78rem;color:var(--c-muted);margin-top:0.35rem;">Esta imagen reemplaza la cruz decorativa del inicio. Si la dejas vacía, aparece la cruz por defecto.</p>
+          </div>
+          <button class="admin-btn" onclick="guardarFotos()">Guardar imagen hero</button>
+        </div>
+        <br>
+        <div class="admin-section-title">Foto del pastor</div>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Foto del pastor</label>
+            <div style="display:flex;gap:0.5rem;">
+              <input class="admin-input" id="con-pastor-foto"
+                placeholder="URL o subir desde dispositivo"
+                oninput="this.value=convertirUrlImagen(this.value)" style="flex:1;">
+              <button onclick="dispararSelectorArchivo('con-pastor-foto')"
+                style="background:var(--c-dark3);border:1px solid var(--c-line);color:var(--c-text);
+                padding:0.7rem 0.9rem;border-radius:var(--radius);cursor:pointer;
+                font-size:0.8rem;white-space:nowrap;font-family:var(--f-body);flex-shrink:0;">📁 Subir</button>
+            </div>
+          </div>
+          <div>
+            <label class="admin-label">Rol / cargo (ej. Pastor Principal, Evangelista)</label>
+            <input class="admin-input" id="con-pastor-rol" placeholder="Pastor Principal">
+          </div>
+          <button class="admin-btn" onclick="guardarFotos()">Guardar foto pastor</button>
+        </div>
+        <br>
+        <div class="admin-section-title">Footer</div>
+        <div class="admin-form">
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">Slogan del footer</label>
+              <input class="admin-input" id="con-footer-slogan" placeholder="Todos son bienvenidos.">
+            </div>
+            <div>
+              <label class="admin-label">Año del copyright</label>
+              <input class="admin-input" id="con-footer-anio" placeholder="2025" maxlength="4">
+            </div>
+          </div>
+          <button class="admin-btn" onclick="guardarFotos()">Guardar footer</button>
+        </div>
+        <br>
+        <div class="admin-section-title">Galería de fotos</div>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Foto de la galería</label>
+            <div style="display:flex;gap:0.5rem;">
+              <input class="admin-input" id="gal-url"
+                placeholder="URL o subir desde dispositivo"
+                oninput="this.value=convertirUrlImagen(this.value)" style="flex:1;">
+              <button onclick="dispararSelectorArchivo('gal-url')"
+                style="background:var(--c-dark3);border:1px solid var(--c-line);color:var(--c-text);
+                padding:0.7rem 0.9rem;border-radius:var(--radius);cursor:pointer;
+                font-size:0.8rem;white-space:nowrap;font-family:var(--f-body);flex-shrink:0;">📁 Subir</button>
+            </div>
+          </div>
+          <div>
+            <label class="admin-label">Descripción (opcional)</label>
+            <input class="admin-input" id="gal-caption" placeholder="ej. Culto de Navidad 2024">
+          </div>
+          <button class="admin-btn" onclick="agregarFotoGaleria()">Agregar foto</button>
+        </div>
+        <div class="admin-list" id="admin-galeria-list"></div>
+        <br>
+        <div class="admin-section-title">Testimonios</div>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Testimonio</label>
+            <textarea class="admin-textarea" id="test-texto" placeholder="Esta iglesia cambió mi vida..."></textarea>
+          </div>
+          <div>
+            <label class="admin-label">Nombre del hermano</label>
+            <input class="admin-input" id="test-autor" placeholder="María G.">
+          </div>
+          <button class="admin-btn" onclick="agregarTestimonio()">Agregar testimonio</button>
+        </div>
+        <div class="admin-list" id="admin-testimonios-list"></div>
+      </div>
+
+
+      <!-- TAB: Oración -->
+      <div class="admin-panel" id="tab-oracion">
+        <div class="admin-section-title">Módulo de citas de oración</div>
+
+        <div class="admin-toggle-row">
+          <div>
+            <div class="admin-toggle-label">Mostrar sección de citas de oración</div>
+            <div class="admin-toggle-sub">Si está apagado, nadie la verá en el sitio</div>
+          </div>
+          <div class="toggle-switch" id="ora-toggle" onclick="toggleOracion()">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+        <br>
+
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Número de WhatsApp de la iglesia (para recibir solicitudes)</label>
+            <input class="admin-input" id="ora-wa-num" placeholder="+15550000000">
+            <p style="font-size:0.75rem;color:var(--c-muted);margin-top:0.3rem;">Incluye el código del país. Ej: +1 para EEUU, +34 para España.</p>
+          </div>
+          <div>
+            <label class="admin-label">Texto de presentación</label>
+            <textarea class="admin-textarea" id="ora-desc" placeholder="Estamos aquí para orar contigo..."></textarea>
+          </div>
+        </div>
+        <br>
+
+        <div class="admin-section-title">Días disponibles para citas</div>
+        <p style="font-size:0.82rem;color:var(--c-muted);margin-bottom:0.75rem;">Estos días aparecerán como opciones en el formulario.</p>
+        <div class="admin-form">
+          <div id="ora-dias-lista" style="display:flex;flex-direction:column;gap:0.5rem;">
+            <!-- generado por JS -->
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:flex-end;">
+            <div style="flex:1;">
+              <label class="admin-label">Agregar día</label>
+              <input class="admin-input" id="ora-nuevo-dia" placeholder="ej. Domingo">
+            </div>
+            <button class="admin-btn" style="margin-bottom:0;" onclick="agregarDiaCita()">Agregar</button>
+          </div>
+        </div>
+        <br>
+
+        <div class="admin-section-title">Horarios visibles (informativo)</div>
+        <div class="admin-list" id="ora-horarios-lista-admin"></div>
+        <br>
+        <div class="admin-form">
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">Día / rango</label>
+              <input class="admin-input" id="ora-hor-dia" placeholder="ej. Lunes y Miércoles">
+            </div>
+            <div>
+              <label class="admin-label">Hora</label>
+              <input class="admin-input" id="ora-hor-hora" placeholder="ej. 9:00am – 12:00pm">
+            </div>
+          </div>
+          <button class="admin-btn" onclick="agregarHorarioOracion()">Agregar horario</button>
+        </div>
+        <br>
+        <button class="admin-btn" onclick="guardarOracion()">Guardar configuración de oración</button>
+      </div>
+
+
+      <!-- TAB: Seguridad -->
+      <div class="admin-panel" id="tab-seguridad">
+
+        <div class="admin-section-title">Estado de conexión Supabase</div>
+        <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);
+      border-radius:8px;padding:1rem 1.1rem;margin-bottom:1rem;font-size:0.8rem;
+      color:var(--c-muted);line-height:1.6;">
+      <strong style="color:var(--c-gold);">⚠ Importante para que Supabase guarde todo:</strong><br>
+      En Supabase → Authentication → Policies, cada tabla debe tener una política
+      <strong style="color:var(--c-text);">INSERT / UPDATE / DELETE</strong> habilitada.
+      O ve a Settings → API y activa <strong style="color:var(--c-text);">service_role</strong> solo para el admin.
+      Si no, Supabase rechaza los cambios silenciosamente.
+    </div>
+    <div id="supa-status" style="background:var(--c-dark3);border:1px solid var(--c-line);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:0.85rem;color:var(--c-muted);">
+          Verificando conexión...
+        </div>
+        <button class="admin-btn" style="margin-bottom:1.5rem;background:transparent;border:1px solid var(--c-line);color:var(--c-muted);font-size:0.82rem;" onclick="verificarConexionSupabase()">Verificar conexión</button>
+        <br>
+        <div class="admin-section-title">Cambiar contraseña del panel</div>
+        <p style="font-size:0.85rem;color:var(--c-muted);margin-bottom:1.25rem;line-height:1.6;">
+          La contraseña protege el acceso al panel de administración. Cámbiala inmediatamente después de recibir el sitio. Guárdala en un lugar seguro — si la olvidas necesitarás contactar al administrador.
+        </p>
+
+        <div class="admin-form" style="max-width:420px;">
+          <div>
+            <label class="admin-label">Contraseña actual</label>
+            <div style="position:relative;">
+              <input class="admin-input" type="password" id="seg-actual" placeholder="Contraseña actual" style="padding-right:2.5rem;">
+              <button onclick="toggleVer('seg-actual',this)" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--c-muted);cursor:pointer;font-size:0.85rem;">👁</button>
+            </div>
+          </div>
+          <div>
+            <label class="admin-label">Nueva contraseña</label>
+            <div style="position:relative;">
+              <input class="admin-input" type="password" id="seg-nueva" placeholder="Mínimo 6 caracteres" style="padding-right:2.5rem;">
+              <button onclick="toggleVer('seg-nueva',this)" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--c-muted);cursor:pointer;font-size:0.85rem;">👁</button>
+            </div>
+            <div id="seg-fortaleza" style="margin-top:0.4rem;font-size:0.75rem;color:var(--c-muted);"></div>
+          </div>
+          <div>
+            <label class="admin-label">Confirmar nueva contraseña</label>
+            <div style="position:relative;">
+              <input class="admin-input" type="password" id="seg-confirmar" placeholder="Repite la nueva contraseña" style="padding-right:2.5rem;">
+              <button onclick="toggleVer('seg-confirmar',this)" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--c-muted);cursor:pointer;font-size:0.85rem;">👁</button>
+            </div>
+          </div>
+          <div id="seg-error" style="display:none;font-size:0.82rem;color:#e74c3c;padding:0.5rem 0.75rem;background:rgba(231,76,60,0.08);border-radius:6px;border:1px solid rgba(231,76,60,0.2);"></div>
+          <button class="admin-btn" onclick="cambiarContrasena()">Guardar nueva contraseña</button>
+        </div>
+
+        <br>
+        <div style="background:var(--c-dark2);border:1px solid var(--c-line);border-radius:var(--radius);padding:1.25rem;max-width:420px;">
+          <div style="font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-gold);font-weight:500;margin-bottom:0.6rem;">Consejos de seguridad</div>
+          <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:0.4rem;">
+            <li style="font-size:0.82rem;color:var(--c-muted);">✓ Usa al menos 8 caracteres</li>
+            <li style="font-size:0.82rem;color:var(--c-muted);">✓ Mezcla letras y números</li>
+            <li style="font-size:0.82rem;color:var(--c-muted);">✓ No uses el nombre de la iglesia</li>
+            <li style="font-size:0.82rem;color:var(--c-muted);">✓ No la compartas con nadie más</li>
+            <li style="font-size:0.82rem;color:var(--c-muted);">✓ Cámbiala cada 6 meses</li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div><!-- admin-wrap -->
+  </div><!-- admin-panel -->
+</div><!-- admin-overlay -->
+
+<!-- EXPORT PROGRESS -->
+<div class="export-progress" id="exportProgress">
+  <div id="exportMsg">Preparando sitio...</div>
+  <div class="export-bar"><div class="export-bar-fill" id="exportBar"></div></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── CONTRASEÑA (se guarda en localStorage) ───
+const PASS_DEFAULT = 'iglesia2025';
+let PASS = localStorage.getItem('iglesia_pass') || PASS_DEFAULT;
+let logoClickCount = 0;
+let logoTimer = null;
+
+let datos = {
+  nombre: 'Iglesia Vida Nueva',
+  slug: 'aposento-alto',
+  letra: 'V',
+  logoUrl: '',
+  versiculo: 'Porque donde dos o tres se reúnen en mi nombre, allí estoy yo en medio de ellos.',
+  versiculoRef: 'Mateo 18:20',
+  mision: 'Llevar la esperanza del evangelio a toda familia.',
+  dir: '123 Calle Principal, Ciudad',
+  tel: '+1 (555) 000-0000',
+  email: 'info@iglesiavidanueva.com',
+  pastor: 'Pastor Juan Martínez',
+  pastorIni: 'JM',
+  pastorBio: 'Más de 15 años al servicio de la comunidad, predicando la Palabra con amor y convicción.',
+  fb: '', ig: '', yt: '', wa: '',
+  heroImageUrl: '',
+  pastorFotoUrl: '',
+  footerSlogan: 'Todos son bienvenidos.',
+  footerAnio: '2025',
+  galeria: [],
+  testimonios: [
+    { texto: 'Esta iglesia cambió mi vida. Aquí encontré a Dios y una familia de verdad.', autor: 'María G.' },
+    { texto: 'Los cultos son poderosos. Cada domingo salgo transformado.', autor: 'Roberto M.' },
+  ],
+  oracionOn: false,
+  oracionWa: '',
+  oracionDescripcion: 'Estamos aquí para orar contigo. Nuestros intercesores estarán disponibles para escucharte y llevar tu petición delante de Dios.',
+  oracionDias: ['Lunes','Miércoles','Viernes','Sábado'],
+  oracionHorarios: [
+    { dia: 'Lunes y Miércoles', hora: '9:00am – 12:00pm' },
+    { dia: 'Viernes', hora: '6:00pm – 8:00pm' },
+    { dia: 'Sábado', hora: '10:00am – 1:00pm' },
+  ],
+  donacionesOn: false,
+  donacionesUrl: '#',
+  donacionesTexto: 'Tu generosidad hace posible seguir llevando la Palabra.',
+  horarios: [
+    { dia: 'Domingo', servicio: 'Culto Principal', hora: '10:00 AM' },
+    { dia: 'Miércoles', servicio: 'Estudio Bíblico', hora: '7:00 PM' },
+    { dia: 'Viernes', servicio: 'Noche de Oración', hora: '7:30 PM' },
+  ],
+  predicas: [
+    { titulo: 'El poder de la fe', serie: 'Fundamentos', predicador: 'Pastor Juan', fecha: '1 Jun 2025', audio: '', imagenUrl: '', spotifyUrl: '' },
+    { titulo: 'Gracia sobre gracia', serie: 'Avivamiento', predicador: 'Pastor Juan', fecha: '25 May 2025', audio: '', imagenUrl: '', spotifyUrl: '' },
+    { titulo: 'Caminando en victoria', serie: 'Avivamiento', predicador: 'Pastor Juan', fecha: '18 May 2025', audio: '', imagenUrl: '', spotifyUrl: '' },
+  ],
+  eventos: [
+    { nombre: 'Noche de Alabanza', fecha: '2025-06-14', desc: 'Una noche especial de adoración y palabra.', badge: 'Especial' },
+    { nombre: 'Conferencia Familiar', fecha: '2025-06-28', desc: 'Fortaleciendo el hogar desde la Palabra.', badge: 'Conferencia' },
+  ],
+  ninos: [
+    { nombre: 'Luna y la Receta Secreta', tipo: 'Libro PDF', imagenUrl: '', url: '#' },
+    { nombre: 'Colorea con la Biblia', tipo: 'Coloreable', imagenUrl: '', url: '#' },
+    { nombre: 'Historia de David', tipo: 'Audio cuento', imagenUrl: '', url: '#' },
+    { nombre: 'Manualidad: Arca de Noé', tipo: 'Actividad', imagenUrl: '', url: '#' },
+  ],
+  porcarts: [
+    { texto: 'Todo lo puedo en Cristo que me fortalece.', ref: 'Filipenses 4:13', bgUrl: '' },
+    { texto: 'El Señor es mi pastor; nada me faltará.', ref: 'Salmos 23:1', bgUrl: '' },
+    { texto: 'Echa sobre él toda tu ansiedad, porque él tiene cuidado de ti.', ref: '1 Pedro 5:7', bgUrl: '' },
+    { texto: 'El amor es sufrido, es benigno; el amor no tiene envidia.', ref: '1 Corintios 13:4', bgUrl: '' },
+  ],
+};
+
+// ─── CARGAR DESDE localStorage ───
+function cargarDatos() {
+  const saved = localStorage.getItem('iglesia_datos');
+  if (saved) {
+    try { datos = Object.assign(datos, JSON.parse(saved)); } catch(e) {}
+  }
+}
+
+function guardarStorage() {
+  localStorage.setItem('iglesia_datos', JSON.stringify(datos));
+}
+
+// ════════════════════════════════════════════════════════
+// SUPABASE — Integración dinámica
+// ════════════════════════════════════════════════════════
+// 👇 Reemplaza estos valores con los de tu proyecto Supabase
+// Settings → API → Project URL y anon/public key
+const SUPABASE_URL  = 'https://tzvwtdwrjqzxjkjhuokz.supabase.co';
+const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR6dnd0ZHdyanF6eGpramh1b2t6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5OTU3NDQsImV4cCI6MjA5NjU3MTc0NH0.86L37mqTQM_J0emVybT0U5MzrljGt1Bs_R353ejeiBI';
+
+// Detectar el slug de la iglesia desde la URL
+// Ejemplo: iglesiavidanueva.com → leer meta tag
+//          ministeriodigital.com/vida-nueva → leer path
+function detectarSlug() {
+  // Opción A: meta tag en el HTML (más limpia para Vercel)
+  const meta = document.querySelector('meta[name="iglesia-slug"]');
+  if (meta && meta.content) return meta.content.trim();
+
+  // Opción B: parámetro ?iglesia=vida-nueva en la URL
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('iglesia')) return params.get('iglesia').trim();
+
+  // Opción C: primer segmento del path /vida-nueva/
+  const path = window.location.pathname.replace(/\//g, '').trim();
+  if (path && path !== 'index.html') return path;
+
+  // Opción D: usar el slug guardado en localStorage (fallback)
+  return localStorage.getItem('iglesia_slug') || null;
+}
+
+// Mapear fila de Supabase al objeto `datos` que ya usa renderSitio()
+// Esta función SOLO FUSIONA — no reemplaza funciones existentes
+function mapearSupabaseDatos(iglesia, contacto, hero, pastor,
+                              horariosList, predicasList, eventosList,
+                              ninosList, porcartsList, galeriaList,
+                              testimoniosList, donConfig, oraConfig,
+                              oraDias, oraHorarios) {
+  // ── Datos generales
+  if (iglesia) {
+    datos.nombre      = iglesia.nombre      || datos.nombre;
+    datos.slug        = iglesia.slug        || datos.slug;
+    datos.letra       = iglesia.letra       || datos.letra;
+    datos.logoUrl     = iglesia.logo_url    || datos.logoUrl;
+    datos.versiculo   = iglesia.versiculo   || datos.versiculo;
+    datos.versiculoRef= iglesia.versiculo_ref || datos.versiculoRef;
+    datos.mision      = iglesia.mision      || datos.mision;
+  }
+
+  // ── Contacto
+  if (contacto) {
+    datos.dir    = contacto.direccion     || datos.dir;
+    datos.tel    = contacto.telefono      || datos.tel;
+    datos.email  = contacto.email         || datos.email;
+    datos.wa     = contacto.whatsapp      || datos.wa;
+    datos.fb     = contacto.facebook_url  || datos.fb;
+    datos.ig     = contacto.instagram_url || datos.ig;
+    datos.yt     = contacto.youtube_url   || datos.yt;
+  }
+
+  // ── Hero / portada
+  if (hero) {
+    datos.heroImageUrl  = hero.imagen_url    || datos.heroImageUrl;
+    datos.footerSlogan  = hero.footer_slogan || datos.footerSlogan;
+    datos.footerAnio    = hero.footer_anio   || datos.footerAnio;
+  }
+
+  // ── Pastor principal
+  if (pastor) {
+    datos.pastor      = pastor.nombre    || datos.pastor;
+    datos.pastorIni   = pastor.iniciales || datos.pastorIni;
+    datos.pastorBio   = pastor.bio       || datos.pastorBio;
+    datos.pastorRol   = pastor.rol       || datos.pastorRol;
+    datos.pastorFotoUrl = pastor.foto_url || datos.pastorFotoUrl;
+  }
+
+  // ── Horarios de culto
+  if (horariosList && horariosList.length > 0) {
+    datos.horarios = horariosList
+      .sort((a,b) => a.orden - b.orden)
+      .map(h => ({ dia: h.dia, servicio: h.servicio, hora: h.hora }));
+  }
+
+  // ── Predicas
+  if (predicasList && predicasList.length > 0) {
+    datos.predicas = predicasList
+      .sort((a,b) => new Date(b.fecha_predica) - new Date(a.fecha_predica))
+      .map(p => {
+        const d = new Date(p.fecha_predica + 'T12:00:00');
+        const fecha = d.getDate() + ' ' +
+          d.toLocaleString('es',{month:'short'}) + ' ' + d.getFullYear();
+        return {
+          titulo:     p.titulo,
+          serie:      p.serie       || 'General',
+          predicador: p.predicador  || datos.pastor,
+          fecha,
+          audio:      p.audio_url   || '',
+          imagenUrl:  p.imagen_url  || '',
+          spotifyUrl: p.spotify_url || '',
+        };
+      });
+  }
+
+  // ── Eventos
+  if (eventosList && eventosList.length > 0) {
+    datos.eventos = eventosList
+      .sort((a,b) => new Date(a.fecha_evento) - new Date(b.fecha_evento))
+      .map(e => ({
+        nombre: e.nombre,
+        fecha:  e.fecha_evento,
+        desc:   e.descripcion || '',
+        badge:  e.badge       || 'Evento',
+      }));
+  }
+
+  // ── Recursos niños
+  if (ninosList && ninosList.length > 0) {
+    datos.ninos = ninosList
+      .sort((a,b) => a.orden - b.orden)
+      .map(n => ({
+        nombre:    n.nombre,
+        tipo:      n.tipo,
+        imagenUrl: n.imagen_url   || '',
+        url:       n.recurso_url  || '#',
+      }));
+  }
+
+  // ── Porcarts
+  if (porcartsList && porcartsList.length > 0) {
+    datos.porcarts = porcartsList
+      .sort((a,b) => a.orden - b.orden)
+      .map(p => ({
+        texto: p.texto,
+        ref:   p.referencia,
+        bgUrl: p.bg_url || '',
+      }));
+  }
+
+  // ── Galería
+  if (galeriaList && galeriaList.length > 0) {
+    datos.galeria = galeriaList
+      .sort((a,b) => a.orden - b.orden)
+      .map(g => ({ url: g.imagen_url, caption: g.caption || '' }));
+  }
+
+  // ── Testimonios
+  if (testimoniosList && testimoniosList.length > 0) {
+    datos.testimonios = testimoniosList
+      .sort((a,b) => a.orden - b.orden)
+      .map(t => ({ texto: t.texto, autor: t.autor }));
+  }
+
+  // ── Donaciones
+  if (donConfig) {
+    datos.donacionesOn    = donConfig.activo        || false;
+    datos.donacionesUrl   = donConfig.url_pago      || datos.donacionesUrl;
+    datos.donacionesTexto = donConfig.mensaje       || datos.donacionesTexto;
+  }
+
+  // ── Oración
+  if (oraConfig) {
+    datos.oracionOn          = oraConfig.activo      || false;
+    datos.oracionWa          = oraConfig.whatsapp    || datos.oracionWa;
+    datos.oracionDescripcion = oraConfig.descripcion || datos.oracionDescripcion;
+  }
+  if (oraDias && oraDias.length > 0) {
+    datos.oracionDias = oraDias
+      .sort((a,b) => a.orden - b.orden)
+      .map(d => d.dia);
+  }
+  if (oraHorarios && oraHorarios.length > 0) {
+    datos.oracionHorarios = oraHorarios
+      .sort((a,b) => a.orden - b.orden)
+      .map(h => ({ dia: h.rango_dias, hora: h.hora }));
+  }
+}
+
+// Función principal — carga todo desde Supabase y llama renderSitio()
+async function cargarDesdeSupabase() {
+  // Si no están configuradas las credenciales, salir silenciosamente
+  if (!SUPABASE_URL || SUPABASE_URL === 'TU_SUPABASE_URL') return;
+
+  const slug = detectarSlug();
+  if (!slug) {
+    console.warn('[Supabase] No se detectó slug de iglesia. Usando datos locales.');
+    return;
+  }
+
+  try {
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // 1. Datos principales de la iglesia
+    const { data: iglesia, error: errI } = await sb
+      .from('iglesias')
+      .select('*')
+      .eq('slug', slug)
+      .eq('activa', true)
+      .single();
+
+    if (errI || !iglesia) {
+      console.warn('[Supabase] Iglesia no encontrada para slug:', slug);
+      return;
+    }
+
+    const id = iglesia.id;
+
+    // 2. Todas las tablas relacionadas en paralelo (allSettled = si una tabla da error, las demás siguen)
+    const results = await Promise.allSettled([
+      sb.from('iglesias_contacto').select('*').eq('iglesia_id', id).single(),
+      sb.from('iglesias_hero').select('*').eq('iglesia_id', id).single(),
+      sb.from('pastores').select('*').eq('iglesia_id', id).order('orden').limit(1),
+      sb.from('horarios').select('*').eq('iglesia_id', id).eq('activo', true).order('orden'),
+      sb.from('predicas').select('*').eq('iglesia_id', id).eq('publicada', true).order('fecha_predica', {ascending: false}).limit(9),
+      sb.from('eventos').select('*').eq('iglesia_id', id).eq('publicado', true).gte('fecha_evento', new Date().toISOString().split('T')[0]).order('fecha_evento'),
+      sb.from('recursos_ninos').select('*').eq('iglesia_id', id).eq('publicado', true).order('orden'),
+      sb.from('porcarts').select('*').eq('iglesia_id', id).eq('activo', true).order('orden'),
+      sb.from('galeria').select('*').eq('iglesia_id', id).eq('publicada', true).order('orden'),
+      sb.from('testimonios').select('*').eq('iglesia_id', id).eq('publicado', true).order('orden'),
+      sb.from('donaciones_config').select('*').eq('iglesia_id', id).single(),
+      sb.from('oracion_config').select('*').eq('iglesia_id', id).single(),
+      sb.from('oracion_dias').select('*').eq('iglesia_id', id).order('orden'),
+      sb.from('oracion_horarios').select('*').eq('iglesia_id', id).order('orden'),
+    ]);
+
+    // Extraer data de cada resultado (si falla una, devuelve null en vez de romper todo)
+    const val = (r) => r.status === 'fulfilled' ? (r.value && r.value.data) : null;
+    const contacto   = val(results[0]);
+    const hero       = val(results[1]);
+    const pastores   = val(results[2]);
+    const horarios   = val(results[3]);
+    const predicas   = val(results[4]);
+    const eventos    = val(results[5]);
+    const ninos      = val(results[6]);
+    const porcarts   = val(results[7]);
+    const galeria    = val(results[8]);
+    const testimonios = val(results[9]);
+    const donConfig  = val(results[10]);
+    const oraConfig  = val(results[11]);
+    const oraDias    = val(results[12]);
+    const oraHorarios = val(results[13]);
+
+    // Log errores individuales para depuración (sin romper la carga)
+    results.forEach((r, i) => {
+      if (r.status === 'rejected' || (r.value && r.value.error)) {
+        const errMsg = r.status === 'rejected' ? r.reason?.message : r.value.error?.message;
+        console.warn('[Supabase] Tabla ' + i + ' error:', errMsg);
+      }
+    });
+
+    // 3. Mapear todo al objeto datos
+    mapearSupabaseDatos(
+      iglesia, contacto, hero,
+      pastores ? pastores[0] : null,
+      horarios, predicas, eventos,
+      ninos, porcarts, galeria, testimonios,
+      donConfig, oraConfig, oraDias, oraHorarios
+    );
+
+    // 4. Guardar en localStorage como caché local
+    guardarStorage();
+
+    // 5. Re-renderizar con datos frescos de Supabase
+    // renderSitio() ya existe — la llamamos de nuevo con los nuevos datos
+    renderSitio();
+
+    console.info('[Supabase] ✓ Datos cargados para:', iglesia.nombre);
+
+  } catch(err) {
+    // Si Supabase falla, el sitio sigue funcionando con datos locales
+    console.error('[Supabase] Error al cargar datos:', err.message);
+  }
+}
+
+// Función para guardar cambios del admin TAMBIÉN en Supabase
+// Se llama después de cada guardarStorage() cuando hay conexión
+// Sincroniza TODAS las tablas — incluyendo predicas, eventos,
+// niños, porcarts, galería, testimonios, horarios, pastor
+// Se llama después de cada guardarStorage() cuando hay conexión
+// Sincroniza TODAS las tablas con Supabase
+async function sincronizarAdminConSupabase() {
+  if (!SUPABASE_URL || SUPABASE_URL === 'TU_SUPABASE_URL') return;
+  if (!datos.slug) return;
+
+  const t = document.getElementById('toast');
+  if (t) { t.textContent = '⏳ Sincronizando...'; t.classList.add('show'); }
+
+  try {
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const { data: ig, error: errIg } = await sb
+      .from('iglesias').select('id').eq('slug', datos.slug).single();
+
+    if (errIg || !ig) {
+      toast('⚠ Iglesia no encontrada en Supabase. Verifica el slug: ' + datos.slug);
+      return;
+    }
+    const id = ig.id;
+
+    // 1. Tablas con upsert (una sola fila por iglesia) — allSettled para no fallar si una falla
+    const upsertResults = await Promise.allSettled([
+      sb.from('iglesias').update({
+        nombre: datos.nombre, letra: datos.letra || '',
+        logo_url: datos.logoUrl || '', versiculo: datos.versiculo || '',
+        versiculo_ref: datos.versiculoRef || '', mision: datos.mision || '',
+        updated_at: new Date().toISOString(),
+      }).eq('id', id),
+
+      sb.from('iglesias_contacto').upsert({
+        iglesia_id: id, direccion: datos.dir || '', telefono: datos.tel || '',
+        email: datos.email || '', whatsapp: datos.wa || '',
+        facebook_url: datos.fb || '', instagram_url: datos.ig || '',
+        youtube_url: datos.yt || '', updated_at: new Date().toISOString(),
+      }, { onConflict: 'iglesia_id' }),
+
+      sb.from('iglesias_hero').upsert({
+        iglesia_id: id, imagen_url: datos.heroImageUrl || '',
+        footer_slogan: datos.footerSlogan || 'Todos son bienvenidos.',
+        footer_anio: datos.footerAnio || '2025',
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'iglesia_id' }),
+
+      sb.from('donaciones_config').upsert({
+        iglesia_id: id, activo: datos.donacionesOn || false,
+        url_pago: datos.donacionesUrl || '', mensaje: datos.donacionesTexto || '',
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'iglesia_id' }),
+
+      sb.from('oracion_config').upsert({
+        iglesia_id: id, activo: datos.oracionOn || false,
+        whatsapp: datos.oracionWa || '', descripcion: datos.oracionDescripcion || '',
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'iglesia_id' }),
+    ]);
+
+    // Log errores de upsert individuales
+    upsertResults.forEach((r, i) => {
+      if (r.status === 'rejected') console.warn('[Supabase Sync] Upsert ' + i + ' error:', r.reason?.message);
+      else if (r.value?.error) console.warn('[Supabase Sync] Upsert ' + i + ' error:', r.value.error?.message);
+    });
+
+    // 2-9. Sincronizar tablas con "borrar + reinsertar" — cada una independiente
+    const syncOps = [
+      // 2. Pastor
+      async () => {
+        await sb.from('pastores').delete().eq('iglesia_id', id);
+        if (datos.pastor) {
+          await sb.from('pastores').insert({
+            iglesia_id: id, nombre: datos.pastor || '',
+            rol: datos.pastorRol || 'Pastor Principal',
+            iniciales: datos.pastorIni || '', foto_url: datos.pastorFotoUrl || '',
+            bio: datos.pastorBio || '', orden: 1,
+          });
+        }
+      },
+      // 3. Horarios
+      async () => {
+        await sb.from('horarios').delete().eq('iglesia_id', id);
+        if (datos.horarios && datos.horarios.length > 0) {
+          await sb.from('horarios').insert(
+            datos.horarios.map((h, i) => ({
+              iglesia_id: id, dia: h.dia || '', servicio: h.servicio || '',
+              hora: h.hora || '', orden: i + 1, activo: true,
+            }))
+          );
+        }
+      },
+      // 4. Predicas
+      async () => {
+        await sb.from('predicas').delete().eq('iglesia_id', id);
+        if (datos.predicas && datos.predicas.length > 0) {
+          await sb.from('predicas').insert(
+            datos.predicas.map((p, i) => {
+              let fechaISO = new Date().toISOString().split('T')[0];
+              try { const d = new Date(p.fecha); if (!isNaN(d)) fechaISO = d.toISOString().split('T')[0]; } catch(e) {}
+              return {
+                iglesia_id: id, titulo: p.titulo || '', serie: p.serie || 'General',
+                predicador: p.predicador || datos.pastor || '', fecha_predica: fechaISO,
+                audio_url: p.audio || '', spotify_url: p.spotifyUrl || '',
+                imagen_url: p.imagenUrl || '', publicada: true, orden: i,
+              };
+            })
+          );
+        }
+      },
+      // 5. Eventos
+      async () => {
+        await sb.from('eventos').delete().eq('iglesia_id', id);
+        if (datos.eventos && datos.eventos.length > 0) {
+          await sb.from('eventos').insert(
+            datos.eventos.map((e, i) => ({
+              iglesia_id: id, nombre: e.nombre || '',
+              fecha_evento: e.fecha || new Date().toISOString().split('T')[0],
+              descripcion: e.desc || '', badge: e.badge || 'Evento',
+              publicado: true, orden: i,
+            }))
+          );
+        }
+      },
+      // 6. Recursos niños
+      async () => {
+        await sb.from('recursos_ninos').delete().eq('iglesia_id', id);
+        if (datos.ninos && datos.ninos.length > 0) {
+          await sb.from('recursos_ninos').insert(
+            datos.ninos.map((n, i) => ({
+              iglesia_id: id, nombre: n.nombre || '', tipo: n.tipo || 'Libro PDF',
+              imagen_url: n.imagenUrl || '', recurso_url: n.url || '#',
+              publicado: true, orden: i,
+            }))
+          );
+        }
+      },
+      // 7. Porcarts
+      async () => {
+        await sb.from('porcarts').delete().eq('iglesia_id', id);
+        if (datos.porcarts && datos.porcarts.length > 0) {
+          await sb.from('porcarts').insert(
+            datos.porcarts.map((p, i) => ({
+              iglesia_id: id, texto: p.texto || '', referencia: p.ref || '',
+              bg_url: p.bgUrl || '', activo: true, orden: i,
+            }))
+          );
+        }
+      },
+      // 8. Galería
+      async () => {
+        await sb.from('galeria').delete().eq('iglesia_id', id);
+        if (datos.galeria && datos.galeria.length > 0) {
+          await sb.from('galeria').insert(
+            datos.galeria.map((g, i) => ({
+              iglesia_id: id, imagen_url: g.url || '',
+              caption: g.caption || '', publicada: true, orden: i,
+            }))
+          );
+        }
+      },
+      // 9. Testimonios
+      async () => {
+        await sb.from('testimonios').delete().eq('iglesia_id', id);
+        if (datos.testimonios && datos.testimonios.length > 0) {
+          await sb.from('testimonios').insert(
+            datos.testimonios.map((t, i) => ({
+              iglesia_id: id, texto: t.texto || '',
+              autor: t.autor || '', publicado: true, orden: i,
+            }))
+          );
+        }
+      },
+    ];
+
+    // Ejecutar todas en paralelo, sin que una falle las demás
+    const syncResults = await Promise.allSettled(syncOps.map(fn => fn()));
+    syncResults.forEach((r, i) => {
+      if (r.status === 'rejected') console.warn('[Supabase Sync] Operación ' + i + ' error:', r.reason?.message);
+    });
+
+    // 10. Oración: días y horarios — independiente
+    const oraResults = await Promise.allSettled([
+      (async () => {
+        await sb.from('oracion_dias').delete().eq('iglesia_id', id);
+        if (datos.oracionDias && datos.oracionDias.length > 0) {
+          await sb.from('oracion_dias').insert(
+            datos.oracionDias.map((d, i) => ({ iglesia_id: id, dia: d, orden: i }))
+          );
+        }
+      })(),
+      (async () => {
+        await sb.from('oracion_horarios').delete().eq('iglesia_id', id);
+        if (datos.oracionHorarios && datos.oracionHorarios.length > 0) {
+          await sb.from('oracion_horarios').insert(
+            datos.oracionHorarios.map((h, i) => ({
+              iglesia_id: id, rango_dias: h.dia || '', hora: h.hora || '', orden: i,
+            }))
+          );
+        }
+      })(),
+    ]);
+    oraResults.forEach((r, i) => {
+      if (r.status === 'rejected') console.warn('[Supabase Sync] Oración ' + i + ' error:', r.reason?.message);
+    });
+
+    if (t) t.classList.remove('show');
+    toast('✅ Todo guardado y sincronizado con Supabase');
+    console.info('[Supabase] ✓ Sincronización completa:', datos.nombre);
+
+  } catch(err) {
+    console.error('[Supabase] Error:', err);
+    toast('⚠ Error Supabase: ' + (err.message || err));
+  }
+}
+// ════════════════════════════════════════════════════════
+
+// ─── RENDER SITIO ───
+function renderSitio() {
+  // Nombre
+  document.title = datos.nombre + ' — Iglesia Digital';
+  document.querySelectorAll('.nav-name, .footer-name').forEach(el => el.textContent = datos.nombre);
+  const adminTitle = document.getElementById('adminTitleNombre');
+  if (adminTitle) adminTitle.textContent = 'Panel — ' + datos.nombre;
+  document.getElementById('footerNombre').textContent = datos.nombre;
+  document.getElementById('footerCopy').textContent = '© 2025 ' + datos.nombre + ' · Diseño por Ministerio Digital';
+
+  // Logo — imagen o letra
+  const logoBox = document.getElementById('adminTrigger');
+  if (datos.logoUrl && datos.logoUrl.trim() !== '') {
+    logoBox.classList.add('logo-rect');
+    logoBox.innerHTML = `<img src="${datos.logoUrl}" alt="${datos.nombre} logo">`;
+  } else {
+    logoBox.classList.remove('logo-rect');
+    const inicial = datos.letra || datos.nombre.charAt(0).toUpperCase();
+    logoBox.innerHTML = `<span id="logoLetra">${inicial}</span>`;
+  }
+
+  // Versículo hero
+  const vEl = document.querySelector('.hero-verse');
+  if (vEl) {
+    vEl.innerHTML = `"${datos.versiculo}"<cite>— ${datos.versiculoRef}</cite>`;
+  }
+
+  // Info
+  document.getElementById('infoDir').textContent = datos.dir;
+  document.getElementById('infoTel').textContent = datos.tel;
+  document.getElementById('infoEmail').textContent = datos.email;
+  document.getElementById('infoMision').textContent = datos.mision;
+  document.getElementById('pastorNombre').textContent = datos.pastor;
+  document.getElementById('pastorAvatar').textContent = datos.pastorIni;
+  document.getElementById('pastorBio').textContent = datos.pastorBio;
+
+  // Oración
+  const secOra = document.getElementById('oracion');
+  secOra.classList.toggle('visible', datos.oracionOn);
+  const navOra = document.getElementById('nav-oracion');
+  if (navOra) navOra.style.display = datos.oracionOn ? '' : 'none';
+  if (datos.oracionDescripcion) document.getElementById('oracionDescripcion').textContent = datos.oracionDescripcion;
+
+  // Horarios de oración
+  const ohl = document.getElementById('oracionHorariosList');
+  if (ohl) {
+    ohl.innerHTML = (datos.oracionHorarios||[]).map(h => `
+      <li><span class="dia">${h.dia}</span> ${h.hora}</li>`).join('');
+  }
+
+  // Días chips
+  const dcg = document.getElementById('diasCitaGrid');
+  if (dcg) {
+    dcg.innerHTML = (datos.oracionDias||[]).map(d =>
+      `<div class="dia-chip" onclick="this.classList.toggle('selected')">${d}</div>`
+    ).join('');
+  }
+
+  // Donaciones
+  const secDona = document.getElementById('donaciones');
+  secDona.classList.toggle('visible', datos.donacionesOn);
+  document.getElementById('donacionesTexto').textContent = datos.donacionesTexto;
+
+  // Horarios
+  const hg = document.getElementById('horariosGrid');
+  hg.innerHTML = datos.horarios.map(h => `
+    <div class="horario-card">
+      <div class="horario-dia">${h.dia}</div>
+      <div class="horario-servicio">${h.servicio}</div>
+      <div class="horario-hora">${h.hora}</div>
+    </div>`).join('');
+
+  // Predicas
+  const pg = document.getElementById('predicasGrid');
+  pg.innerHTML = datos.predicas.map((p, idx) => {
+    // Determinar tipo de reproductor
+    const tieneAudio   = p.audio && p.audio.trim() !== '';
+    const tieneSpotify = p.spotifyUrl && p.spotifyUrl.trim() !== '';
+
+    // Extraer Spotify episode/track ID del URL
+    let spotifyEmbed = '';
+    if (tieneSpotify) {
+      const spMatch = p.spotifyUrl.match(/episode\/([A-Za-z0-9]+)|track\/([A-Za-z0-9]+)/);
+      if (spMatch) {
+        const spType = spMatch[0].startsWith('episode') ? 'episode' : 'track';
+        const spId   = spMatch[1] || spMatch[2];
+        spotifyEmbed = `<div class="spotify-wrap">
+          <iframe src="https://open.spotify.com/embed/${spType}/${spId}?utm_source=generator&theme=0"
+            height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"></iframe>
+        </div>`;
+      }
+    }
+
+    // Badge tipo
+    let badge = '';
+    if (tieneSpotify) badge = `<span class="predica-tipo-badge badge-spotify">🎵 Spotify</span>`;
+    else if (tieneAudio) badge = `<span class="predica-tipo-badge badge-audio">🎙 Audio</span>`;
+    else badge = `<span class="predica-tipo-badge badge-pronto">⏳ Próximamente</span>`;
+
+    // Reproductor custom HTML5
+    const playerHtml = tieneAudio ? `
+      <audio id="audio-${idx}" preload="none">
+        <source src="${p.audio}">
+      </audio>
+      <div class="player-wrap" id="player-${idx}">
+        <div class="player-controls">
+          <button class="player-btn" id="btn-${idx}" onclick="togglePlay(${idx})" aria-label="Reproducir">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="player-info">
+            <div class="player-progress" id="prog-${idx}" onclick="seekAudio(event,${idx})">
+              <div class="player-progress-fill" id="fill-${idx}"></div>
+            </div>
+            <div class="player-times">
+              <span id="cur-${idx}">0:00</span>
+              <span id="dur-${idx}">--:--</span>
+            </div>
+          </div>
+          <div class="player-vol">
+            <span class="player-vol-icon" onclick="toggleMute(${idx})">🔊</span>
+            <input type="range" min="0" max="1" step="0.05" value="1"
+              oninput="setVolume(${idx},this.value)">
+          </div>
+        </div>
+        <div class="player-loading" id="loading-${idx}">Cargando audio...</div>
+      </div>` : '';
+
+    return `
+    <div class="predica-card">
+      <div class="predica-portada">
+        ${p.imagenUrl
+          ? `<img src="${p.imagenUrl}" alt="${p.titulo}" loading="lazy">`
+          : `<div class="predica-portada-placeholder"><span>🎙️</span><small>Sin imagen</small></div>`
+        }
+      </div>
+      <div class="predica-body">
+        ${badge}
+        <div class="predica-serie">${p.serie}</div>
+        <div class="predica-titulo">${p.titulo}</div>
+        <div class="predica-fecha">${p.predicador} · ${p.fecha}</div>
+        ${tieneSpotify ? spotifyEmbed : playerHtml}
+        ${!tieneAudio && !tieneSpotify ? `<p style="font-size:0.8rem;color:var(--c-muted);margin-top:0.5rem;">El audio estará disponible pronto.</p>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  // Inicializar eventos de audio después de render
+  inicializarPlayers();
+
+  // Niños
+  const ng = document.getElementById('ninosRecursos');
+  ng.innerHTML = datos.ninos.map(n => `
+    <div class="recurso-item">
+      <div class="recurso-img">
+        ${n.imagenUrl
+          ? `<img src="${n.imagenUrl}" alt="${n.nombre}" loading="lazy">`
+          : `<div class="recurso-img-placeholder"><span>📖</span><small>${n.tipo}</small></div>`
+        }
+      </div>
+      <div class="recurso-body">
+        <span class="recurso-tipo">${n.tipo}</span>
+        <span class="recurso-nombre">${n.nombre}</span>
+        ${n.url && n.url !== '#'
+          ? `<button class="recurso-abrir" onclick="window.open('${n.url}','_blank')">Abrir recurso →</button>`
+          : `<span style="font-size:0.75rem;color:var(--c-muted);">Próximamente</span>`
+        }
+      </div>
+    </div>`).join('');
+
+  // Eventos
+  const el = document.getElementById('eventosList');
+  el.innerHTML = datos.eventos.map(ev => {
+    const d = new Date(ev.fecha + 'T12:00:00');
+    const mes = d.toLocaleString('es', { month: 'short' }).toUpperCase();
+    const dia = d.getDate();
+    return `<div class="evento-item">
+      <div class="evento-fecha">
+        <div class="evento-mes">${mes}</div>
+        <div class="evento-dia">${dia}</div>
+      </div>
+      <div>
+        <div class="evento-nombre">${ev.nombre}</div>
+        <div class="evento-desc">${ev.desc}</div>
+      </div>
+      <div class="evento-badge">${ev.badge}</div>
+    </div>`;
+  }).join('');
+
+  // Porcarts
+  const pcg = document.getElementById('porcartsGrid');
+  pcg.innerHTML = datos.porcarts.map(pc => `
+    <div class="porcart" onclick="copiarTexto('${pc.texto.replace(/'/g,"\\'")} — ${pc.ref}')">
+      <div class="porcart-verse">"${pc.texto}"</div>
+      <div class="porcart-ref">${pc.ref}</div>
+      <span class="porcart-share">📋 Copiar</span>
+    </div>`).join('');
+
+  // Hero image
+  const heroBox = document.getElementById('heroImgBox');
+  if (datos.heroImageUrl) {
+    heroBox.innerHTML = `<img src="${datos.heroImageUrl}" alt="Iglesia" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">`;
+  }
+
+  // Pastor foto
+  const pfBox = document.getElementById('pastorFotoBox');
+  if (datos.pastorFotoUrl) {
+    pfBox.innerHTML = `<img src="${datos.pastorFotoUrl}" alt="Pastor">`;
+  } else {
+    pfBox.innerHTML = `<div class="pastor-avatar" id="pastorAvatar">${datos.pastorIni}</div>`;
+  }
+
+  // YouTube link
+  if (datos.yt) {
+    document.getElementById('infoYTLink').style.display = '';
+    document.getElementById('infoYTa').href = datos.yt;
+    document.getElementById('infoYTEmpty').style.display = 'none';
+  } else {
+    document.getElementById('infoYTLink').style.display = 'none';
+    document.getElementById('infoYTEmpty').style.display = '';
+  }
+
+  // Footer dinámico
+  document.getElementById('footerSlogan').textContent = datos.footerSlogan || 'Todos son bienvenidos.';
+  const anio = datos.footerAnio || new Date().getFullYear();
+  document.getElementById('footerCopy').textContent = '© ' + anio + ' ' + datos.nombre + ' · Diseño por Ministerio Digital';
+
+  // Galería
+  const gg = document.getElementById('galeriaGrid');
+  if (datos.galeria && datos.galeria.length > 0) {
+    gg.innerHTML = datos.galeria.map(g => `
+      <div class="galeria-item">
+        <img src="${g.url}" alt="${g.caption}" loading="lazy">
+        <div class="galeria-caption">${g.caption}</div>
+      </div>`).join('');
+  } else {
+    gg.innerHTML = '<div class="galeria-empty">📸 Aún no hay fotos. Agrégalas desde el panel de administración.</div>';
+  }
+
+  // Testimonios
+  const tg = document.getElementById('testimoniosGrid');
+  if (datos.testimonios && datos.testimonios.length > 0) {
+    tg.innerHTML = datos.testimonios.map(t => `
+      <div class="testimonio-card">
+        <div class="testimonio-texto">"${t.texto}"</div>
+        <div class="testimonio-autor">— ${t.autor}</div>
+      </div>`).join('');
+  } else {
+    tg.innerHTML = '';
+  }
+
+  // Redes
+  const sl = document.getElementById('socialLinks');
+  const redes = [];
+  if (datos.fb) redes.push(`<a class="social-link" href="${datos.fb}" target="_blank" title="Facebook">f</a>`);
+  if (datos.ig) redes.push(`<a class="social-link" href="${datos.ig}" target="_blank" title="Instagram">ig</a>`);
+  if (datos.yt) redes.push(`<a class="social-link" href="${datos.yt}" target="_blank" title="YouTube">yt</a>`);
+  if (datos.wa) redes.push(`<a class="social-link" href="https://wa.me/${datos.wa.replace(/\D/g,'')}" target="_blank" title="WhatsApp">wa</a>`);
+  sl.innerHTML = redes.join('');
+}
+
+// ─── COPY porcart ───
+function copiarTexto(txt) {
+  navigator.clipboard.writeText(txt).then(() => toast('¡Versículo copiado!')).catch(() => toast('Copiado'));
+}
+
+// ─── NAV ───
+document.getElementById('menuBtn').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+// ─── ADMIN TRIGGER (5 clics en logo) ───
+document.getElementById('adminTrigger').addEventListener('click', (e) => {
+  e.stopPropagation();
+  logoClickCount++;
+  clearTimeout(logoTimer);
+  logoTimer = setTimeout(() => logoClickCount = 0, 2000);
+  if (logoClickCount >= 5) {
+    logoClickCount = 0;
+    abrirAdmin();
+  }
+});
+
+function abrirAdmin() {
+  document.getElementById('admin-overlay').classList.add('open');
+  document.getElementById('admin-login').style.display = '';
+  document.getElementById('admin-panel').style.display = 'none';
+  document.getElementById('adminPass').value = '';
+  document.getElementById('loginError').style.display = 'none';
+  setTimeout(() => document.getElementById('adminPass').focus(), 100);
+}
+
+function cerrarAdmin() {
+  document.getElementById('admin-overlay').classList.remove('open');
+}
+
+function adminLogin() {
+  const v = document.getElementById('adminPass').value;
+  if (v === PASS) {
+    document.getElementById('admin-login').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    rellenarAdmin();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('adminPass').value = '';
+  }
+}
+
+// ─── TABS ───
+function showTab(id, btn) {
+  document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ─── RELLENAR ADMIN ───
+function rellenarAdmin() {
+  document.getElementById('cfg-nombre').value = datos.nombre;
+  const cfgLogoUrl = document.getElementById('cfg-logo-url');
+  if (cfgLogoUrl) {
+    cfgLogoUrl.value = datos.logoUrl || '';
+    if (datos.logoUrl) previsualizarLogo(datos.logoUrl);
+  }
+  document.getElementById('cfg-letra').value = datos.letra;
+  document.getElementById('cfg-versiculo').value = datos.versiculo;
+  document.getElementById('cfg-versiculo-ref').value = datos.versiculoRef;
+  document.getElementById('cfg-mision').value = datos.mision;
+  document.getElementById('cfg-dir').value = datos.dir;
+  document.getElementById('cfg-tel').value = datos.tel;
+  document.getElementById('cfg-email').value = datos.email;
+  document.getElementById('cfg-pastor').value = datos.pastor;
+  document.getElementById('cfg-pastor-ini').value = datos.pastorIni;
+  document.getElementById('cfg-pastor-bio').value = datos.pastorBio;
+  document.getElementById('cfg-fb').value = datos.fb;
+  document.getElementById('cfg-ig').value = datos.ig;
+  document.getElementById('cfg-yt').value = datos.yt;
+  document.getElementById('cfg-wa').value = datos.wa;
+
+  // Horarios form
+  const hf = document.getElementById('horarios-form');
+  hf.innerHTML = datos.horarios.map((h, i) => `
+    <div class="admin-grid-2" style="margin-bottom:0.5rem; align-items:end;">
+      <div>
+        <label class="admin-label">Día</label>
+        <input class="admin-input" id="hor-dia-${i}" value="${h.dia}">
+      </div>
+      <div>
+        <label class="admin-label">Servicio</label>
+        <input class="admin-input" id="hor-serv-${i}" value="${h.servicio}">
+      </div>
+    </div>
+    <div style="margin-bottom:1rem;">
+      <label class="admin-label">Hora</label>
+      <input class="admin-input" id="hor-hora-${i}" value="${h.hora}">
+    </div>`).join('') +
+    `<button class="admin-btn" style="background:transparent;border:1px solid var(--c-line);color:var(--c-muted);margin-bottom:1rem;" onclick="agregarHorario()">+ Agregar horario</button>`;
+
+  // Conócenos
+  rellenarConocenos();
+  // Oración admin
+  rellenarOracionAdmin();
+
+  // Donaciones
+  const dt = document.getElementById('dona-toggle');
+  dt.classList.toggle('on', datos.donacionesOn);
+  document.getElementById('dona-url').value = datos.donacionesUrl || '';
+  document.getElementById('dona-texto').value = datos.donacionesTexto || '';
+
+  // Listas
+  renderAdminListas();
+}
+
+function rellenarConocenos() {
+  document.getElementById('con-hero-url').value = datos.heroImageUrl || '';
+  document.getElementById('con-pastor-foto').value = datos.pastorFotoUrl || '';
+  document.getElementById('con-pastor-rol').value = datos.pastorRol || 'Pastor Principal';
+  document.getElementById('con-footer-slogan').value = datos.footerSlogan || 'Todos son bienvenidos.';
+  document.getElementById('con-footer-anio').value = datos.footerAnio || '2025';
+  if (document.getElementById('dona-url')) document.getElementById('dona-url').value = datos.donacionesUrl || '';
+  if (document.getElementById('dona-texto')) document.getElementById('dona-texto').value = datos.donacionesTexto || '';
+}
+
+function guardarFotos() {
+  datos.heroImageUrl = convertirUrlImagen(document.getElementById('con-hero-url').value.trim());
+  datos.pastorFotoUrl = convertirUrlImagen(document.getElementById('con-pastor-foto').value.trim());
+  datos.pastorRol = document.getElementById('con-pastor-rol').value.trim() || 'Pastor Principal';
+  datos.footerSlogan = document.getElementById('con-footer-slogan').value.trim() || 'Todos son bienvenidos.';
+  datos.footerAnio = document.getElementById('con-footer-anio').value.trim() || '2025';
+  guardarStorage(); renderSitio(); sincronizarAdminConSupabase();
+  toast('¡Guardado y sincronizado!');
+}
+
+function agregarFotoGaleria() {
+  const url = document.getElementById('gal-url').value.trim();
+  if (!url) { toast('Agrega la URL de la foto'); return; }
+  if (!datos.galeria) datos.galeria = [];
+  datos.galeria.push({ url, caption: document.getElementById('gal-caption').value.trim() });
+  document.getElementById('gal-url').value = '';
+  document.getElementById('gal-caption').value = '';
+  guardarStorage(); renderSitio(); renderAdminListas(); sincronizarAdminConSupabase();
+  toast('Foto agregada y sincronizada');
+}
+
+function agregarTestimonio() {
+  const texto = document.getElementById('test-texto').value.trim();
+  const autor = document.getElementById('test-autor').value.trim();
+  if (!texto || !autor) { toast('Escribe el testimonio y el nombre'); return; }
+  if (!datos.testimonios) datos.testimonios = [];
+  datos.testimonios.push({ texto, autor });
+  document.getElementById('test-texto').value = '';
+  document.getElementById('test-autor').value = '';
+  guardarStorage(); renderSitio(); renderAdminListas(); sincronizarAdminConSupabase();
+  toast('Testimonio agregado y sincronizado');
+}
+
+function renderAdminListas() {
+  // Predicas
+  document.getElementById('admin-predicas-list').innerHTML = datos.predicas.map((p,i) => `
+    <div class="admin-list-item">
+      ${p.imagenUrl ? `<img src="${p.imagenUrl}" style="width:56px;height:40px;object-fit:cover;border-radius:5px;flex-shrink:0;" alt="">` : '<div style="width:56px;height:40px;background:var(--c-dark4);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">🎙️</div>'}
+      <div class="admin-list-item-info">
+        <span>${p.titulo}</span>
+        <span class="admin-list-item-sub">${p.serie} · ${p.fecha} · ${p.spotifyUrl ? '🎵 Spotify' : p.audio ? '🎙 Audio' : '⏳ Sin audio'}</span>
+      </div>
+      <button class="admin-btn-danger" onclick="eliminar('predicas',${i})">Eliminar</button>
+    </div>`).join('');
+
+  // Eventos
+  document.getElementById('admin-eventos-list').innerHTML = datos.eventos.map((ev,i) => `
+    <div class="admin-list-item">
+      <div class="admin-list-item-info">
+        <span>${ev.nombre}</span>
+        <span class="admin-list-item-sub">${ev.fecha} · ${ev.badge}</span>
+      </div>
+      <button class="admin-btn-danger" onclick="eliminar('eventos',${i})">Eliminar</button>
+    </div>`).join('');
+
+  // Niños
+  document.getElementById('admin-ninos-list').innerHTML = datos.ninos.map((n,i) => `
+    <div class="admin-list-item">
+      ${n.imagenUrl ? `<img src="${n.imagenUrl}" style="width:56px;height:40px;object-fit:cover;border-radius:5px;flex-shrink:0;" alt="">` : '<div style="width:56px;height:40px;background:var(--c-dark4);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">📖</div>'}
+      <div class="admin-list-item-info">
+        <span>${n.nombre}</span>
+        <span class="admin-list-item-sub">${n.tipo}</span>
+      </div>
+      <button class="admin-btn-danger" onclick="eliminar('ninos',${i})">Eliminar</button>
+    </div>`).join('');
+
+  // Galería
+  const ag = document.getElementById('admin-galeria-list');
+  if (ag) ag.innerHTML = (datos.galeria||[]).map((g,i) => `
+    <div class="admin-list-item">
+      <div class="admin-list-item-info">
+        <span>📸 ${g.caption || 'Sin descripción'}</span>
+        <span class="admin-list-item-sub">${g.url.substring(0,50)}...</span>
+      </div>
+      <button class="admin-btn-danger" onclick="eliminar('galeria',${i})">Eliminar</button>
+    </div>`).join('') || '<p style="color:var(--c-muted);font-size:0.85rem;padding:0.5rem 0;">Sin fotos aún.</p>';
+
+  // Testimonios
+  const at = document.getElementById('admin-testimonios-list');
+  if (at) at.innerHTML = (datos.testimonios||[]).map((t,i) => `
+    <div class="admin-list-item">
+      <div class="admin-list-item-info">
+        <span style="font-style:italic;font-size:0.85rem;">"${t.texto.substring(0,60)}..."</span>
+        <span class="admin-list-item-sub">— ${t.autor}</span>
+      </div>
+      <button class="admin-btn-danger" onclick="eliminar('testimonios',${i})">Eliminar</button>
+    </div>`).join('') || '<p style="color:var(--c-muted);font-size:0.85rem;padding:0.5rem 0;">Sin testimonios aún.</p>';
+
+  // Porcarts
+  document.getElementById('admin-porcarts-list').innerHTML = datos.porcarts.map((pc,i) => `
+    <div class="admin-list-item">
+      <div class="admin-list-item-info">
+        <span style="font-style:italic;font-size:0.85rem;">"${pc.texto.substring(0,50)}..."</span>
+        <span class="admin-list-item-sub">${pc.ref}</span>
+      </div>
+      <button class="admin-btn-danger" onclick="eliminar('porcarts',${i})">Eliminar</button>
+    </div>`).join('');
+}
+
+// ─── GUARDAR ───
+function guardarDatos() {
+  datos.nombre = document.getElementById('cfg-nombre').value || datos.nombre;
+  const logoUrlVal = convertirUrlImagen(document.getElementById('cfg-logo-url').value.trim());
+  datos.logoUrl = logoUrlVal;
+  datos.letra = document.getElementById('cfg-letra').value || datos.letra;
+  datos.versiculo = document.getElementById('cfg-versiculo').value || datos.versiculo;
+  datos.versiculoRef = document.getElementById('cfg-versiculo-ref').value || datos.versiculoRef;
+  datos.mision = document.getElementById('cfg-mision').value || datos.mision;
+  datos.dir = document.getElementById('cfg-dir').value || datos.dir;
+  datos.tel = document.getElementById('cfg-tel').value || datos.tel;
+  datos.email = document.getElementById('cfg-email').value || datos.email;
+  datos.pastor = document.getElementById('cfg-pastor').value || datos.pastor;
+  datos.pastorIni = document.getElementById('cfg-pastor-ini').value || datos.pastorIni;
+  datos.pastorBio = document.getElementById('cfg-pastor-bio').value || datos.pastorBio;
+  datos.fb = document.getElementById('cfg-fb').value;
+  datos.ig = document.getElementById('cfg-ig').value;
+  datos.yt = document.getElementById('cfg-yt').value;
+  datos.wa = document.getElementById('cfg-wa').value;
+
+  // Guardar horarios
+  datos.horarios = datos.horarios.map((h,i) => ({
+    dia: document.getElementById('hor-dia-'+i)?.value || h.dia,
+    servicio: document.getElementById('hor-serv-'+i)?.value || h.servicio,
+    hora: document.getElementById('hor-hora-'+i)?.value || h.hora,
+  }));
+
+  guardarStorage();
+  renderSitio();
+  sincronizarAdminConSupabase();
+}
+
+function agregarHorario() {
+  datos.horarios.push({ dia: 'Sábado', servicio: 'Nuevo servicio', hora: '6:00 PM' });
+  guardarStorage();
+  rellenarAdmin();
+  sincronizarAdminConSupabase();
+}
+
+// ─── AGREGAR ITEMS ───
+function agregarPredica() {
+  const titulo = document.getElementById('pred-titulo').value.trim();
+  if (!titulo) { toast('Escribe el título'); return; }
+  const hoy = new Date();
+  const fecha = hoy.getDate() + ' ' + hoy.toLocaleString('es',{month:'short'}) + ' ' + hoy.getFullYear();
+  datos.predicas.unshift({
+    titulo,
+    serie: document.getElementById('pred-serie').value || 'General',
+    predicador: document.getElementById('pred-pred').value || datos.pastor,
+    fecha,
+    audio: document.getElementById('pred-audio').value.trim(),
+    imagenUrl: convertirUrlImagen(document.getElementById('pred-imagen').value.trim()),
+    spotifyUrl: document.getElementById('pred-spotify').value.trim(),
+  });
+  ['pred-titulo','pred-serie','pred-pred','pred-audio','pred-imagen','pred-spotify'].forEach(id => document.getElementById(id).value='');
+  guardarStorage(); renderSitio(); renderAdminListas(); sincronizarAdminConSupabase();
+  toast('Predica agregada y sincronizada');
+}
+
+function agregarEvento() {
+  const nombre = document.getElementById('ev-nombre').value.trim();
+  const fecha = document.getElementById('ev-fecha').value;
+  if (!nombre || !fecha) { toast('Nombre y fecha requeridos'); return; }
+  datos.eventos.push({
+    nombre,
+    fecha,
+    desc: document.getElementById('ev-desc').value,
+    badge: document.getElementById('ev-badge').value || 'Evento',
+  });
+  datos.eventos.sort((a,b) => new Date(a.fecha) - new Date(b.fecha));
+  ['ev-nombre','ev-fecha','ev-desc','ev-badge'].forEach(id => document.getElementById(id).value='');
+  guardarStorage(); renderSitio(); renderAdminListas(); sincronizarAdminConSupabase();
+  toast('Evento agregado y sincronizado');
+}
+
+function agregarRecursoNino() {
+  const nombre = document.getElementById('nino-nombre').value.trim();
+  if (!nombre) { toast('Escribe el nombre'); return; }
+  datos.ninos.push({
+    nombre,
+    tipo: document.getElementById('nino-tipo').value,
+    imagenUrl: convertirUrlImagen(document.getElementById('nino-imagen').value.trim()),
+    url: document.getElementById('nino-url').value.trim() || '#',
+  });
+  ['nino-nombre','nino-imagen','nino-url'].forEach(id => document.getElementById(id).value='');
+  guardarStorage(); renderSitio(); renderAdminListas(); sincronizarAdminConSupabase();
+  toast('Recurso agregado y sincronizado');
+}
+
+function agregarPorcart() {
+  const texto = document.getElementById('pc-texto').value.trim();
+  const ref = document.getElementById('pc-ref').value.trim();
+  if (!texto || !ref) { toast('Texto y referencia requeridos'); return; }
+  datos.porcarts.unshift({
+    texto, ref,
+    bgUrl: convertirUrlImagen(document.getElementById('pc-bg').value.trim()),
+  });
+  ['pc-texto','pc-ref','pc-bg'].forEach(id => document.getElementById(id).value='');
+  guardarStorage(); renderSitio(); renderAdminListas(); sincronizarAdminConSupabase();
+  toast('Porcart agregado y sincronizado');
+}
+
+function eliminar(tipo, idx) {
+  datos[tipo].splice(idx, 1);
+  guardarStorage(); renderSitio(); renderAdminListas(); sincronizarAdminConSupabase();
+  toast('Eliminado y sincronizado');
+}
+
+// ─── DONACIONES ───
+function toggleOracion() {
+  datos.oracionOn = !datos.oracionOn;
+  document.getElementById('ora-toggle').classList.toggle('on', datos.oracionOn);
+  guardarStorage(); renderSitio(); sincronizarAdminConSupabase();
+  toast(datos.oracionOn ? 'Citas de oración activadas' : 'Citas de oración ocultas');
+}
+
+function rellenarOracionAdmin() {
+  const tog = document.getElementById('ora-toggle');
+  if (tog) tog.classList.toggle('on', datos.oracionOn);
+  const waEl = document.getElementById('ora-wa-num');
+  if (waEl) waEl.value = datos.oracionWa || datos.wa || '';
+  const descEl = document.getElementById('ora-desc');
+  if (descEl) descEl.value = datos.oracionDescripcion || '';
+
+  // Días lista editable
+  const dl = document.getElementById('ora-dias-lista');
+  if (dl) {
+    dl.innerHTML = (datos.oracionDias||[]).map((d,i) => `
+      <div class="admin-list-item" style="padding:0.6rem 1rem;">
+        <span style="font-size:0.9rem;color:var(--c-text);">${d}</span>
+        <button class="admin-btn-danger" onclick="eliminarDiaCita(${i})">✕</button>
+      </div>`).join('');
+  }
+
+  // Horarios lista
+  const hl = document.getElementById('ora-horarios-lista-admin');
+  if (hl) {
+    hl.innerHTML = (datos.oracionHorarios||[]).map((h,i) => `
+      <div class="admin-list-item">
+        <div class="admin-list-item-info">
+          <span>${h.dia}</span>
+          <span class="admin-list-item-sub">${h.hora}</span>
+        </div>
+        <button class="admin-btn-danger" onclick="eliminarHorarioOracion(${i})">Eliminar</button>
+      </div>`).join('');
+  }
+}
+
+function guardarOracion() {
+  datos.oracionWa = document.getElementById('ora-wa-num').value.trim();
+  datos.oracionDescripcion = document.getElementById('ora-desc').value.trim() || datos.oracionDescripcion;
+  guardarStorage(); renderSitio(); rellenarOracionAdmin(); sincronizarAdminConSupabase();
+  toast('Configuración de oración guardada y sincronizada');
+}
+
+function agregarDiaCita() {
+  const val = document.getElementById('ora-nuevo-dia').value.trim();
+  if (!val) { toast('Escribe el día'); return; }
+  if (!datos.oracionDias) datos.oracionDias = [];
+  datos.oracionDias.push(val);
+  document.getElementById('ora-nuevo-dia').value = '';
+  guardarStorage(); renderSitio(); rellenarOracionAdmin(); sincronizarAdminConSupabase();
+  toast('Día agregado y sincronizado');
+}
+
+function eliminarDiaCita(i) {
+  datos.oracionDias.splice(i, 1);
+  guardarStorage(); renderSitio(); rellenarOracionAdmin(); sincronizarAdminConSupabase();
+  toast('Día eliminado y sincronizado');
+}
+
+function agregarHorarioOracion() {
+  const dia  = document.getElementById('ora-hor-dia').value.trim();
+  const hora = document.getElementById('ora-hor-hora').value.trim();
+  if (!dia || !hora) { toast('Completa día y hora'); return; }
+  if (!datos.oracionHorarios) datos.oracionHorarios = [];
+  datos.oracionHorarios.push({ dia, hora });
+  document.getElementById('ora-hor-dia').value = '';
+  document.getElementById('ora-hor-hora').value = '';
+  guardarStorage(); renderSitio(); rellenarOracionAdmin(); sincronizarAdminConSupabase();
+  toast('Horario agregado y sincronizado');
+}
+
+function eliminarHorarioOracion(i) {
+  datos.oracionHorarios.splice(i, 1);
+  guardarStorage(); renderSitio(); rellenarOracionAdmin(); sincronizarAdminConSupabase();
+  toast('Horario eliminado y sincronizado');
+}
+
+function toggleDonaciones() {
+  datos.donacionesOn = !datos.donacionesOn;
+  document.getElementById('dona-toggle').classList.toggle('on', datos.donacionesOn);
+  guardarStorage(); renderSitio(); sincronizarAdminConSupabase();
+  toast(datos.donacionesOn ? 'Donaciones activadas' : 'Donaciones ocultas');
+}
+
+function guardarDonaciones() {
+  datos.donacionesUrl = document.getElementById('dona-url').value;
+  datos.donacionesTexto = document.getElementById('dona-texto').value || datos.donacionesTexto;
+  guardarStorage(); renderSitio(); sincronizarAdminConSupabase();
+  toast('Donaciones guardadas y sincronizadas');
+}
+
+// ─── ORACIÓN — enviar solicitud por WhatsApp ───
+function enviarSolicitudOracion() {
+  const nombre   = document.getElementById('ora-nombre').value.trim();
+  const tel      = document.getElementById('ora-tel').value.trim();
+  const tipo     = document.getElementById('ora-tipo').value;
+  const hora     = document.getElementById('ora-hora').value;
+  const peticion = document.getElementById('ora-peticion').value.trim();
+
+  if (!nombre || !tel) {
+    toast('Por favor escribe tu nombre y teléfono'); return;
+  }
+
+  // Recoger días seleccionados
+  const diasSeleccionados = [...document.querySelectorAll('.dia-chip.selected')]
+    .map(el => el.textContent).join(', ') || 'Cualquier día disponible';
+
+  // Número WA de la iglesia (desde datos)
+  const waNum = (datos.oracionWa || datos.wa || '').replace(/\D/g,'');
+  if (!waNum) {
+    toast('La iglesia aún no tiene WhatsApp configurado'); return;
+  }
+
+  const mensaje =
+`🙏 *Solicitud de cita de oración*
+
+*Nombre:* ${nombre}
+*Teléfono:* ${tel}
+*Tipo de petición:* ${tipo}
+*Día preferido:* ${diasSeleccionados}
+*Hora preferida:* ${hora}
+${peticion ? `\n*Petición:*\n${peticion}` : ''}
+
+_Enviado desde el sitio web de ${datos.nombre}_`;
+
+  const url = 'https://wa.me/' + waNum + '?text=' + encodeURIComponent(mensaje);
+  window.open(url, '_blank');
+
+  // Limpiar formulario
+  ['ora-nombre','ora-tel','ora-peticion'].forEach(id => document.getElementById(id).value='');
+  document.querySelectorAll('.dia-chip.selected').forEach(el => el.classList.remove('selected'));
+  toast('¡Solicitud enviada! Revisa WhatsApp.');
+}
+
+
+
+
+// ─── REPRODUCTOR CUSTOM ───
+let playerActivo = null; // índice del player actualmente reproduciendo
+
+function inicializarPlayers() {
+  datos.predicas.forEach((p, idx) => {
+    if (!p.audio || p.audio.trim() === '') return;
+    const audio = document.getElementById('audio-' + idx);
+    if (!audio) return;
+
+    audio.addEventListener('timeupdate', () => {
+      const fill = document.getElementById('fill-' + idx);
+      const cur  = document.getElementById('cur-' + idx);
+      if (!audio.duration) return;
+      const pct = (audio.currentTime / audio.duration) * 100;
+      if (fill) fill.style.width = pct + '%';
+      if (cur)  cur.textContent  = fmtTime(audio.currentTime);
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+      const dur = document.getElementById('dur-' + idx);
+      if (dur) dur.textContent = fmtTime(audio.duration);
+      const loading = document.getElementById('loading-' + idx);
+      if (loading) loading.style.display = 'none';
+    });
+
+    audio.addEventListener('waiting', () => {
+      const loading = document.getElementById('loading-' + idx);
+      if (loading) loading.style.display = 'block';
+    });
+
+    audio.addEventListener('playing', () => {
+      const loading = document.getElementById('loading-' + idx);
+      if (loading) loading.style.display = 'none';
+    });
+
+    audio.addEventListener('ended', () => {
+      setBtnPlay(idx);
+      const fill = document.getElementById('fill-' + idx);
+      if (fill) fill.style.width = '0%';
+      playerActivo = null;
+    });
+  });
+}
+
+function togglePlay(idx) {
+  const audio = document.getElementById('audio-' + idx);
+  if (!audio) return;
+
+  // Pausar el player activo si es otro
+  if (playerActivo !== null && playerActivo !== idx) {
+    const prev = document.getElementById('audio-' + playerActivo);
+    if (prev) { prev.pause(); setBtnPlay(playerActivo); }
+  }
+
+  if (audio.paused) {
+    audio.play().then(() => {
+      setBtnPause(idx);
+      playerActivo = idx;
+    }).catch(() => toast('No se pudo cargar el audio. Verifica el enlace.'));
+  } else {
+    audio.pause();
+    setBtnPlay(idx);
+    playerActivo = null;
+  }
+}
+
+function setBtnPlay(idx) {
+  const btn = document.getElementById('btn-' + idx);
+  if (btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+}
+
+function setBtnPause(idx) {
+  const btn = document.getElementById('btn-' + idx);
+  if (btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+}
+
+function seekAudio(e, idx) {
+  const audio = document.getElementById('audio-' + idx);
+  const bar   = document.getElementById('prog-' + idx);
+  if (!audio || !bar || !audio.duration) return;
+  const rect = bar.getBoundingClientRect();
+  const pct  = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  audio.currentTime = pct * audio.duration;
+}
+
+function setVolume(idx, val) {
+  const audio = document.getElementById('audio-' + idx);
+  if (audio) audio.volume = parseFloat(val);
+}
+
+function toggleMute(idx) {
+  const audio = document.getElementById('audio-' + idx);
+  if (!audio) return;
+  audio.muted = !audio.muted;
+}
+
+function fmtTime(s) {
+  if (!s || isNaN(s)) return '0:00';
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60).toString().padStart(2, '0');
+  return m + ':' + sec;
+}
+
+
+// ─── CONVERTIR URLS A ENLACES DIRECTOS DE IMAGEN ───
+// Convierte cualquier enlace compartido a URL directa cargable
+function convertirUrlImagen(url) {
+  if (!url || url.trim() === '') return '';
+  url = url.trim();
+
+  // ── Google Drive ─────────────────────────────────────
+  // Formatos: /file/d/ID/view  o  /open?id=ID  o  /uc?id=ID
+  const driveMatch = url.match(
+    /drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?.*id=)([a-zA-Z0-9_-]+)/
+  );
+  if (driveMatch) {
+    return 'https://drive.google.com/uc?export=view&id=' + driveMatch[1];
+  }
+
+  // ── Dropbox ──────────────────────────────────────────
+  // Cambiar ?dl=0 o www por dl=1 y dl.dropboxusercontent
+  if (url.includes('dropbox.com')) {
+    return url
+      .replace('www.dropbox.com', 'dl.dropboxusercontent.com')
+      .replace('?dl=0', '')
+      .replace('?dl=1', '');
+  }
+
+  // ── OneDrive ─────────────────────────────────────────
+  if (url.includes('onedrive.live.com') || url.includes('1drv.ms')) {
+    // Convertir a embed directo
+    const encoded = btoa(url).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
+    return 'https://api.onedrive.com/v1.0/shares/u!' + encoded + '/root/content';
+  }
+
+  // ── Si ya es una URL directa de imagen — dejar igual
+  return url;
+}
+
+// Versión que además muestra el resultado al usuario
+function procesarUrlImagen(url, inputId) {
+  const convertida = convertirUrlImagen(url);
+  if (convertida !== url && url !== '') {
+    // Actualizar el campo con la URL convertida
+    const input = document.getElementById(inputId);
+    if (input) input.value = convertida;
+    toast('✓ Enlace de Drive convertido automáticamente');
+  }
+  return convertida;
+}
+
+
+// ─── CREAR BUCKET DE IMÁGENES SI NO EXISTE ───
+async function inicializarStorage() {
+  if (!SUPABASE_URL || SUPABASE_URL === 'TU_SUPABASE_URL') return;
+  try {
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    // Intentar crear el bucket (si ya existe no hace nada)
+    await sb.storage.createBucket('imagenes', {
+      public: true,
+      allowedMimeTypes: ['image/jpeg','image/png','image/webp','image/gif'],
+      fileSizeLimit: 5242880, // 5MB
+    });
+  } catch(e) {
+    // Ignorar error si el bucket ya existe
+  }
+}
+
+// ─── LOGO PREVIEW ───
+function previsualizarLogo(url) {
+  const wrap = document.getElementById('logo-preview-wrap');
+  const img  = document.getElementById('logo-preview-img');
+  const nom  = document.getElementById('logo-preview-nombre');
+  if (!wrap || !img) return;
+
+  // Convertir automáticamente si es Drive/Dropbox/OneDrive
+  const urlFinal = convertirUrlImagen(url);
+  // Actualizar input si cambió
+  const input = document.getElementById('cfg-logo-url');
+  if (input && urlFinal !== url && url !== '') input.value = urlFinal;
+
+  if (urlFinal && urlFinal.trim() !== '') {
+    img.src = urlFinal;
+    if (nom) nom.textContent = document.getElementById('cfg-nombre')?.value || datos.nombre;
+    wrap.style.display = 'block';
+    img.onerror = () => {
+      wrap.style.display = 'block';
+      wrap.innerHTML = `
+        <div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.25);
+          border-radius:8px;padding:0.85rem 1rem;font-size:0.82rem;color:#e74c3c;">
+          ⚠ No se pudo cargar la imagen desde esta URL.<br>
+          <strong style="color:var(--c-text)">Solución:</strong> Sube el archivo directamente usando el botón de abajo.
+        </div>
+        <button onclick="document.getElementById('logo-file-input').click()"
+          style="margin-top:0.6rem;background:var(--c-gold);color:var(--c-dark);
+          border:none;padding:0.5rem 1rem;border-radius:6px;cursor:pointer;
+          font-family:var(--f-body);font-size:0.82rem;font-weight:500;">
+          📁 Subir logo desde mi dispositivo
+        </button>`;
+    };
+    img.onload = () => { wrap.style.display = 'block'; };
+  } else {
+    wrap.style.display = 'none';
+  }
+}
+
+function quitarLogo() {
+  document.getElementById('cfg-logo-url').value = '';
+  document.getElementById('logo-preview-wrap').style.display = 'none';
+  datos.logoUrl = '';
+  guardarStorage();
+  renderSitio();
+  sincronizarAdminConSupabase();
+  toast('Logo eliminado — se usará la letra');
+}
+
+
+// ─── SUBIR IMAGEN A SUPABASE STORAGE ───
+// Sube el archivo al bucket "imagenes" de Supabase
+// y devuelve la URL pública — NO guarda base64
+async function subirImagenLocal(inputFileId, targetInputId, previewFn) {
+  const fileInput = document.getElementById(inputFileId);
+  if (!fileInput || !fileInput.files || !fileInput.files[0]) return;
+  const file = fileInput.files[0];
+
+  if (!file.type.startsWith('image/')) {
+    toast('⚠ El archivo debe ser una imagen (JPG, PNG, WEBP)'); return;
+  }
+
+  // Si Supabase no está configurado, usar base64 como fallback
+  if (!SUPABASE_URL || SUPABASE_URL === 'TU_SUPABASE_URL') {
+    _subirBase64(file, targetInputId, previewFn); return;
+  }
+
+  toast('⏳ Subiendo imagen...');
+  try {
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Nombre único para el archivo
+    const ext  = file.name.split('.').pop() || 'jpg';
+    const slug = datos.slug || 'iglesia';
+    const nombre = slug + '/' + Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + ext;
+
+    // Subir al bucket "imagenes"
+    const { data: uploadData, error: uploadErr } = await sb.storage
+      .from('imagenes')
+      .upload(nombre, file, { upsert: true, contentType: file.type });
+
+    if (uploadErr) {
+      console.error('[Storage] Error subida:', uploadErr);
+      // Si falla Storage, intentar base64 como fallback
+      toast('⚠ Storage no disponible, usando imagen local');
+      _subirBase64(file, targetInputId, previewFn); return;
+    }
+
+    // Obtener URL pública
+    const { data: urlData } = sb.storage.from('imagenes').getPublicUrl(nombre);
+    const urlPublica = urlData.publicUrl;
+
+    // Poner en el campo
+    const input = document.getElementById(targetInputId);
+    if (input) input.value = urlPublica;
+
+    // Preview
+    if (typeof previewFn === 'function') previewFn(urlPublica);
+    else previsualizarImagenGeneral(urlPublica, targetInputId);
+
+    toast('✅ Imagen subida correctamente');
+
+  } catch(err) {
+    console.error('[Storage]', err);
+    _subirBase64(file, targetInputId, previewFn);
+  }
+}
+
+// Fallback base64 (solo si Supabase Storage no funciona)
+function _subirBase64(file, targetInputId, previewFn) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const b64 = e.target.result;
+    const input = document.getElementById(targetInputId);
+    if (input) input.value = b64;
+    if (typeof previewFn === 'function') previewFn(b64);
+    else previsualizarImagenGeneral(b64, targetInputId);
+    toast('✓ Imagen cargada (local)');
+  };
+  reader.readAsDataURL(file);
+}
+
+// Preview genérico para cualquier campo de imagen
+function previsualizarImagenGeneral(url, inputId) {
+  const urlFinal = convertirUrlImagen(url);
+  const input = document.getElementById(inputId);
+  if (input && urlFinal !== url && url.trim() !== '') input.value = urlFinal;
+  return urlFinal;
+}
+
+// Crear input file oculto dinámicamente y dispararlo
+function dispararSelectorArchivo(targetInputId, previewFn) {
+  let fi = document.getElementById('_file_picker_tmp');
+  if (fi) fi.remove();
+  fi = document.createElement('input');
+  fi.type = 'file'; fi.id = '_file_picker_tmp';
+  fi.accept = 'image/*'; fi.style.display = 'none';
+  document.body.appendChild(fi);
+  fi.onchange = () => subirImagenLocal('_file_picker_tmp', targetInputId, previewFn);
+  fi.click();
+}
+
+// ─── VERIFICAR CONEXIÓN SUPABASE ───
+async function verificarConexionSupabase() {
+  const el = document.getElementById('supa-status');
+  if (!el) return;
+
+  if (!SUPABASE_URL || SUPABASE_URL === 'TU_SUPABASE_URL') {
+    el.innerHTML = '⚠️ <strong style="color:var(--c-gold)">Supabase no configurado.</strong> Agrega tu URL y clave en el código (variables SUPABASE_URL y SUPABASE_KEY).';
+    return;
+  }
+
+  el.textContent = 'Conectando...';
+  try {
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const { data, error } = await sb
+      .from('iglesias').select('nombre').eq('slug', datos.slug || 'vida-nueva').single();
+    if (error) throw error;
+    el.innerHTML = `✅ <strong style="color:#27ae60">Conectado.</strong> Iglesia en base de datos: <strong style="color:var(--c-text)">${data.nombre}</strong>`;
+  } catch(err) {
+    el.innerHTML = `❌ <strong style="color:#e74c3c">Error:</strong> ${err.message}`;
+  }
+}
+
+// ─── SEGURIDAD — cambiar contraseña ───
+function toggleVer(id, btn) {
+  const input = document.getElementById(id);
+  const isText = input.type === 'text';
+  input.type = isText ? 'password' : 'text';
+  btn.textContent = isText ? '👁' : '🙈';
+}
+
+document.addEventListener('input', function(e) {
+  if (e.target.id === 'seg-nueva') {
+    const v = e.target.value;
+    const el = document.getElementById('seg-fortaleza');
+    if (!v) { el.textContent = ''; return; }
+    let nivel = 0;
+    if (v.length >= 6) nivel++;
+    if (v.length >= 10) nivel++;
+    if (/[0-9]/.test(v)) nivel++;
+    if (/[^a-zA-Z0-9]/.test(v)) nivel++;
+    const textos = ['', '⚠ Débil', '⚠ Regular', '✓ Buena', '✓ Fuerte'];
+    const colores = ['', '#e74c3c', '#e67e22', '#27ae60', '#1abc9c'];
+    el.textContent = textos[nivel] || '⚠ Muy corta';
+    el.style.color = colores[nivel] || '#e74c3c';
+  }
+});
+
+function cambiarContrasena() {
+  const actual    = document.getElementById('seg-actual').value;
+  const nueva     = document.getElementById('seg-nueva').value;
+  const confirmar = document.getElementById('seg-confirmar').value;
+  const errEl     = document.getElementById('seg-error');
+
+  errEl.style.display = 'none';
+
+  const mostrarError = (msg) => {
+    errEl.textContent = msg;
+    errEl.style.display = 'block';
+  };
+
+  if (actual !== PASS) {
+    mostrarError('La contraseña actual es incorrecta.'); return;
+  }
+  if (nueva.length < 6) {
+    mostrarError('La nueva contraseña debe tener al menos 6 caracteres.'); return;
+  }
+  if (nueva !== confirmar) {
+    mostrarError('Las contraseñas no coinciden.'); return;
+  }
+  if (nueva === PASS_DEFAULT) {
+    mostrarError('No puedes usar la contraseña por defecto. Elige una personalizada.'); return;
+  }
+
+  // Guardar
+  PASS = nueva;
+  localStorage.setItem('iglesia_pass', nueva);
+
+  // Limpiar campos
+  ['seg-actual','seg-nueva','seg-confirmar'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('seg-fortaleza').textContent = '';
+
+  toast('✓ Contraseña cambiada correctamente');
+}
+
+
+// ─── EXPORTAR SITIO COMPLETO ───
+// Genera un index.html nuevo con todos los datos del pastor
+// ya incrustados. Ese archivo es el que va a Vercel.
+function exportarSitio() {
+  const progEl  = document.getElementById('exportProgress');
+  const msgEl   = document.getElementById('exportMsg');
+  const barEl   = document.getElementById('exportBar');
+
+  const paso = (msg, pct) => {
+    msgEl.textContent = msg;
+    barEl.style.width = pct + '%';
+  };
+
+  progEl.classList.add('show');
+  paso('Leyendo datos de la iglesia...', 20);
+
+  setTimeout(() => {
+    paso('Incrustando contenido...', 50);
+
+    // Tomar el HTML completo actual de la página
+    let html = document.documentElement.outerHTML;
+
+    // Serializar datos actuales como JSON limpio
+    const datosJSON = JSON.stringify(datos, null, 2);
+
+    // Reemplazar el bloque de datos por defecto con los datos reales del pastor
+    // Buscamos el patrón "let datos = {" hasta el cierre "};"
+    html = html.replace(
+      /let datos = \{[\s\S]*?\n\};/,
+      'let datos = ' + datosJSON + ';'
+    );
+
+    // También guardar la contraseña personalizada en el export
+    const passActual = localStorage.getItem('iglesia_pass') || PASS_DEFAULT;
+    html = html.replace(
+      /let PASS = localStorage\.getItem\('iglesia_pass'\) \|\| PASS_DEFAULT;/,
+      `let PASS = localStorage.getItem('iglesia_pass') || '${passActual}';`
+    );
+
+    paso('Generando archivo...', 80);
+
+    setTimeout(() => {
+      // Crear y descargar el archivo
+      const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      const nombreArchivo = (datos.nombre || 'iglesia')
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/g, '') + '.html';
+
+      a.href     = url;
+      a.download = nombreArchivo;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      paso('✓ ¡Listo! Sube este archivo a Vercel como index.html', 100);
+
+      setTimeout(() => {
+        progEl.classList.remove('show');
+        barEl.style.width = '0%';
+      }, 3500);
+
+      toast('✓ Sitio descargado — súbelo a Vercel para publicar');
+    }, 400);
+  }, 300);
+}
+
+// ─── TOAST ───
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ─── INIT ───
+inicializarStorage(); // 0. Preparar Storage de Supabase
+cargarDatos();   // 1. Cargar datos locales (localStorage o defaults)
+renderSitio();   // 2. Renderizar inmediatamente con datos locales
+cargarDesdeSupabase(); // 3. Cargar datos frescos de Supabase en segundo plano
+                       //    y re-renderizar cuando lleguen (sin flash visible)
+</script>
+</body>
+</html>

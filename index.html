@@ -2076,16 +2076,13 @@ let datos = {
 };
 
 // ─── CARGAR DESDE localStorage ───
-// cargarDatos ya no se usa para datos públicos
-// Se mantiene solo para el panel admin (contraseña)
-function cargarDatos() {
-  // Solo recuperar contraseña personalizada del admin
-  // Los datos de la iglesia siempre vienen de Supabase en tiempo real
-}
+// cargarDatos: NO lee datos de iglesia desde localStorage
+// Solo existe para compatibilidad — no hace nada con datos públicos
+function cargarDatos() { /* datos siempre desde Supabase en tiempo real */ }
 
 function guardarStorage() {
-  // Solo guardamos la contraseña en localStorage, nunca los datos públicos
-  // Los datos siempre se leen en tiempo real desde Supabase
+  // INTENCIONALMENTE VACÍA — no guardamos datos de iglesia en localStorage
+  // Todo viene de Supabase en tiempo real con cada F5
 }
 
 // ════════════════════════════════════════════════════════
@@ -2112,8 +2109,8 @@ function detectarSlug() {
   const path = window.location.pathname.replace(/\//g, '').trim();
   if (path && path !== 'index.html') return path;
 
-  // Opción D: usar el slug guardado en localStorage (fallback)
-  return localStorage.getItem('iglesia_slug') || null;
+  // Opción D: leer del atributo data-slug del body (si existe)
+  return document.body.dataset.slug || null;
 }
 
 // Mapear fila de Supabase al objeto `datos` que ya usa renderSitio()
@@ -2265,8 +2262,9 @@ function mapearSupabaseDatos(iglesia, contacto, hero, pastor,
 // Carga SIEMPRE fresca desde Supabase — sin caché, sin localStorage
 // Cada F5 trae los datos más recientes de la base de datos
 async function cargarDesdeSupabase() {
-  // Sin Supabase configurado, mostrar datos demo
+  // Sin Supabase configurado, mostrar datos demo sin bloquear
   if (!SUPABASE_URL || SUPABASE_URL === 'TU_SUPABASE_URL') {
+    console.warn('[Supabase] No configurado — mostrando datos demo');
     renderSitio();
     ocultarCargando();
     return;
@@ -2274,11 +2272,12 @@ async function cargarDesdeSupabase() {
 
   const slug = detectarSlug();
   if (!slug) {
-    console.warn('[Supabase] No se detectó slug.');
+    console.error('[Supabase] No se detectó slug de iglesia.');
     renderSitio();
     ocultarCargando();
     return;
   }
+  console.info('[Supabase] Cargando datos para slug:', slug);
 
   try {
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -3826,10 +3825,9 @@ function toast(msg) {
 
 // ─── INIT ───
 inicializarStorage(); // 0. Preparar Storage de Supabase
-cargarDatos();   // 1. Cargar datos locales (localStorage o defaults)
-renderSitio();   // 2. Renderizar inmediatamente con datos locales
-cargarDesdeSupabase(); // 3. Cargar datos frescos de Supabase en segundo plano
-                       //    y re-renderizar cuando lleguen (sin flash visible)
+// REQUIERE_LOGIN = false — web pública sin bloqueos
+mostrarCargando();
+cargarDesdeSupabase(); // Directo a Supabase, sin caché
 </script>
 </body>
 </html>

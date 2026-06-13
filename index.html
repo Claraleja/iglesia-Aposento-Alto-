@@ -1,0 +1,3121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iglesia Digital — Plantilla</title>
+<!-- 👇 Cambia este slug por el de la iglesia en cada deploy -->
+<meta name="iglesia-slug" content="aposento-alto">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ─── CONFIG DE IGLESIA (personalizar por cliente) ─── */
+:root {
+  --iglesia-nombre: "Iglesia Vida Nueva";
+  --c-gold:   #C9A84C;
+  --c-gold2:  #E8C97A;
+  --c-dark:   #0E0C0A;
+  --c-dark2:  #1A1713;
+  --c-dark3:  #252118;
+  --c-dark4:  #302B20;
+  --c-text:   #E8E2D5;
+  --c-muted:  #9A9080;
+  --c-line:   rgba(201,168,76,0.18);
+  --f-display: 'Cormorant Garamond', Georgia, serif;
+  --f-body:    'DM Sans', sans-serif;
+  --radius:    10px;
+  --trans:     0.25s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--c-dark);
+  color: var(--c-text);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ─── TIPOGRAFÍA ─── */
+h1, h2, h3 { font-family: var(--f-display); font-weight: 600; line-height: 1.2; }
+h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--c-gold); margin-bottom: 0.5rem; }
+h3 { font-size: 1.2rem; color: var(--c-text); }
+p  { color: var(--c-muted); }
+
+a { color: var(--c-gold); text-decoration: none; transition: opacity var(--trans); }
+a:hover { opacity: 0.75; }
+
+.section-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  font-family: var(--f-body);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* ─── LAYOUT ─── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+section { padding: 5rem 0; }
+.divider { width: 48px; height: 1px; background: var(--c-gold); margin: 1rem 0 1.5rem; }
+
+/* ─── FONDO TEXTURAL ─── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,168,76,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 90%, rgba(201,168,76,0.04) 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+body > * { position: relative; z-index: 1; }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(14,12,10,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--c-line);
+  padding: 0 1.5rem;
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 0.75rem;
+  cursor: pointer;
+}
+.nav-logo-icon {
+  width: 40px; height: 40px;
+  background: var(--c-gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  color: var(--c-dark);
+  font-family: var(--f-display);
+  font-weight: 600;
+  transition: transform var(--trans);
+  user-select: none;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.nav-logo-icon img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+  background: #fff;
+}
+.nav-logo:hover .nav-logo-icon { transform: scale(1.08); }
+/* Logo rectangular opcional — para logos que no son cuadrados */
+.nav-logo-icon.logo-rect {
+  width: auto; max-width: 120px; height: 40px;
+  border-radius: 8px; padding: 3px 8px;
+  background: transparent;
+}
+.nav-logo-icon.logo-rect img {
+  object-fit: contain; border-radius: 0; background: transparent;
+}
+.nav-name {
+  font-family: var(--f-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--c-text);
+}
+.nav-links {
+  display: flex; gap: 2rem;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  color: var(--c-muted);
+  transition: color var(--trans);
+}
+.nav-links a:hover { color: var(--c-gold); opacity: 1; }
+.nav-menu-btn {
+  display: none;
+  background: none; border: none;
+  color: var(--c-text); font-size: 1.5rem; cursor: pointer;
+}
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 64px; left: 0; right: 0;
+    background: rgba(14,12,10,0.97);
+    padding: 1.5rem;
+    gap: 1.2rem;
+    border-bottom: 1px solid var(--c-line);
+  }
+  .nav-menu-btn { display: block; }
+}
+
+/* ─── HERO ─── */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding-top: 64px;
+  border-bottom: 1px solid var(--c-line);
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+@media (max-width: 768px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500;
+  border: 1px solid var(--c-line);
+  padding: 0.35rem 0.85rem; border-radius: 100px;
+  margin-bottom: 1.5rem;
+}
+.hero-title {
+  font-family: var(--f-display);
+  font-size: clamp(2.6rem, 6vw, 4.5rem);
+  font-weight: 600;
+  color: var(--c-text);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--c-gold);
+}
+.hero-verse {
+  font-family: var(--f-display);
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--c-muted);
+  border-left: 2px solid var(--c-gold);
+  padding-left: 1rem;
+  margin: 1.5rem 0 2rem;
+  line-height: 1.6;
+}
+.hero-verse cite {
+  display: block;
+  font-size: 0.8rem;
+  font-style: normal;
+  color: var(--c-gold);
+  margin-top: 0.4rem;
+  letter-spacing: 0.05em;
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-family: var(--f-body);
+  font-size: 0.9rem; font-weight: 500;
+  cursor: pointer; transition: all var(--trans);
+  border: none;
+}
+.btn-gold {
+  background: var(--c-gold); color: var(--c-dark);
+}
+.btn-gold:hover { background: var(--c-gold2); opacity: 1; transform: translateY(-1px); }
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--c-line);
+  color: var(--c-text);
+}
+.btn-outline:hover { border-color: var(--c-gold); color: var(--c-gold); opacity: 1; }
+
+/* Hero visual — cruz ornamental */
+.hero-visual {
+  display: flex; align-items: center; justify-content: center;
+}
+.cross-wrap {
+  position: relative; width: 260px; height: 320px;
+}
+.cross-outer {
+  position: absolute; inset: 0;
+  border: 1px solid var(--c-line);
+  border-radius: 50%;
+}
+.cross-mid {
+  position: absolute; inset: 30px;
+  border: 1px solid rgba(201,168,76,0.1);
+  border-radius: 50%;
+}
+.cross-svg {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.cross-glow {
+  position: absolute; inset: 60px;
+  background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: pulse 4s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.08)} }
+
+/* ─── HERO IMAGE BOX ─── */
+.hero-img-box {
+  width: 280px; height: 340px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--c-line);
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-img-box img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
+.hero-img-box .cross-wrap {
+  width: 260px; height: 320px;
+}
+
+
+/* ─── HORARIOS ─── */
+.horarios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+.horario-card {
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: border-color var(--trans);
+}
+.horario-card:hover { border-color: rgba(201,168,76,0.4); }
+.horario-dia {
+  font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500; margin-bottom: 0.4rem;
+}
+.horario-servicio { font-size: 1rem; color: var(--c-text); font-weight: 500; margin-bottom: 0.2rem; }
+.horario-hora { font-family: var(--f-display); font-size: 1.4rem; color: var(--c-gold); }
+
+/* ─── PREDICAS ─── */
+#predicas { background: var(--c-dark2); }
+.predicas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+.predica-card {
+  background: var(--c-dark3);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform var(--trans), border-color var(--trans);
+}
+.predica-card:hover { transform: translateY(-3px); border-color: rgba(201,168,76,0.35); }
+.predica-portada {
+  width: 100%; height: 190px;
+  background: var(--c-dark4);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.predica-portada img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.predica-card:hover .predica-portada img { transform: scale(1.04); }
+.predica-portada::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, var(--c-dark3) 100%);
+  pointer-events: none;
+}
+.predica-portada-placeholder {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0.5rem; color: var(--c-muted);
+}
+.predica-portada-placeholder span { font-size: 2.8rem; }
+.predica-portada-placeholder small { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.predica-body { padding: 1.25rem; }
+.predica-serie {
+  font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500; margin-bottom: 0.5rem;
+}
+.predica-titulo { font-size: 1.05rem; color: var(--c-text); font-weight: 500; margin-bottom: 0.3rem; }
+.predica-fecha { font-size: 0.8rem; color: var(--c-muted); margin-bottom: 1rem; }
+
+/* ─── REPRODUCTOR CUSTOM ─── */
+audio { display: none; } /* ocultar el nativo */
+
+.player-wrap {
+  background: var(--c-dark4);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  margin-top: 0.75rem;
+}
+.player-controls {
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.player-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--c-gold); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all var(--trans);
+  color: var(--c-dark);
+}
+.player-btn:hover { background: var(--c-gold2); transform: scale(1.06); }
+.player-btn svg { width: 14px; height: 14px; fill: currentColor; }
+.player-info { flex: 1; min-width: 0; }
+.player-progress {
+  width: 100%; height: 4px;
+  background: rgba(201,168,76,0.2);
+  border-radius: 2px; cursor: pointer;
+  position: relative; margin-bottom: 0.35rem;
+}
+.player-progress-fill {
+  height: 100%; background: var(--c-gold);
+  border-radius: 2px; width: 0%;
+  transition: width 0.1s linear;
+  pointer-events: none;
+}
+.player-times {
+  display: flex; justify-content: space-between;
+  font-size: 0.68rem; color: var(--c-muted);
+  font-variant-numeric: tabular-nums;
+}
+.player-vol {
+  display: flex; align-items: center; gap: 0.4rem;
+  flex-shrink: 0;
+}
+.player-vol-icon { font-size: 0.9rem; cursor: pointer; }
+.player-vol input[type=range] {
+  width: 60px; height: 3px;
+  accent-color: var(--c-gold); cursor: pointer;
+}
+.player-loading {
+  font-size: 0.75rem; color: var(--c-muted);
+  display: none; text-align: center; padding: 0.25rem 0;
+}
+
+/* ─── SPOTIFY EMBED ─── */
+.spotify-wrap {
+  margin-top: 0.75rem; border-radius: 10px; overflow: hidden;
+}
+.spotify-wrap iframe {
+  width: 100%; border: none; border-radius: 10px;
+  display: block;
+}
+
+/* ─── BADGE TIPO AUDIO ─── */
+.predica-tipo-badge {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 0.2rem 0.65rem;
+  border-radius: 100px; margin-bottom: 0.5rem;
+}
+.badge-audio { background: rgba(201,168,76,0.12); color: var(--c-gold); }
+.badge-spotify { background: rgba(30,215,96,0.12); color: #1ed760; }
+.badge-pronto  { background: rgba(154,144,128,0.12); color: var(--c-muted); }
+
+/* ─── PARA NIÑOS ─── */
+.ninos-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+@media (max-width: 768px) { .ninos-intro { grid-template-columns: 1fr; } }
+.ninos-recursos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.recurso-item {
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: all var(--trans);
+  cursor: pointer;
+}
+.recurso-item:hover { border-color: rgba(201,168,76,0.45); transform: translateY(-2px); }
+.recurso-img {
+  width: 100%; aspect-ratio: 4/3;
+  background: var(--c-dark3);
+  overflow: hidden; position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.recurso-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.recurso-item:hover .recurso-img img { transform: scale(1.05); }
+.recurso-img-placeholder {
+  font-size: 2.2rem;
+  color: var(--c-muted);
+  display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+}
+.recurso-img-placeholder small { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.recurso-body { padding: 0.9rem 1rem 1rem; display: flex; flex-direction: column; gap: 0.35rem; flex: 1; }
+.recurso-nombre { font-size: 0.88rem; color: var(--c-text); font-weight: 500; line-height: 1.3; }
+.recurso-tipo {
+  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500;
+}
+.recurso-abrir {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  margin-top: 0.5rem;
+  background: var(--c-gold); color: var(--c-dark);
+  border: none; border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.78rem; font-weight: 500;
+  font-family: var(--f-body);
+  cursor: pointer; transition: background var(--trans);
+  align-self: flex-start;
+}
+.recurso-abrir:hover { background: var(--c-gold2); }
+.ninos-visual {
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  text-align: center;
+  font-size: 4rem;
+  line-height: 1;
+}
+.ninos-visual p {
+  font-family: var(--f-display);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--c-muted);
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+/* ─── EVENTOS ─── */
+#eventos { background: var(--c-dark2); }
+.eventos-list { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1rem; }
+.evento-item {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+  background: var(--c-dark3);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  transition: border-color var(--trans);
+}
+@media (max-width: 500px) {
+  .evento-item { grid-template-columns: 60px 1fr; }
+  .evento-badge { display: none; }
+}
+.evento-item:hover { border-color: rgba(201,168,76,0.35); }
+.evento-fecha {
+  text-align: center;
+  background: var(--c-dark4);
+  border-radius: 8px;
+  padding: 0.6rem 0.4rem;
+}
+.evento-mes {
+  font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500;
+}
+.evento-dia { font-family: var(--f-display); font-size: 1.8rem; color: var(--c-text); line-height: 1; }
+.evento-nombre { font-size: 1rem; color: var(--c-text); font-weight: 500; margin-bottom: 0.2rem; }
+.evento-desc { font-size: 0.85rem; color: var(--c-muted); }
+.evento-badge {
+  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--c-gold); border: 1px solid var(--c-line);
+  padding: 0.3rem 0.75rem; border-radius: 100px; white-space: nowrap;
+}
+
+/* ─── PORCARTS ─── */
+.porcarts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+.porcart {
+  aspect-ratio: 1;
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--trans);
+  position: relative;
+  overflow: hidden;
+}
+.porcart-bg {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: 0; transition: opacity var(--trans);
+}
+.porcart.has-bg .porcart-bg { opacity: 1; }
+.porcart-overlay {
+  position: absolute; inset: 0;
+  background: rgba(10,8,6,0.62);
+  display: none;
+}
+.porcart.has-bg .porcart-overlay { display: block; }
+.porcart::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(201,168,76,0.06) 0%, transparent 70%);
+  opacity: 0; transition: opacity var(--trans);
+}
+.porcart:hover { border-color: rgba(201,168,76,0.5); transform: translateY(-2px); }
+.porcart:hover::before { opacity: 1; }
+.porcart-content { position: relative; z-index: 1; }
+.porcart-verse {
+  font-family: var(--f-display);
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--c-text);
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+.porcart-ref {
+  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500;
+}
+.porcart-share {
+  position: absolute; bottom: 0.75rem; right: 0.75rem; z-index: 2;
+  font-size: 0.7rem; color: var(--c-muted); opacity: 0;
+  transition: opacity var(--trans);
+}
+.porcart:hover .porcart-share { opacity: 1; }
+
+/* ─── DONACIONES (toggle on/off) ─── */
+#donaciones { background: var(--c-dark2); display: none; }
+#donaciones.visible { display: block; }
+.donaciones-inner {
+  max-width: 600px; margin: 0 auto; text-align: center;
+}
+.dona-card {
+  background: var(--c-dark3);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  margin-top: 2rem;
+}
+.dona-link-btn {
+  display: inline-block;
+  background: var(--c-gold);
+  color: var(--c-dark);
+  padding: 0.85rem 2rem;
+  border-radius: var(--radius);
+  font-weight: 500;
+  margin-top: 1.5rem;
+  transition: all var(--trans);
+  cursor: pointer;
+  border: none;
+  font-family: var(--f-body);
+  font-size: 1rem;
+}
+.dona-link-btn:hover { background: var(--c-gold2); opacity: 1; transform: translateY(-1px); }
+
+/* ─── SOBRE NOSOTROS ─── */
+.sobre-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+@media (max-width: 768px) { .sobre-grid { grid-template-columns: 1fr; } }
+.pastor-card {
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: 2rem;
+  text-align: center;
+}
+.pastor-avatar {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: var(--c-gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-display);
+  font-size: 1.8rem;
+  color: var(--c-dark);
+  margin: 0 auto 1rem;
+}
+.pastor-nombre { font-size: 1.15rem; color: var(--c-text); font-weight: 500; margin-bottom: 0.2rem; }
+.pastor-rol { font-size: 0.8rem; color: var(--c-gold); letter-spacing: 0.1em; text-transform: uppercase; }
+.pastor-bio { font-size: 0.9rem; color: var(--c-muted); margin-top: 1rem; line-height: 1.6; }
+.info-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+.info-list li {
+  display: flex; gap: 1rem; align-items: flex-start;
+  font-size: 0.9rem; color: var(--c-muted);
+}
+.info-icon { color: var(--c-gold); font-size: 1rem; margin-top: 0.1rem; flex-shrink: 0; }
+.info-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-gold); font-weight: 500; display: block; margin-bottom: 0.15rem; }
+.info-val { color: var(--c-text); }
+
+
+/* ─── PASTOR FOTO ─── */
+.pastor-card-full { text-align: center; }
+.pastor-foto-box {
+  width: 120px; height: 120px;
+  border-radius: 50%; overflow: hidden;
+  margin: 0 auto 1rem;
+  border: 2px solid var(--c-line);
+  display: flex; align-items: center; justify-content: center;
+  background: var(--c-dark2);
+}
+.pastor-foto-box img {
+  width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+}
+
+/* ─── GALERÍA ─── */
+.galeria-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem; margin-top: 1rem;
+}
+.galeria-item {
+  aspect-ratio: 4/3;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  position: relative;
+}
+.galeria-item img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.galeria-item:hover img { transform: scale(1.04); }
+.galeria-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(10,8,6,0.85));
+  padding: 0.75rem 0.75rem 0.5rem;
+  font-size: 0.78rem; color: var(--c-text);
+  opacity: 0; transition: opacity 0.3s;
+}
+.galeria-item:hover .galeria-caption { opacity: 1; }
+.galeria-empty {
+  grid-column: 1/-1;
+  text-align: center; padding: 2rem;
+  font-size: 0.9rem; color: var(--c-muted);
+  border: 1px dashed var(--c-line); border-radius: var(--radius);
+}
+
+/* ─── TESTIMONIOS ─── */
+.testimonios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem; margin-top: 1rem;
+}
+.testimonio-card {
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+.testimonio-texto {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--c-text);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+.testimonio-autor {
+  font-size: 0.8rem;
+  color: var(--c-gold);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--c-dark);
+  border-top: 1px solid var(--c-line);
+  padding: 3rem 0 2rem;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: start;
+}
+@media (max-width: 640px) { .footer-inner { grid-template-columns: 1fr; } }
+.footer-name {
+  font-family: var(--f-display);
+  font-size: 1.3rem;
+  color: var(--c-text);
+  margin-bottom: 0.4rem;
+}
+.footer-copy { font-size: 0.8rem; color: var(--c-muted); margin-top: 1rem; }
+.social-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+.social-link {
+  width: 40px; height: 40px;
+  border: 1px solid var(--c-line);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem;
+  color: var(--c-muted);
+  transition: all var(--trans);
+}
+.social-link:hover { border-color: var(--c-gold); color: var(--c-gold); opacity: 1; }
+
+/* ─── PANEL ADMIN ─── */
+#admin-overlay {
+  display: none; position: fixed; inset: 0; z-index: 999;
+  background: rgba(10,8,6,0.95);
+  backdrop-filter: blur(8px);
+  overflow-y: auto;
+}
+#admin-overlay.open { display: block; }
+.admin-wrap {
+  max-width: 860px; margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+.admin-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--c-line);
+}
+.admin-title { font-family: var(--f-display); font-size: 1.6rem; color: var(--c-gold); }
+.admin-close {
+  background: none; border: 1px solid var(--c-line);
+  color: var(--c-muted); padding: 0.4rem 1rem;
+  border-radius: var(--radius); cursor: pointer;
+  font-family: var(--f-body); font-size: 0.85rem;
+  transition: all var(--trans);
+}
+.admin-close:hover { border-color: var(--c-gold); color: var(--c-gold); }
+.admin-tabs {
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.admin-tab {
+  background: none;
+  border: 1px solid var(--c-line);
+  color: var(--c-muted);
+  padding: 0.4rem 1rem;
+  border-radius: 100px; cursor: pointer;
+  font-family: var(--f-body); font-size: 0.82rem;
+  transition: all var(--trans);
+}
+.admin-tab.active, .admin-tab:hover {
+  border-color: var(--c-gold); color: var(--c-gold);
+}
+.admin-panel { display: none; }
+.admin-panel.active { display: block; }
+
+/* Formularios admin */
+.admin-form { display: flex; flex-direction: column; gap: 1rem; }
+.admin-label {
+  font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500; display: block; margin-bottom: 0.35rem;
+}
+.admin-input, .admin-textarea, .admin-select {
+  width: 100%;
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  color: var(--c-text);
+  padding: 0.7rem 1rem;
+  font-family: var(--f-body); font-size: 0.9rem;
+  transition: border-color var(--trans);
+  outline: none;
+}
+.admin-input:focus, .admin-textarea:focus, .admin-select:focus {
+  border-color: var(--c-gold);
+}
+.admin-textarea { resize: vertical; min-height: 90px; }
+.admin-select option { background: var(--c-dark2); }
+.admin-btn {
+  background: var(--c-gold); color: var(--c-dark);
+  border: none; padding: 0.75rem 1.5rem;
+  border-radius: var(--radius); cursor: pointer;
+  font-family: var(--f-body); font-weight: 500; font-size: 0.9rem;
+  transition: all var(--trans); align-self: flex-start;
+}
+.admin-btn:hover { background: var(--c-gold2); transform: translateY(-1px); }
+.admin-btn-danger {
+  background: transparent;
+  border: 1px solid #c0392b; color: #e74c3c;
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius); cursor: pointer;
+  font-size: 0.8rem; font-family: var(--f-body);
+  transition: all var(--trans);
+}
+.admin-btn-danger:hover { background: rgba(231,76,60,0.1); }
+.admin-section-title {
+  font-family: var(--f-display);
+  font-size: 1.1rem; color: var(--c-text);
+  margin-bottom: 1.25rem; padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--c-line);
+}
+.admin-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+.admin-list-item {
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--c-dark2); border: 1px solid var(--c-line);
+  border-radius: var(--radius); padding: 0.85rem 1rem;
+  font-size: 0.88rem; color: var(--c-text);
+}
+.admin-list-item-info { display: flex; flex-direction: column; gap: 0.15rem; }
+.admin-list-item-sub { font-size: 0.75rem; color: var(--c-muted); }
+.admin-toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--c-dark2); border: 1px solid var(--c-line);
+  border-radius: var(--radius); padding: 1rem 1.25rem;
+}
+.admin-toggle-label { font-size: 0.9rem; color: var(--c-text); }
+.admin-toggle-sub { font-size: 0.78rem; color: var(--c-muted); margin-top: 0.15rem; }
+.toggle-switch {
+  width: 44px; height: 24px;
+  background: var(--c-dark4);
+  border-radius: 12px; border: 1px solid var(--c-line);
+  position: relative; cursor: pointer; transition: background var(--trans);
+  flex-shrink: 0;
+}
+.toggle-switch.on { background: var(--c-gold); border-color: var(--c-gold); }
+.toggle-knob {
+  position: absolute; top: 2px; left: 2px;
+  width: 18px; height: 18px;
+  background: #fff; border-radius: 50%;
+  transition: transform var(--trans);
+}
+.toggle-switch.on .toggle-knob { transform: translateX(20px); }
+.admin-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 500px) { .admin-grid-2 { grid-template-columns: 1fr; } }
+
+/* Login */
+#admin-login {
+  max-width: 380px; margin: 8rem auto;
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  text-align: center;
+}
+#admin-login h2 { font-size: 1.4rem; margin-bottom: 0.4rem; }
+#admin-login p { font-size: 0.85rem; margin-bottom: 1.5rem; }
+.login-error { color: #e74c3c; font-size: 0.82rem; margin-top: 0.5rem; display: none; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
+  background: var(--c-dark2);
+  border: 1px solid var(--c-gold);
+  border-radius: var(--radius);
+  padding: 0.85rem 1.25rem;
+  font-size: 0.88rem; color: var(--c-text);
+  opacity: 0; transform: translateY(10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ─── Animación entrada ─── */
+
+/* ─── CITAS DE ORACIÓN ─── */
+#oracion { display: none; background: var(--c-dark2); }
+#oracion.visible { display: block; }
+
+.oracion-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 4rem;
+  align-items: start;
+}
+@media (max-width: 768px) { .oracion-inner { grid-template-columns: 1fr; } }
+
+.oracion-intro p { margin-bottom: 1rem; }
+.oracion-horarios-lista {
+  list-style: none;
+  margin-top: 1.25rem;
+  display: flex; flex-direction: column; gap: 0.6rem;
+}
+.oracion-horarios-lista li {
+  display: flex; align-items: center; gap: 0.75rem;
+  font-size: 0.9rem; color: var(--c-text);
+  background: var(--c-dark3);
+  border: 1px solid var(--c-line);
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+}
+.oracion-horarios-lista li span.dia {
+  font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500; min-width: 70px;
+}
+
+/* Formulario de solicitud */
+.oracion-form-card {
+  background: var(--c-dark3);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: 2rem;
+}
+.oracion-form-card h3 {
+  font-family: var(--f-display);
+  font-size: 1.3rem;
+  color: var(--c-gold);
+  margin-bottom: 0.3rem;
+}
+.oracion-form-card > p {
+  font-size: 0.85rem;
+  color: var(--c-muted);
+  margin-bottom: 1.5rem;
+}
+.oracion-form { display: flex; flex-direction: column; gap: 1rem; }
+.oracion-label {
+  font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--c-gold); font-weight: 500; display: block; margin-bottom: 0.35rem;
+}
+.oracion-input, .oracion-select, .oracion-textarea {
+  width: 100%;
+  background: var(--c-dark2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  color: var(--c-text);
+  padding: 0.7rem 1rem;
+  font-family: var(--f-body); font-size: 0.9rem;
+  transition: border-color var(--trans);
+  outline: none;
+}
+.oracion-input:focus, .oracion-select:focus, .oracion-textarea:focus {
+  border-color: var(--c-gold);
+}
+.oracion-select option { background: var(--c-dark2); }
+.oracion-textarea { resize: vertical; min-height: 90px; }
+.oracion-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 500px) { .oracion-grid-2 { grid-template-columns: 1fr; } }
+
+.oracion-submit {
+  background: #25D366; /* WhatsApp verde */
+  color: #fff;
+  border: none; padding: 0.85rem 1.5rem;
+  border-radius: var(--radius); cursor: pointer;
+  font-family: var(--f-body); font-weight: 500; font-size: 0.95rem;
+  transition: all var(--trans);
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+}
+.oracion-submit:hover { background: #1ebe5d; transform: translateY(-1px); }
+.oracion-nota {
+  font-size: 0.75rem; color: var(--c-muted); text-align: center; margin-top: 0.5rem;
+}
+
+/* Días de cita — calendario simple */
+.dias-cita-grid {
+  display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem;
+}
+.dia-chip {
+  padding: 0.35rem 0.85rem;
+  border-radius: 100px;
+  border: 1px solid var(--c-line);
+  font-size: 0.8rem;
+  color: var(--c-muted);
+  cursor: pointer;
+  transition: all var(--trans);
+  background: var(--c-dark3);
+  user-select: none;
+}
+.dia-chip.selected {
+  border-color: var(--c-gold);
+  color: var(--c-gold);
+  background: rgba(201,168,76,0.08);
+}
+.hora-select-wrap { position: relative; }
+
+
+/* ─── EXPORT BANNER ─── */
+.export-progress {
+  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  background: var(--c-dark2); border: 1px solid var(--c-gold);
+  border-radius: var(--radius); padding: 1rem 1.5rem;
+  font-size: 0.88rem; color: var(--c-text);
+  z-index: 9999; display: none;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  text-align: center; min-width: 260px;
+}
+.export-progress.show { display: block; }
+.export-bar {
+  width: 100%; height: 4px;
+  background: var(--c-dark4); border-radius: 2px;
+  margin-top: 0.6rem; overflow: hidden;
+}
+.export-bar-fill {
+  height: 100%; background: var(--c-gold);
+  border-radius: 2px; width: 0%;
+  transition: width 0.4s ease;
+}
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.fade-up { animation: fadeUp 0.6s ease forwards; opacity: 0; }
+.delay-1 { animation-delay: 0.15s; }
+.delay-2 { animation-delay: 0.3s; }
+.delay-3 { animation-delay: 0.45s; }
+</style>
+<!-- Supabase JS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo" id="logoBtn" title="Inicio">
+      <div class="nav-logo-icon" id="adminTrigger"><span id="logoLetra">V</span></div>
+      <span class="nav-name">Iglesia Vida Nueva</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#horarios">Horarios</a></li>
+      <li><a href="#predicas">Predicas</a></li>
+      <li><a href="#ninos">Niños</a></li>
+      <li><a href="#eventos">Eventos</a></li>
+      <li><a href="#sobre">Nosotros</a></li>
+      <li id="nav-oracion" style="display:none"><a href="#oracion">Oración</a></li>
+    </ul>
+    <button class="nav-menu-btn" id="menuBtn" aria-label="Menú">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow fade-up">✦ Bienvenidos</div>
+        <h1 class="hero-title fade-up delay-1">
+          Una familia,<br><em>un propósito</em>
+        </h1>
+        <blockquote class="hero-verse fade-up delay-2">
+          "Porque donde dos o tres se reúnen en mi nombre,<br>allí estoy yo en medio de ellos."
+          <cite>— Mateo 18:20</cite>
+        </blockquote>
+        <div class="hero-actions fade-up delay-3">
+          <a href="#predicas" class="btn btn-gold">Escuchar predicas</a>
+          <a href="#sobre" class="btn btn-outline">Conócenos</a>
+        </div>
+      </div>
+      <div class="hero-visual" id="heroVisualWrap">
+        <div class="cross-wrap">
+          <div class="cross-outer"></div>
+          <div class="cross-mid"></div>
+          <div class="cross-glow"></div>
+          <div class="cross-svg">
+            <svg width="90" height="110" viewBox="0 0 90 110" fill="none">
+              <rect x="37" y="0" width="16" height="110" rx="4" fill="none" stroke="#C9A84C" stroke-width="1.5" opacity="0.7"/>
+              <rect x="0" y="30" width="90" height="16" rx="4" fill="none" stroke="#C9A84C" stroke-width="1.5" opacity="0.7"/>
+              <rect x="40" y="3" width="10" height="104" rx="3" fill="#C9A84C" opacity="0.15"/>
+              <rect x="3" y="33" width="84" height="10" rx="3" fill="#C9A84C" opacity="0.15"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HORARIOS -->
+<section id="horarios">
+  <div class="container">
+    <span class="section-label">Únete a nosotros</span>
+    <h2>Horarios de culto</h2>
+    <div class="divider"></div>
+    <div class="horarios-grid" id="horariosGrid">
+      <!-- Generado por JS -->
+    </div>
+  </div>
+</section>
+
+<!-- PREDICAS -->
+<section id="predicas">
+  <div class="container">
+    <span class="section-label">La Palabra</span>
+    <h2>Predicas recientes</h2>
+    <div class="divider"></div>
+    <div class="predicas-grid" id="predicasGrid">
+      <!-- Generado por JS -->
+    </div>
+  </div>
+</section>
+
+<!-- NIÑOS -->
+<section id="ninos">
+  <div class="container">
+    <span class="section-label">Los más pequeños</span>
+    <h2>Ministerio infantil</h2>
+    <div class="divider"></div>
+    <div class="ninos-intro">
+      <div>
+        <p style="color:var(--c-text); font-size:1.05rem; margin-bottom:1rem;">
+          Aquí los niños aprenden que Dios los ama a través de historias, juegos y recursos diseñados especialmente para ellos.
+        </p>
+        <p>Cada domingo tenemos una clase especial para niños de 4 a 12 años durante el culto principal.</p>
+        <div class="ninos-recursos" id="ninosRecursos">
+          <!-- Generado por JS -->
+        </div>
+      </div>
+      <div class="ninos-visual">
+        ✦ 🕊️ ✦
+        <p>"Dejen que los niños vengan a mí"<br>— Marcos 10:14</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTOS -->
+<section id="eventos">
+  <div class="container">
+    <span class="section-label">En la congregación</span>
+    <h2>Próximos eventos</h2>
+    <div class="divider"></div>
+    <div class="eventos-list" id="eventosList">
+      <!-- Generado por JS -->
+    </div>
+  </div>
+</section>
+
+<!-- PORCARTS -->
+<section id="porcarts">
+  <div class="container">
+    <span class="section-label">Comparte la Palabra</span>
+    <h2>Versículos del mes</h2>
+    <div class="divider"></div>
+    <div class="porcarts-grid" id="porcartsGrid">
+      <!-- Generado por JS -->
+    </div>
+  </div>
+</section>
+
+<!-- DONACIONES (oculto por defecto) -->
+<section id="donaciones">
+  <div class="container">
+    <div class="donaciones-inner">
+      <span class="section-label">Apoya el ministerio</span>
+      <h2>Dar con fe</h2>
+      <div class="divider" style="margin:0 auto 1rem;"></div>
+      <p style="text-align:center;">"Cada uno debe dar según lo que haya decidido en su corazón." — 2 Corintios 9:7</p>
+      <div class="dona-card">
+        <p id="donacionesTexto">Tu generosidad hace posible seguir llevando la Palabra.</p>
+        <button class="dona-link-btn" id="donacionesBtn" onclick="window.open(datos.donacionesUrl,'_blank')">Dar ahora</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CITAS DE ORACIÓN (oculto por defecto) -->
+<section id="oracion">
+  <div class="container">
+    <span class="section-label">Ministerio de intercesión</span>
+    <h2>Solicitar cita de oración</h2>
+    <div class="divider"></div>
+    <div class="oracion-inner">
+
+      <!-- Info izquierda -->
+      <div class="oracion-intro">
+        <p style="color:var(--c-text);font-size:1.05rem;"
+          id="oracionDescripcion">Estamos aquí para orar contigo. Nuestros intercesores estarán disponibles para escucharte y llevar tu petición delante de Dios.</p>
+        <p>"La oración eficaz del justo puede mucho." — Santiago 5:16</p>
+        <div style="margin-top:1.5rem;">
+          <span class="oracion-label">Horarios disponibles</span>
+          <ul class="oracion-horarios-lista" id="oracionHorariosList">
+            <!-- generado por JS -->
+          </ul>
+        </div>
+        <div style="margin-top:1.5rem;padding:1.25rem;background:var(--c-dark3);border:1px solid var(--c-line);border-radius:var(--radius);">
+          <p style="font-size:0.82rem;color:var(--c-muted);line-height:1.6;">
+            📲 Al enviar tu solicitud se abrirá <strong style="color:var(--c-text);">WhatsApp</strong> con un mensaje ya redactado para que la iglesia pueda confirmar tu cita.
+          </p>
+        </div>
+      </div>
+
+      <!-- Formulario derecha -->
+      <div class="oracion-form-card">
+        <h3>Tu petición de oración</h3>
+        <p>Completa el formulario y serás contactado en breve.</p>
+        <div class="oracion-form">
+          <div class="oracion-grid-2">
+            <div>
+              <label class="oracion-label">Tu nombre</label>
+              <input class="oracion-input" id="ora-nombre" placeholder="¿Cómo te llamas?">
+            </div>
+            <div>
+              <label class="oracion-label">Tu teléfono (WhatsApp)</label>
+              <input class="oracion-input" id="ora-tel" placeholder="+1 555 000 0000" type="tel">
+            </div>
+          </div>
+          <div>
+            <label class="oracion-label">Tipo de petición</label>
+            <select class="oracion-select" id="ora-tipo">
+              <option value="Salud">🙏 Salud y sanidad</option>
+              <option value="Familia">👨‍👩‍👧 Familia y hogar</option>
+              <option value="Trabajo">💼 Trabajo y provisión</option>
+              <option value="Salvación">✝️ Salvación de un ser querido</option>
+              <option value="Consejería">💬 Consejería espiritual</option>
+              <option value="Otro">📖 Otro tema</option>
+            </select>
+          </div>
+          <div>
+            <label class="oracion-label">Día preferido</label>
+            <div class="dias-cita-grid" id="diasCitaGrid">
+              <!-- generado por JS -->
+            </div>
+          </div>
+          <div>
+            <label class="oracion-label">Hora preferida</label>
+            <select class="oracion-select" id="ora-hora">
+              <option value="Mañana (9am–12pm)">Mañana (9am–12pm)</option>
+              <option value="Tarde (2pm–5pm)">Tarde (2pm–5pm)</option>
+              <option value="Noche (6pm–8pm)">Noche (6pm–8pm)</option>
+            </select>
+          </div>
+          <div>
+            <label class="oracion-label">Tu petición (opcional, puedes compartirla en privado por WhatsApp)</label>
+            <textarea class="oracion-textarea" id="ora-peticion" placeholder="Puedes escribir algo breve o dejarlo en blanco y compartirlo directamente por WhatsApp..."></textarea>
+          </div>
+          <button class="oracion-submit" onclick="enviarSolicitudOracion()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.534 5.857L.054 23.45a.75.75 0 00.918.918l5.593-1.48A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.896 0-3.674-.5-5.21-1.378l-.374-.216-3.878 1.026 1.026-3.878-.216-.374A9.946 9.946 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            Enviar solicitud por WhatsApp
+          </button>
+          <p class="oracion-nota">Tu información es confidencial y solo será usada para confirmar tu cita.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE NOSOTROS / CONÓCENOS -->
+<section id="sobre">
+  <div class="container">
+    <span class="section-label">Conócenos</span>
+    <h2>Nuestra iglesia</h2>
+    <div class="divider"></div>
+
+    <!-- Pastor + foto + bio -->
+    <div class="sobre-grid" style="margin-bottom:3rem;">
+      <div class="pastor-card-full">
+        <div id="pastorFotoBox" class="pastor-foto-box">
+          <div class="pastor-avatar" id="pastorAvatar">JM</div>
+        </div>
+        <div class="pastor-nombre" id="pastorNombre">Pastor Juan Martínez</div>
+        <div class="pastor-rol" id="pastorRol">Pastor Principal</div>
+        <p class="pastor-bio" id="pastorBio">Más de 15 años al servicio de la comunidad, predicando la Palabra con amor y convicción.</p>
+      </div>
+      <div>
+        <ul class="info-list">
+          <li>
+            <span class="info-icon">📍</span>
+            <div>
+              <span class="info-label">Dirección</span>
+              <span class="info-val" id="infoDir">123 Calle Principal, Ciudad</span>
+            </div>
+          </li>
+          <li>
+            <span class="info-icon">📞</span>
+            <div>
+              <span class="info-label">Teléfono</span>
+              <span class="info-val" id="infoTel">+1 (555) 000-0000</span>
+            </div>
+          </li>
+          <li>
+            <span class="info-icon">✉️</span>
+            <div>
+              <span class="info-label">Correo</span>
+              <span class="info-val" id="infoEmail">info@iglesiavidanueva.com</span>
+            </div>
+          </li>
+          <li>
+            <span class="info-icon">📖</span>
+            <div>
+              <span class="info-label">Misión</span>
+              <span class="info-val" id="infoMision">Llevar la esperanza del evangelio a toda familia.</span>
+            </div>
+          </li>
+          <li>
+            <span class="info-icon">🎥</span>
+            <div>
+              <span class="info-label">Canal de YouTube / Video</span>
+              <span class="info-val" id="infoYTLink" style="display:none">
+                <a id="infoYTa" href="#" target="_blank">Ver canal</a>
+              </span>
+              <span class="info-val" id="infoYTEmpty" style="color:var(--c-muted);font-size:0.85rem;">No configurado</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Galería / portafolio de la iglesia -->
+    <span class="section-label">Galería de la congregación</span>
+    <div class="galeria-grid" id="galeriaGrid">
+      <!-- Generado por JS -->
+    </div>
+
+    <!-- Testimonios -->
+    <div style="margin-top:3rem;">
+      <span class="section-label">Testimonios</span>
+      <div class="testimonios-grid" id="testimoniosGrid">
+        <!-- Generado por JS -->
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-name" id="footerNombre">Iglesia Vida Nueva</div>
+      <p style="font-size:0.85rem;" id="footerSlogan">Todos son bienvenidos.</p>
+      <p class="footer-copy" id="footerCopy">© 2025 Iglesia Vida Nueva · Diseño por Ministerio Digital</p>
+      <!-- Botón admin oculto — solo visible si sabes que existe -->
+      <button id="btnAdminOculto"
+        onclick="abrirAdmin()"
+        title="Administración"
+        style="margin-top:1rem;background:none;border:none;
+        color:rgba(201,168,76,0.15);font-size:0.65rem;cursor:pointer;
+        font-family:var(--f-body);letter-spacing:0.15em;
+        transition:color 0.3s;padding:0.25rem 0;"
+        onmouseover="this.style.color='rgba(201,168,76,0.5)'"
+        onmouseout="this.style.color='rgba(201,168,76,0.15)'">
+        ✦ administración
+      </button>
+    </div>
+    <div class="social-links" id="socialLinks">
+      <!-- Generado por JS -->
+    </div>
+  </div>
+</footer>
+
+<!-- SPINNER DE CARGA INICIAL -->
+<div id="loadingScreen" style="
+  position:fixed;inset:0;z-index:9998;
+  background:var(--c-dark);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1.5rem;">
+  <svg width="48" height="58" viewBox="0 0 90 110" fill="none" style="opacity:0.6;animation:pulse 1.5s ease-in-out infinite;">
+    <rect x="37" y="0" width="16" height="110" rx="4" fill="none" stroke="#C9A84C" stroke-width="2"/>
+    <rect x="0" y="30" width="90" height="16" rx="4" fill="none" stroke="#C9A84C" stroke-width="2"/>
+  </svg>
+  <div style="font-family:var(--f-display);font-size:1.1rem;color:var(--c-gold);font-style:italic;opacity:0.7;">
+    Cargando...
+  </div>
+</div>
+
+<!-- PANEL ADMIN -->
+<div id="admin-overlay">
+  <!-- Login -->
+  <div id="admin-login">
+    <h2>Panel de administración</h2>
+    <p>Ingresa la contraseña de la iglesia</p>
+    <label class="admin-label">Contraseña</label>
+    <input class="admin-input" type="password" id="adminPass" placeholder="••••••••"
+      onkeydown="if(event.key==='Enter')adminLogin()">
+    <div class="login-error" id="loginError">Contraseña incorrecta</div>
+    <br><br>
+    <button class="admin-btn" onclick="adminLogin()">Entrar</button>
+    <br><br>
+    <button class="admin-close" onclick="cerrarAdmin()">Cancelar</button>
+  </div>
+
+  <!-- Panel completo -->
+  <div id="admin-panel" style="display:none">
+    <div class="admin-wrap">
+      <div class="admin-header">
+        <div class="admin-title" id="adminTitleNombre">Panel — Iglesia Vida Nueva</div>
+        <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+          <button class="admin-btn" onclick="recargarDesdeSupabase()"
+            style="background:transparent;border:1px solid var(--c-line);color:var(--c-muted);
+            font-size:0.82rem;padding:0.5rem 1rem;">
+            🔄 Recargar datos
+          </button>
+          <button class="admin-close" onclick="cerrarAdmin()">✕ Cerrar</button>
+        </div>
+      </div>
+      <!-- Banner Supabase activo -->
+      <div style="background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.25);border-radius:8px;padding:0.85rem 1.1rem;margin-bottom:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+        <span style="font-size:1.1rem;flex-shrink:0;">✅</span>
+        <div style="font-size:0.8rem;color:var(--c-muted);line-height:1.55;">
+          <strong style="color:#27ae60;">Conectado a Supabase.</strong>
+          Los cambios que hagas aquí se guardan automáticamente en la base de datos y se ven en el sitio al instante. No necesitas descargar ni subir nada.
+        </div>
+      </div>
+      <div class="admin-tabs">
+        <button class="admin-tab active" onclick="showTab('tab-iglesia',this)">Iglesia</button>
+        <button class="admin-tab" onclick="showTab('tab-predicas',this)">Predicas</button>
+        <button class="admin-tab" onclick="showTab('tab-eventos',this)">Eventos</button>
+        <button class="admin-tab" onclick="showTab('tab-ninos',this)">Niños</button>
+        <button class="admin-tab" onclick="showTab('tab-porcarts',this)">Porcarts</button>
+        <button class="admin-tab" onclick="showTab('tab-donaciones',this)">Donaciones</button>
+        <button class="admin-tab" onclick="showTab('tab-conocenos',this)">Conócenos</button>
+        <button class="admin-tab" onclick="showTab('tab-oracion',this)">Oración</button>
+        <button class="admin-tab" onclick="showTab('tab-seguridad',this)">🔐 Seguridad</button>
+      </div>
+
+      <!-- TAB: Iglesia -->
+      <div class="admin-panel active" id="tab-iglesia">
+        <div class="admin-section-title">Datos generales</div>
+        <div class="admin-form">
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">Nombre de la iglesia</label>
+              <input class="admin-input" id="cfg-nombre" placeholder="Iglesia Vida Nueva">
+            </div>
+            <div>
+              <label class="admin-label">Letra (si no tienes logo)</label>
+              <input class="admin-input" id="cfg-letra" placeholder="V" maxlength="2">
+            </div>
+          </div>
+          <!-- Logo -->
+          <div>
+            <label class="admin-label">Logo de la iglesia (URL de imagen)</label>
+            <div style="display:flex;gap:0.5rem;align-items:flex-start;">
+              <input class="admin-input" id="cfg-logo-url"
+                placeholder="Pega URL o usa el botón para subir desde tu dispositivo"
+                oninput="previsualizarLogo(this.value)" style="flex:1;">
+              <button onclick="dispararSelectorArchivo('cfg-logo-url', previsualizarLogo)"
+                style="background:var(--c-dark3);border:1px solid var(--c-line);color:var(--c-text);
+                padding:0.7rem 0.9rem;border-radius:var(--radius);cursor:pointer;
+                font-size:0.8rem;white-space:nowrap;font-family:var(--f-body);flex-shrink:0;">
+                📁 Subir
+              </button>
+            </div>
+            <p style="font-size:0.75rem;color:var(--c-muted);margin-top:0.3rem;">
+              Puedes pegar un enlace de Google Drive, Dropbox, o subir directamente desde tu dispositivo.
+              Los enlaces de Drive se convierten automáticamente.
+            </p>
+            <!-- Preview del logo -->
+            <div id="logo-preview-wrap" style="margin-top:0.75rem;display:none;">
+              <div style="font-size:0.72rem;color:var(--c-muted);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.1em;">Vista previa</div>
+              <div style="display:flex;align-items:center;gap:1rem;background:var(--c-dark);padding:0.75rem 1rem;border-radius:8px;border:1px solid var(--c-line);">
+                <div style="width:44px;height:44px;border-radius:50%;overflow:hidden;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <img id="logo-preview-img" src="" alt="Logo" style="width:100%;height:100%;object-fit:contain;">
+                </div>
+                <span style="font-family:var(--f-display);font-size:1rem;color:var(--c-text);" id="logo-preview-nombre">Iglesia Vida Nueva</span>
+              </div>
+              <button onclick="quitarLogo()" style="margin-top:0.5rem;background:none;border:1px solid var(--c-line);color:var(--c-muted);padding:0.3rem 0.85rem;border-radius:6px;font-size:0.78rem;cursor:pointer;font-family:var(--f-body);">✕ Quitar logo y usar letra</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="admin-label">Versículo principal (hero)</label>
+            <input class="admin-input" id="cfg-versiculo" placeholder="Texto del versículo">
+          </div>
+          <div>
+            <label class="admin-label">Referencia (ej. Juan 3:16)</label>
+            <input class="admin-input" id="cfg-versiculo-ref" placeholder="Juan 3:16">
+          </div>
+          <div>
+            <label class="admin-label">Misión de la iglesia</label>
+            <input class="admin-input" id="cfg-mision" placeholder="Llevar la esperanza...">
+          </div>
+        </div>
+        <br>
+        <div class="admin-section-title">Contacto</div>
+        <div class="admin-form">
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">Dirección</label>
+              <input class="admin-input" id="cfg-dir" placeholder="123 Calle Principal">
+            </div>
+            <div>
+              <label class="admin-label">Teléfono</label>
+              <input class="admin-input" id="cfg-tel" placeholder="+1 (555) 000-0000">
+            </div>
+          </div>
+          <div>
+            <label class="admin-label">Correo</label>
+            <input class="admin-input" id="cfg-email" placeholder="info@iglesia.com">
+          </div>
+        </div>
+        <br>
+        <div class="admin-section-title">Pastor principal</div>
+        <div class="admin-form">
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">Nombre del pastor</label>
+              <input class="admin-input" id="cfg-pastor" placeholder="Pastor Juan Martínez">
+            </div>
+            <div>
+              <label class="admin-label">Iniciales del pastor</label>
+              <input class="admin-input" id="cfg-pastor-ini" placeholder="JM" maxlength="3">
+            </div>
+          </div>
+          <div>
+            <label class="admin-label">Biografía breve</label>
+            <textarea class="admin-textarea" id="cfg-pastor-bio" placeholder="Más de 15 años al servicio..."></textarea>
+          </div>
+        </div>
+        <br>
+        <div class="admin-section-title">Redes sociales</div>
+        <div class="admin-form">
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">Facebook (URL)</label>
+              <input class="admin-input" id="cfg-fb" placeholder="https://facebook.com/...">
+            </div>
+            <div>
+              <label class="admin-label">Instagram (URL)</label>
+              <input class="admin-input" id="cfg-ig" placeholder="https://instagram.com/...">
+            </div>
+          </div>
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">YouTube (URL)</label>
+              <input class="admin-input" id="cfg-yt" placeholder="https://youtube.com/...">
+            </div>
+            <div>
+              <label class="admin-label">WhatsApp (número)</label>
+              <input class="admin-input" id="cfg-wa" placeholder="+15550000000">
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="admin-section-title">Horarios de culto</div>
+        <div class="admin-form" id="horarios-form">
+          <!-- Generado por JS -->
+        </div>
+        <br>
+        <button class="admin-btn" onclick="guardarDatos()">Guardar todo</button>
+      </div>
+
+      <!-- TAB: Predicas -->
+      <div class="admin-panel" id="tab-predicas">
+        <div class="admin-section-title">Agregar predica</div>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Título de la predica</label>
+            <input class="admin-input" id="pred-titulo" placeholder="ej. El poder de la fe">
+          </div>
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">Predicador</label>
+              <input class="admin-input" id="pred-pred" placeholder="Pastor Juan Martínez">
+            </div>
+            <div>
+              <label class="admin-label">Serie / tema</label>
+              <input class="admin-input" id="pred-serie" placeholder="ej. Avivamiento">
+            </div>
+          </div>
+          <div style="background:var(--c-dark3);border:1px solid var(--c-line);border-radius:8px;padding:1rem;display:flex;flex-direction:column;gap:0.75rem;">
+            <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-gold);font-weight:500;">Opción A — Audio directo</div>
+            <div>
+              <label class="admin-label">URL del audio (Google Drive, Dropbox, MP3 directo...)</label>
+              <input class="admin-input" id="pred-audio" placeholder="https://drive.google.com/uc?id=...">
+              <p style="font-size:0.72rem;color:var(--c-muted);margin-top:0.25rem;">Drive: abre el archivo → Compartir → "Cualquier persona con el enlace" → copia el ID y usa: drive.google.com/uc?id=ID</p>
+            </div>
+          </div>
+          <div style="background:var(--c-dark3);border:1px solid rgba(30,215,96,0.2);border-radius:8px;padding:1rem;display:flex;flex-direction:column;gap:0.75rem;">
+            <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:#1ed760;font-weight:500;">Opción B — Spotify Podcast</div>
+            <div>
+              <label class="admin-label">URL del episodio en Spotify</label>
+              <input class="admin-input" id="pred-spotify" placeholder="https://open.spotify.com/episode/...">
+              <p style="font-size:0.72rem;color:var(--c-muted);margin-top:0.25rem;">Si tienes podcast en Spotify, pega el link del episodio aquí. Spotify tiene prioridad sobre el audio directo.</p>
+            </div>
+          </div>
+          <div>
+            <label class="admin-label">URL de imagen de portada</label>
+            <div style="display:flex;gap:0.5rem;">
+              <input class="admin-input" id="pred-imagen"
+                placeholder="URL o subir desde dispositivo"
+                oninput="this.value=convertirUrlImagen(this.value)" style="flex:1;">
+              <button onclick="dispararSelectorArchivo('pred-imagen')"
+                style="background:var(--c-dark3);border:1px solid var(--c-line);color:var(--c-text);
+                padding:0.7rem 0.9rem;border-radius:var(--radius);cursor:pointer;
+                font-size:0.8rem;white-space:nowrap;font-family:var(--f-body);flex-shrink:0;">📁 Subir</button>
+            </div>
+          </div>
+          <button class="admin-btn" onclick="agregarPredica()">Agregar predica</button>
+        </div>
+        <div class="admin-list" id="admin-predicas-list"></div>
+      </div>
+
+      <!-- TAB: Eventos -->
+      <div class="admin-panel" id="tab-eventos">
+        <div class="admin-section-title">Agregar evento</div>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Nombre del evento</label>
+            <input class="admin-input" id="ev-nombre" placeholder="ej. Noche de Alabanza">
+          </div>
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">Fecha</label>
+              <input class="admin-input" type="date" id="ev-fecha">
+            </div>
+            <div>
+              <label class="admin-label">Etiqueta (badge)</label>
+              <input class="admin-input" id="ev-badge" placeholder="ej. Especial">
+            </div>
+          </div>
+          <div>
+            <label class="admin-label">Descripción breve</label>
+            <textarea class="admin-textarea" id="ev-desc" placeholder="Descripción del evento..."></textarea>
+          </div>
+          <button class="admin-btn" onclick="agregarEvento()">Agregar evento</button>
+        </div>
+        <div class="admin-list" id="admin-eventos-list"></div>
+      </div>
+
+      <!-- TAB: Niños -->
+      <div class="admin-panel" id="tab-ninos">
+        <div class="admin-section-title">Agregar recurso infantil</div>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Nombre del recurso</label>
+            <input class="admin-input" id="nino-nombre" placeholder="ej. Luna y la Receta Secreta">
+          </div>
+          <div>
+            <label class="admin-label">Tipo de recurso</label>
+            <select class="admin-select" id="nino-tipo">
+              <option value="Libro PDF">Libro PDF</option>
+              <option value="Coloreable">Coloreable</option>
+              <option value="Audio cuento">Audio cuento</option>
+              <option value="Actividad">Actividad</option>
+            </select>
+          </div>
+          <div>
+            <label class="admin-label">Imagen de carátula</label>
+            <div style="display:flex;gap:0.5rem;">
+              <input class="admin-input" id="nino-imagen"
+                placeholder="URL o subir desde dispositivo"
+                oninput="this.value=convertirUrlImagen(this.value)" style="flex:1;">
+              <button onclick="dispararSelectorArchivo('nino-imagen')"
+                style="background:var(--c-dark3);border:1px solid var(--c-line);color:var(--c-text);
+                padding:0.7rem 0.9rem;border-radius:var(--radius);cursor:pointer;
+                font-size:0.8rem;white-space:nowrap;font-family:var(--f-body);flex-shrink:0;">📁 Subir</button>
+            </div>
+            <p style="font-size:0.75rem;color:var(--c-muted);margin-top:0.3rem;">Esta imagen se muestra antes del botón de abrir.</p>
+          </div>
+          <div>
+            <label class="admin-label">URL para abrir el recurso (Drive, PDF...)</label>
+            <input class="admin-input" id="nino-url" placeholder="https://drive.google.com/...">
+          </div>
+          <button class="admin-btn" onclick="agregarRecursoNino()">Agregar recurso</button>
+        </div>
+        <div class="admin-list" id="admin-ninos-list"></div>
+      </div>
+
+      <!-- TAB: Porcarts -->
+      <div class="admin-panel" id="tab-porcarts">
+        <div class="admin-section-title">Agregar porcart / versículo</div>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Texto del versículo</label>
+            <textarea class="admin-textarea" id="pc-texto" placeholder="Escribe el versículo..."></textarea>
+          </div>
+          <div>
+            <label class="admin-label">Referencia (ej. Filipenses 4:13)</label>
+            <input class="admin-input" id="pc-ref" placeholder="Filipenses 4:13">
+          </div>
+          <div>
+            <label class="admin-label">Imagen de fondo (opcional)</label>
+            <div style="display:flex;gap:0.5rem;">
+              <input class="admin-input" id="pc-bg"
+                placeholder="URL o subir desde dispositivo"
+                oninput="this.value=convertirUrlImagen(this.value)" style="flex:1;">
+              <button onclick="dispararSelectorArchivo('pc-bg')"
+                style="background:var(--c-dark3);border:1px solid var(--c-line);color:var(--c-text);
+                padding:0.7rem 0.9rem;border-radius:var(--radius);cursor:pointer;
+                font-size:0.8rem;white-space:nowrap;font-family:var(--f-body);flex-shrink:0;">📁 Subir</button>
+            </div>
+            <p style="font-size:0.75rem;color:var(--c-muted);margin-top:0.3rem;">Se oscurece automáticamente para que el texto se lea bien.</p>
+          </div>
+          <button class="admin-btn" onclick="agregarPorcart()">Agregar porcart</button>
+        </div>
+        <div class="admin-list" id="admin-porcarts-list"></div>
+      </div>
+
+      <!-- TAB: Donaciones -->
+      <div class="admin-panel" id="tab-donaciones">
+        <div class="admin-section-title">Configurar donaciones</div>
+        <div class="admin-toggle-row">
+          <div>
+            <div class="admin-toggle-label">Mostrar sección de donaciones</div>
+            <div class="admin-toggle-sub">Si está apagado, nadie la verá en el sitio</div>
+          </div>
+          <div class="toggle-switch" id="dona-toggle" onclick="toggleDonaciones()">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+        <br>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Enlace para donar (PayPal, CashApp, Zelle...)</label>
+            <input class="admin-input" id="dona-url" placeholder="https://paypal.me/...">
+          </div>
+          <div>
+            <label class="admin-label">Mensaje de la sección</label>
+            <textarea class="admin-textarea" id="dona-texto" placeholder="Tu generosidad hace posible..."></textarea>
+          </div>
+          <button class="admin-btn" onclick="guardarDonaciones()">Guardar</button>
+        </div>
+      </div>
+
+      <!-- TAB: Conócenos -->
+      <div class="admin-panel" id="tab-conocenos">
+        <div class="admin-section-title">Imagen principal (hero)</div>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">URL de imagen del pastor o iglesia (Google Drive, Dropbox, imgur...)</label>
+            <div style="display:flex;gap:0.5rem;">
+              <input class="admin-input" id="con-hero-url"
+                placeholder="URL o subir desde dispositivo"
+                oninput="this.value=convertirUrlImagen(this.value)" style="flex:1;">
+              <button onclick="dispararSelectorArchivo('con-hero-url')"
+                style="background:var(--c-dark3);border:1px solid var(--c-line);color:var(--c-text);
+                padding:0.7rem 0.9rem;border-radius:var(--radius);cursor:pointer;
+                font-size:0.8rem;white-space:nowrap;font-family:var(--f-body);flex-shrink:0;">📁 Subir</button>
+            </div>
+            <p style="font-size:0.78rem;color:var(--c-muted);margin-top:0.35rem;">Esta imagen reemplaza la cruz decorativa del inicio. Si la dejas vacía, aparece la cruz por defecto.</p>
+          </div>
+          <button class="admin-btn" onclick="guardarFotos()">Guardar imagen hero</button>
+        </div>
+        <br>
+        <div class="admin-section-title">Foto del pastor</div>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Foto del pastor</label>
+            <div style="display:flex;gap:0.5rem;">
+              <input class="admin-input" id="con-pastor-foto"
+                placeholder="URL o subir desde dispositivo"
+                oninput="this.value=convertirUrlImagen(this.value)" style="flex:1;">
+              <button onclick="dispararSelectorArchivo('con-pastor-foto')"
+                style="background:var(--c-dark3);border:1px solid var(--c-line);color:var(--c-text);
+                padding:0.7rem 0.9rem;border-radius:var(--radius);cursor:pointer;
+                font-size:0.8rem;white-space:nowrap;font-family:var(--f-body);flex-shrink:0;">📁 Subir</button>
+            </div>
+          </div>
+          <div>
+            <label class="admin-label">Rol / cargo (ej. Pastor Principal, Evangelista)</label>
+            <input class="admin-input" id="con-pastor-rol" placeholder="Pastor Principal">
+          </div>
+          <button class="admin-btn" onclick="guardarFotos()">Guardar foto pastor</button>
+        </div>
+        <br>
+        <div class="admin-section-title">Footer</div>
+        <div class="admin-form">
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">Slogan del footer</label>
+              <input class="admin-input" id="con-footer-slogan" placeholder="Todos son bienvenidos.">
+            </div>
+            <div>
+              <label class="admin-label">Año del copyright</label>
+              <input class="admin-input" id="con-footer-anio" placeholder="2025" maxlength="4">
+            </div>
+          </div>
+          <button class="admin-btn" onclick="guardarFotos()">Guardar footer</button>
+        </div>
+        <br>
+        <div class="admin-section-title">Galería de fotos</div>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Foto de la galería</label>
+            <div style="display:flex;gap:0.5rem;">
+              <input class="admin-input" id="gal-url"
+                placeholder="URL o subir desde dispositivo"
+                oninput="this.value=convertirUrlImagen(this.value)" style="flex:1;">
+              <button onclick="dispararSelectorArchivo('gal-url')"
+                style="background:var(--c-dark3);border:1px solid var(--c-line);color:var(--c-text);
+                padding:0.7rem 0.9rem;border-radius:var(--radius);cursor:pointer;
+                font-size:0.8rem;white-space:nowrap;font-family:var(--f-body);flex-shrink:0;">📁 Subir</button>
+            </div>
+          </div>
+          <div>
+            <label class="admin-label">Descripción (opcional)</label>
+            <input class="admin-input" id="gal-caption" placeholder="ej. Culto de Navidad 2024">
+          </div>
+          <button class="admin-btn" onclick="agregarFotoGaleria()">Agregar foto</button>
+        </div>
+        <div class="admin-list" id="admin-galeria-list"></div>
+        <br>
+        <div class="admin-section-title">Testimonios</div>
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Testimonio</label>
+            <textarea class="admin-textarea" id="test-texto" placeholder="Esta iglesia cambió mi vida..."></textarea>
+          </div>
+          <div>
+            <label class="admin-label">Nombre del hermano</label>
+            <input class="admin-input" id="test-autor" placeholder="María G.">
+          </div>
+          <button class="admin-btn" onclick="agregarTestimonio()">Agregar testimonio</button>
+        </div>
+        <div class="admin-list" id="admin-testimonios-list"></div>
+      </div>
+
+
+      <!-- TAB: Oración -->
+      <div class="admin-panel" id="tab-oracion">
+        <div class="admin-section-title">Módulo de citas de oración</div>
+
+        <div class="admin-toggle-row">
+          <div>
+            <div class="admin-toggle-label">Mostrar sección de citas de oración</div>
+            <div class="admin-toggle-sub">Si está apagado, nadie la verá en el sitio</div>
+          </div>
+          <div class="toggle-switch" id="ora-toggle" onclick="toggleOracion()">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+        <br>
+
+        <div class="admin-form">
+          <div>
+            <label class="admin-label">Número de WhatsApp de la iglesia (para recibir solicitudes)</label>
+            <input class="admin-input" id="ora-wa-num" placeholder="+15550000000">
+            <p style="font-size:0.75rem;color:var(--c-muted);margin-top:0.3rem;">Incluye el código del país. Ej: +1 para EEUU, +34 para España.</p>
+          </div>
+          <div>
+            <label class="admin-label">Texto de presentación</label>
+            <textarea class="admin-textarea" id="ora-desc" placeholder="Estamos aquí para orar contigo..."></textarea>
+          </div>
+        </div>
+        <br>
+
+        <div class="admin-section-title">Días disponibles para citas</div>
+        <p style="font-size:0.82rem;color:var(--c-muted);margin-bottom:0.75rem;">Estos días aparecerán como opciones en el formulario.</p>
+        <div class="admin-form">
+          <div id="ora-dias-lista" style="display:flex;flex-direction:column;gap:0.5rem;">
+            <!-- generado por JS -->
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:flex-end;">
+            <div style="flex:1;">
+              <label class="admin-label">Agregar día</label>
+              <input class="admin-input" id="ora-nuevo-dia" placeholder="ej. Domingo">
+            </div>
+            <button class="admin-btn" style="margin-bottom:0;" onclick="agregarDiaCita()">Agregar</button>
+          </div>
+        </div>
+        <br>
+
+        <div class="admin-section-title">Horarios visibles (informativo)</div>
+        <div class="admin-list" id="ora-horarios-lista-admin"></div>
+        <br>
+        <div class="admin-form">
+          <div class="admin-grid-2">
+            <div>
+              <label class="admin-label">Día / rango</label>
+              <input class="admin-input" id="ora-hor-dia" placeholder="ej. Lunes y Miércoles">
+            </div>
+            <div>
+              <label class="admin-label">Hora</label>
+              <input class="admin-input" id="ora-hor-hora" placeholder="ej. 9:00am – 12:00pm">
+            </div>
+          </div>
+          <button class="admin-btn" onclick="agregarHorarioOracion()">Agregar horario</button>
+        </div>
+        <br>
+        <button class="admin-btn" onclick="guardarOracion()">Guardar configuración de oración</button>
+      </div>
+
+
+      <!-- TAB: Seguridad -->
+      <div class="admin-panel" id="tab-seguridad">
+
+        <div class="admin-section-title">Estado de conexión Supabase</div>
+        <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);
+      border-radius:8px;padding:1rem 1.1rem;margin-bottom:1rem;font-size:0.8rem;
+      color:var(--c-muted);line-height:1.6;">
+      <strong style="color:var(--c-gold);">⚠ Importante para que Supabase guarde todo:</strong><br>
+      En Supabase → Authentication → Policies, cada tabla debe tener una política
+      <strong style="color:var(--c-text);">INSERT / UPDATE / DELETE</strong> habilitada.
+      O ve a Settings → API y activa <strong style="color:var(--c-text);">service_role</strong> solo para el admin.
+      Si no, Supabase rechaza los cambios silenciosamente.
+    </div>
+    <div id="supa-status" style="background:var(--c-dark3);border:1px solid var(--c-line);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:0.85rem;color:var(--c-muted);">
+          Verificando conexión...
+        </div>
+        <button class="admin-btn" style="margin-bottom:0.5rem;background:transparent;border:1px solid var(--c-line);color:var(--c-muted);font-size:0.82rem;" onclick="verificarConexionSupabase()">Verificar conexión</button>
+        <button class="admin-btn" style="margin-bottom:1.5rem;background:transparent;border:1px solid rgba(39,174,96,0.3);color:#27ae60;font-size:0.82rem;" onclick="diagnosticarTablas()">🔍 Diagnóstico completo de tablas</button>
+        <div id="diagnostico-result" style="display:none;background:var(--c-dark3);border:1px solid var(--c-line);border-radius:8px;padding:1rem;font-size:0.78rem;font-family:monospace;max-height:300px;overflow-y:auto;margin-bottom:1rem;"></div>
+        <br>
+        <div class="admin-section-title">Cambiar contraseña del panel</div>
+        <p style="font-size:0.85rem;color:var(--c-muted);margin-bottom:1.25rem;line-height:1.6;">
+          La contraseña protege el acceso al panel de administración. Cámbiala inmediatamente después de recibir el sitio. Guárdala en un lugar seguro — si la olvidas necesitarás contactar al administrador.
+        </p>
+
+        <div class="admin-form" style="max-width:420px;">
+          <div>
+            <label class="admin-label">Contraseña actual</label>
+            <div style="position:relative;">
+              <input class="admin-input" type="password" id="seg-actual" placeholder="Contraseña actual" style="padding-right:2.5rem;">
+              <button onclick="toggleVer('seg-actual',this)" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--c-muted);cursor:pointer;font-size:0.85rem;">👁</button>
+            </div>
+          </div>
+          <div>
+            <label class="admin-label">Nueva contraseña</label>
+            <div style="position:relative;">
+              <input class="admin-input" type="password" id="seg-nueva" placeholder="Mínimo 6 caracteres" style="padding-right:2.5rem;">
+              <button onclick="toggleVer('seg-nueva',this)" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--c-muted);cursor:pointer;font-size:0.85rem;">👁</button>
+            </div>
+            <div id="seg-fortaleza" style="margin-top:0.4rem;font-size:0.75rem;color:var(--c-muted);"></div>
+          </div>
+          <div>
+            <label class="admin-label">Confirmar nueva contraseña</label>
+            <div style="position:relative;">
+              <input class="admin-input" type="password" id="seg-confirmar" placeholder="Repite la nueva contraseña" style="padding-right:2.5rem;">
+              <button onclick="toggleVer('seg-confirmar',this)" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--c-muted);cursor:pointer;font-size:0.85rem;">👁</button>
+            </div>
+          </div>
+          <div id="seg-error" style="display:none;font-size:0.82rem;color:#e74c3c;padding:0.5rem 0.75rem;background:rgba(231,76,60,0.08);border-radius:6px;border:1px solid rgba(231,76,60,0.2);"></div>
+          <button class="admin-btn" onclick="cambiarContrasena()">Guardar nueva contraseña</button>
+        </div>
+
+        <br>
+        <div style="background:var(--c-dark2);border:1px solid var(--c-line);border-radius:var(--radius);padding:1.25rem;max-width:420px;">
+          <div style="font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-gold);font-weight:500;margin-bottom:0.6rem;">Consejos de seguridad</div>
+          <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:0.4rem;">
+            <li style="font-size:0.82rem;color:var(--c-muted);">✓ Usa al menos 8 caracteres</li>
+            <li style="font-size:0.82rem;color:var(--c-muted);">✓ Mezcla letras y números</li>
+            <li style="font-size:0.82rem;color:var(--c-muted);">✓ No uses el nombre de la iglesia</li>
+            <li style="font-size:0.82rem;color:var(--c-muted);">✓ No la compartas con nadie más</li>
+            <li style="font-size:0.82rem;color:var(--c-muted);">✓ Cámbiala cada 6 meses</li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div><!-- admin-wrap -->
+  </div><!-- admin-panel -->
+</div><!-- admin-overlay -->
+
+<!-- EXPORT PROGRESS -->
+<div class="export-progress" id="exportProgress">
+  <div id="exportMsg">Preparando sitio...</div>
+  <div class="export-bar"><div class="export-bar-fill" id="exportBar"></div></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// IGLESIA DIGITAL — Script principal
+// ══════════════════════════════════════════════════════
+
+// ─── CONFIG SUPABASE ───
+const SUPABASE_URL = 'https://tzvwtdwrjqzxjkjhuokz.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR6dnd0ZHdyanF6eGpramh1b2t6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5OTU3NDQsImV4cCI6MjA5NjU3MTc0NH0.86L37mqTQM_J0emVybT0U5MzrljGt1Bs_R353ejeiBI';
+const SLUG = 'aposento-alto';
+
+// ─── CLIENTE ÚNICO ───
+let _sb = null;
+function getSB() {
+  if (!_sb) _sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  return _sb;
+}
+
+// ─── CONTRASEÑA ───
+const PASS_DEFAULT = 'iglesia2025';
+let PASS = localStorage.getItem('iglesia_pass') || PASS_DEFAULT;
+
+// ─── ESTADO GLOBAL ───
+let datos = {
+  iglesia_id: null,
+  nombre: 'Aposento Alto', slug: SLUG, letra: 'A', logoUrl: '',
+  versiculo: 'Porque donde dos o tres se reúnen en mi nombre, allí estoy yo en medio de ellos.',
+  versiculoRef: 'Mateo 18:20', mision: 'Llevar la esperanza del evangelio a toda familia.',
+  dir: '', tel: '', email: '', wa: '', fb: '', ig: '', yt: '',
+  heroImageUrl: '', pastorFotoUrl: '', pastorRol: 'Pastor Principal',
+  footerSlogan: 'Todos son bienvenidos.', footerAnio: '2025',
+  pastor: '', pastorIni: 'AP', pastorBio: '',
+  horarios: [], predicas: [], eventos: [], ninos: [],
+  porcarts: [], galeria: [], testimonios: [],
+  donacionesOn: false, donacionesUrl: '#',
+  donacionesTexto: 'Tu generosidad hace posible el ministerio.',
+  oracionOn: false, oracionWa: '',
+  oracionDescripcion: 'Estamos aquí para orar contigo.',
+  oracionDias: ['Lunes','Miércoles','Viernes'],
+  oracionHorarios: [],
+};
+
+// ══════════════════════════════════════════════════════
+// CARGAR DESDE SUPABASE
+// ══════════════════════════════════════════════════════
+async function cargarDesdeSupabase() {
+  try {
+    const sb = getSB();
+
+    // 1. Iglesia principal
+    const { data: ig, error: errIg } = await sb
+      .from('iglesias').select('*').eq('slug', SLUG).single();
+    if (errIg || !ig) {
+      console.error('[SB] Iglesia no encontrada:', errIg?.message);
+      return;
+    }
+    datos.iglesia_id = ig.id;
+    datos.nombre     = ig.nombre     || datos.nombre;
+    datos.letra      = ig.letra      || datos.letra;
+    datos.logoUrl    = ig.logo_url   || '';
+    datos.versiculo  = ig.versiculo  || datos.versiculo;
+    datos.versiculoRef = ig.versiculo_ref || datos.versiculoRef;
+    datos.mision     = ig.mision     || datos.mision;
+    console.log('[SB] ✅ iglesias:', ig.nombre);
+
+    const id = ig.id;
+
+    // 2. Todas las tablas en paralelo
+    const [r_con, r_hero, r_pas, r_hor, r_pred, r_ev,
+           r_nin, r_por, r_gal, r_test, r_don, r_ora,
+           r_dias, r_horas] = await Promise.all([
+      sb.from('iglesias_contacto').select('*').eq('iglesia_id', id).maybeSingle(),
+      sb.from('iglesias_hero').select('*').eq('iglesia_id', id).maybeSingle(),
+      sb.from('pastores').select('*').eq('iglesia_id', id).order('orden').limit(1),
+      sb.from('horarios').select('*').eq('iglesia_id', id).order('orden'),
+      sb.from('predicas').select('*').eq('iglesia_id', id).order('fecha_predica', {ascending:false}).limit(9),
+      sb.from('eventos').select('*').eq('iglesia_id', id).order('fecha_evento'),
+      sb.from('recursos_ninos').select('*').eq('iglesia_id', id).order('orden'),
+      sb.from('porcarts').select('*').eq('iglesia_id', id).order('orden'),
+      sb.from('galeria').select('*').eq('iglesia_id', id).order('orden'),
+      sb.from('testimonios').select('*').eq('iglesia_id', id).order('orden'),
+      sb.from('donaciones_config').select('*').eq('iglesia_id', id).maybeSingle(),
+      sb.from('oracion_config').select('*').eq('iglesia_id', id).maybeSingle(),
+      sb.from('oracion_dias').select('*').eq('iglesia_id', id).order('orden'),
+      sb.from('oracion_horarios').select('*').eq('iglesia_id', id).order('orden'),
+    ]);
+
+    // Contacto
+    if (r_con.data) {
+      const d = r_con.data;
+      datos.dir = d.direccion || ''; datos.tel = d.telefono || '';
+      datos.email = d.email || ''; datos.wa = d.whatsapp || '';
+      datos.fb = d.facebook_url || ''; datos.ig = d.instagram_url || '';
+      datos.yt = d.youtube_url || '';
+    }
+
+    // Hero
+    if (r_hero.data) {
+      const d = r_hero.data;
+      datos.heroImageUrl = d.imagen_url || '';
+      datos.footerSlogan = d.footer_slogan || datos.footerSlogan;
+      datos.footerAnio   = d.footer_anio  || datos.footerAnio;
+    }
+
+    // Pastor
+    if (r_pas.data && r_pas.data.length > 0) {
+      const d = r_pas.data[0];
+      datos.pastor      = d.nombre    || '';
+      datos.pastorIni   = d.iniciales || 'AP';
+      datos.pastorBio   = d.bio       || '';
+      datos.pastorRol   = d.rol       || 'Pastor Principal';
+      datos.pastorFotoUrl = d.foto_url || '';
+    }
+
+    // Horarios
+    if (r_hor.data && r_hor.data.length > 0) {
+      datos.horarios = r_hor.data.map(h => ({dia: h.dia, servicio: h.servicio, hora: h.hora}));
+    }
+
+    // Predicas
+    if (r_pred.data && r_pred.data.length > 0) {
+      datos.predicas = r_pred.data.map(p => {
+        const d = new Date((p.fecha_predica || '') + 'T12:00:00');
+        const fecha = isNaN(d) ? '' : d.getDate() + ' ' + d.toLocaleString('es',{month:'short'}) + ' ' + d.getFullYear();
+        return {titulo: p.titulo || '', serie: p.serie || 'General',
+          predicador: p.predicador || '', fecha,
+          audio: p.audio_url || '', imagenUrl: p.imagen_url || '',
+          spotifyUrl: p.spotify_url || ''};
+      });
+    }
+
+    // Eventos
+    if (r_ev.data && r_ev.data.length > 0) {
+      datos.eventos = r_ev.data.map(e => ({
+        nombre: e.nombre || '', fecha: e.fecha_evento || '',
+        desc: e.descripcion || '', badge: e.badge || 'Evento'
+      }));
+    }
+
+    // Niños
+    if (r_nin.data && r_nin.data.length > 0) {
+      datos.ninos = r_nin.data.map(n => ({
+        nombre: n.nombre || '', tipo: n.tipo || '',
+        imagenUrl: n.imagen_url || '', url: n.recurso_url || '#'
+      }));
+    }
+
+    // Porcarts
+    if (r_por.data && r_por.data.length > 0) {
+      datos.porcarts = r_por.data.map(p => ({
+        texto: p.texto || '', ref: p.referencia || '', bgUrl: p.bg_url || ''
+      }));
+    }
+
+    // Galería
+    if (r_gal.data && r_gal.data.length > 0) {
+      datos.galeria = r_gal.data.map(g => ({url: g.imagen_url || '', caption: g.caption || ''}));
+    }
+
+    // Testimonios
+    if (r_test.data && r_test.data.length > 0) {
+      datos.testimonios = r_test.data.map(t => ({texto: t.texto || '', autor: t.autor || ''}));
+    }
+
+    // Donaciones
+    if (r_don.data) {
+      datos.donacionesOn    = r_don.data.activo || false;
+      datos.donacionesUrl   = r_don.data.url_pago || '#';
+      datos.donacionesTexto = r_don.data.mensaje || datos.donacionesTexto;
+    }
+
+    // Oración
+    if (r_ora.data) {
+      datos.oracionOn          = r_ora.data.activo || false;
+      datos.oracionWa          = r_ora.data.whatsapp || '';
+      datos.oracionDescripcion = r_ora.data.descripcion || datos.oracionDescripcion;
+    }
+    if (r_dias.data && r_dias.data.length > 0) {
+      datos.oracionDias = r_dias.data.map(d => d.dia);
+    }
+    if (r_horas.data && r_horas.data.length > 0) {
+      datos.oracionHorarios = r_horas.data.map(h => ({dia: h.rango_dias, hora: h.hora}));
+    }
+
+    console.log('[SB] ✅ Todo cargado para:', datos.nombre);
+
+  } catch(err) {
+    console.error('[SB] Error cargando:', err.message);
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// GUARDAR EN SUPABASE
+// ══════════════════════════════════════════════════════
+async function guardarEnSupabase() {
+  const sb = getSB();
+  const id = datos.iglesia_id;
+  if (!id) { toast('⚠ ID de iglesia no encontrado'); return; }
+
+  try {
+    // Actualizar tabla principal
+    await sb.from('iglesias').update({
+      nombre: datos.nombre, letra: datos.letra || '',
+      logo_url: datos.logoUrl || '',
+      versiculo: datos.versiculo || '',
+      versiculo_ref: datos.versiculoRef || '',
+      mision: datos.mision || '',
+      updated_at: new Date().toISOString(),
+    }).eq('id', id);
+
+    // Contacto — delete + insert
+    await sb.from('iglesias_contacto').delete().eq('iglesia_id', id);
+    await sb.from('iglesias_contacto').insert({
+      iglesia_id: id, direccion: datos.dir || '',
+      telefono: datos.tel || '', email: datos.email || '',
+      whatsapp: datos.wa || '', facebook_url: datos.fb || '',
+      instagram_url: datos.ig || '', youtube_url: datos.yt || '',
+    });
+
+    // Hero — delete + insert
+    await sb.from('iglesias_hero').delete().eq('iglesia_id', id);
+    await sb.from('iglesias_hero').insert({
+      iglesia_id: id, imagen_url: datos.heroImageUrl || '',
+      footer_slogan: datos.footerSlogan || 'Todos son bienvenidos.',
+      footer_anio: datos.footerAnio || '2025',
+    });
+
+    // Pastor — delete + insert
+    await sb.from('pastores').delete().eq('iglesia_id', id);
+    if (datos.pastor) {
+      await sb.from('pastores').insert({
+        iglesia_id: id, nombre: datos.pastor,
+        rol: datos.pastorRol || 'Pastor Principal',
+        iniciales: datos.pastorIni || '',
+        foto_url: datos.pastorFotoUrl || '',
+        bio: datos.pastorBio || '', orden: 1,
+      });
+    }
+
+    // Horarios
+    await sb.from('horarios').delete().eq('iglesia_id', id);
+    if (datos.horarios.length > 0) {
+      await sb.from('horarios').insert(
+        datos.horarios.map((h,i) => ({
+          iglesia_id: id, dia: h.dia, servicio: h.servicio,
+          hora: h.hora, orden: i+1, activo: true
+        }))
+      );
+    }
+
+    // Predicas
+    await sb.from('predicas').delete().eq('iglesia_id', id);
+    if (datos.predicas.length > 0) {
+      await sb.from('predicas').insert(
+        datos.predicas.map((p,i) => {
+          let f = new Date().toISOString().split('T')[0];
+          try { const d = new Date(p.fecha); if (!isNaN(d)) f = d.toISOString().split('T')[0]; } catch(e) {}
+          return {
+            iglesia_id: id, titulo: p.titulo, serie: p.serie || 'General',
+            predicador: p.predicador || '', fecha_predica: f,
+            audio_url: p.audio || '', spotify_url: p.spotifyUrl || '',
+            imagen_url: p.imagenUrl || '', publicada: true, orden: i,
+          };
+        })
+      );
+    }
+
+    // Eventos
+    await sb.from('eventos').delete().eq('iglesia_id', id);
+    if (datos.eventos.length > 0) {
+      await sb.from('eventos').insert(
+        datos.eventos.map((e,i) => ({
+          iglesia_id: id, nombre: e.nombre,
+          fecha_evento: e.fecha, descripcion: e.desc || '',
+          badge: e.badge || 'Evento', publicado: true, orden: i,
+        }))
+      );
+    }
+
+    // Niños
+    await sb.from('recursos_ninos').delete().eq('iglesia_id', id);
+    if (datos.ninos.length > 0) {
+      await sb.from('recursos_ninos').insert(
+        datos.ninos.map((n,i) => ({
+          iglesia_id: id, nombre: n.nombre, tipo: n.tipo || 'Libro PDF',
+          imagen_url: n.imagenUrl || '', recurso_url: n.url || '#',
+          publicado: true, orden: i,
+        }))
+      );
+    }
+
+    // Porcarts
+    await sb.from('porcarts').delete().eq('iglesia_id', id);
+    if (datos.porcarts.length > 0) {
+      await sb.from('porcarts').insert(
+        datos.porcarts.map((p,i) => ({
+          iglesia_id: id, texto: p.texto, referencia: p.ref,
+          bg_url: p.bgUrl || '', activo: true, orden: i,
+        }))
+      );
+    }
+
+    // Galería
+    await sb.from('galeria').delete().eq('iglesia_id', id);
+    if (datos.galeria.length > 0) {
+      await sb.from('galeria').insert(
+        datos.galeria.map((g,i) => ({
+          iglesia_id: id, imagen_url: g.url,
+          caption: g.caption || '', publicada: true, orden: i,
+        }))
+      );
+    }
+
+    // Testimonios
+    await sb.from('testimonios').delete().eq('iglesia_id', id);
+    if (datos.testimonios.length > 0) {
+      await sb.from('testimonios').insert(
+        datos.testimonios.map((t,i) => ({
+          iglesia_id: id, texto: t.texto,
+          autor: t.autor, publicado: true, orden: i,
+        }))
+      );
+    }
+
+    // Donaciones
+    await sb.from('donaciones_config').delete().eq('iglesia_id', id);
+    await sb.from('donaciones_config').insert({
+      iglesia_id: id, activo: datos.donacionesOn,
+      url_pago: datos.donacionesUrl || '', mensaje: datos.donacionesTexto || '',
+    });
+
+    // Oración config
+    await sb.from('oracion_config').delete().eq('iglesia_id', id);
+    await sb.from('oracion_config').insert({
+      iglesia_id: id, activo: datos.oracionOn,
+      whatsapp: datos.oracionWa || '', descripcion: datos.oracionDescripcion || '',
+    });
+
+    // Días y horarios de oración
+    await sb.from('oracion_dias').delete().eq('iglesia_id', id);
+    if (datos.oracionDias.length > 0) {
+      await sb.from('oracion_dias').insert(
+        datos.oracionDias.map((d,i) => ({iglesia_id: id, dia: d, orden: i}))
+      );
+    }
+    await sb.from('oracion_horarios').delete().eq('iglesia_id', id);
+    if (datos.oracionHorarios.length > 0) {
+      await sb.from('oracion_horarios').insert(
+        datos.oracionHorarios.map((h,i) => ({
+          iglesia_id: id, rango_dias: h.dia, hora: h.hora, orden: i
+        }))
+      );
+    }
+
+    toast('✅ Guardado en Supabase');
+    console.log('[SB] ✅ Guardado completo');
+
+  } catch(err) {
+    console.error('[SB] Error guardando:', err);
+    toast('⚠ Error: ' + err.message);
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// RENDER SITIO — renderiza de forma segura
+// ══════════════════════════════════════════════════════
+function el(id) { return document.getElementById(id); }
+function setText(id, val) { const e = el(id); if (e) e.textContent = val; }
+function setHTML(id, val) { const e = el(id); if (e) e.innerHTML = val; }
+
+function renderSitio() {
+  // Título y nombre
+  document.title = datos.nombre + ' — Iglesia Digital';
+  document.querySelectorAll('.nav-name').forEach(e => e.textContent = datos.nombre);
+  setText('footerNombre', datos.nombre);
+  setText('footerSlogan', datos.footerSlogan);
+  setText('footerCopy', '© ' + (datos.footerAnio || '2025') + ' ' + datos.nombre + ' · Diseño por Ministerio Digital');
+  const adminTitle = el('adminTitleNombre');
+  if (adminTitle) adminTitle.textContent = 'Panel — ' + datos.nombre;
+
+  // Logo
+  const logoBox = el('adminTrigger');
+  if (logoBox) {
+    if (datos.logoUrl) {
+      logoBox.classList.add('logo-rect');
+      logoBox.innerHTML = `<img src="${datos.logoUrl}" alt="${datos.nombre}">`;
+    } else {
+      logoBox.classList.remove('logo-rect');
+      logoBox.innerHTML = `<span>${datos.letra || datos.nombre.charAt(0)}</span>`;
+    }
+  }
+
+  // Versículo hero
+  const vEl = document.querySelector('.hero-verse');
+  if (vEl) vEl.innerHTML = `"${datos.versiculo}"<cite>— ${datos.versiculoRef}</cite>`;
+
+  // Contacto
+  setText('infoDir', datos.dir || '—');
+  setText('infoTel', datos.tel || '—');
+  setText('infoEmail', datos.email || '—');
+  setText('infoMision', datos.mision || '—');
+  setText('pastorNombre', datos.pastor || '—');
+  setText('pastorBio', datos.pastorBio || '');
+  setText('pastorAvatar', datos.pastorIni || 'AP');
+  const pRol = el('pastorRol'); if (pRol) pRol.textContent = datos.pastorRol || 'Pastor Principal';
+
+  // Foto pastor
+  const pfBox = el('pastorFotoBox');
+  if (pfBox) {
+    pfBox.innerHTML = datos.pastorFotoUrl
+      ? `<img src="${datos.pastorFotoUrl}" alt="Pastor">`
+      : `<div class="pastor-avatar">${datos.pastorIni || 'AP'}</div>`;
+  }
+
+  // Hero imagen
+  const heroBox = el('heroImgBox');
+  if (heroBox) {
+    heroBox.innerHTML = datos.heroImageUrl
+      ? `<img src="${datos.heroImageUrl}" alt="Iglesia" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">`
+      : `<div class="cross-wrap"><div class="cross-outer"></div><div class="cross-mid"></div><div class="cross-glow"></div><div class="cross-svg"><svg width="90" height="110" viewBox="0 0 90 110" fill="none"><rect x="37" y="0" width="16" height="110" rx="4" fill="none" stroke="#C9A84C" stroke-width="1.5" opacity="0.7"/><rect x="0" y="30" width="90" height="16" rx="4" fill="none" stroke="#C9A84C" stroke-width="1.5" opacity="0.7"/></svg></div></div>`;
+  }
+
+  // YouTube
+  if (datos.yt) {
+    const ytLink = el('infoYTLink'); if (ytLink) ytLink.style.display = '';
+    const ytA = el('infoYTa'); if (ytA) ytA.href = datos.yt;
+    const ytEmpty = el('infoYTEmpty'); if (ytEmpty) ytEmpty.style.display = 'none';
+  } else {
+    const ytLink = el('infoYTLink'); if (ytLink) ytLink.style.display = 'none';
+    const ytEmpty = el('infoYTEmpty'); if (ytEmpty) ytEmpty.style.display = '';
+  }
+
+  // Donaciones
+  const secDona = el('donaciones');
+  if (secDona) secDona.classList.toggle('visible', datos.donacionesOn);
+  setText('donacionesTexto', datos.donacionesTexto);
+
+  // Oración
+  const secOra = el('oracion');
+  if (secOra) secOra.classList.toggle('visible', datos.oracionOn);
+  const navOra = el('nav-oracion'); if (navOra) navOra.style.display = datos.oracionOn ? '' : 'none';
+  setText('oracionDescripcion', datos.oracionDescripcion);
+  setHTML('oracionHorariosList', (datos.oracionHorarios||[]).map(h => `<li><span class="dia">${h.dia}</span> ${h.hora}</li>`).join(''));
+  setHTML('diasCitaGrid', (datos.oracionDias||[]).map(d => `<div class="dia-chip" onclick="this.classList.toggle('selected')">${d}</div>`).join(''));
+
+  // Horarios
+  setHTML('horariosGrid', datos.horarios.map(h => `
+    <div class="horario-card">
+      <div class="horario-dia">${h.dia}</div>
+      <div class="horario-servicio">${h.servicio}</div>
+      <div class="horario-hora">${h.hora}</div>
+    </div>`).join('') || '<p style="color:var(--c-muted);padding:1rem;">Sin horarios configurados.</p>');
+
+  // Predicas
+  setHTML('predicasGrid', datos.predicas.length > 0 ? datos.predicas.map((p,idx) => {
+    const tieneAudio = p.audio && p.audio.trim();
+    const tieneSpotify = p.spotifyUrl && p.spotifyUrl.trim();
+    let spotifyEmbed = '';
+    if (tieneSpotify) {
+      const m = p.spotifyUrl.match(/episode\/([A-Za-z0-9]+)|track\/([A-Za-z0-9]+)/);
+      if (m) spotifyEmbed = `<div class="spotify-wrap"><iframe src="https://open.spotify.com/embed/${m[0].startsWith('episode')?'episode':'track'}/${m[1]||m[2]}?utm_source=generator&theme=0" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>`;
+    }
+    const badge = tieneSpotify ? `<span class="predica-tipo-badge badge-spotify">🎵 Spotify</span>` : tieneAudio ? `<span class="predica-tipo-badge badge-audio">🎙 Audio</span>` : `<span class="predica-tipo-badge badge-pronto">⏳ Próximamente</span>`;
+    const playerHtml = tieneAudio ? `<audio id="audio-${idx}" preload="none"><source src="${p.audio}"></audio><div class="player-wrap"><div class="player-controls"><button class="player-btn" onclick="togglePlay(${idx})"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button><div class="player-info"><div class="player-progress" onclick="seekAudio(event,${idx})"><div class="player-progress-fill" id="fill-${idx}"></div></div><div class="player-times"><span id="cur-${idx}">0:00</span><span id="dur-${idx}">--:--</span></div></div><div class="player-vol"><span onclick="toggleMute(${idx})">🔊</span><input type="range" min="0" max="1" step="0.05" value="1" oninput="setVolume(${idx},this.value)"></div></div></div>` : '';
+    return `<div class="predica-card"><div class="predica-portada">${p.imagenUrl ? `<img src="${p.imagenUrl}" alt="${p.titulo}" loading="lazy">` : '<div class="predica-portada-placeholder"><span>🎙️</span><small>Sin imagen</small></div>'}</div><div class="predica-body">${badge}<div class="predica-serie">${p.serie}</div><div class="predica-titulo">${p.titulo}</div><div class="predica-fecha">${p.predicador} · ${p.fecha}</div>${tieneSpotify ? spotifyEmbed : playerHtml}${!tieneAudio && !tieneSpotify ? '<p style="font-size:0.8rem;color:var(--c-muted);margin-top:0.5rem;">Audio próximamente.</p>' : ''}</div></div>`;
+  }).join('') : '<p style="color:var(--c-muted);padding:1rem;">Sin predicas aún.</p>');
+  inicializarPlayers();
+
+  // Niños
+  setHTML('ninosRecursos', datos.ninos.map(n => `
+    <div class="recurso-item">
+      <div class="recurso-img">${n.imagenUrl ? `<img src="${n.imagenUrl}" alt="${n.nombre}" loading="lazy">` : `<div class="recurso-img-placeholder"><span>📖</span><small>${n.tipo}</small></div>`}</div>
+      <div class="recurso-body"><span class="recurso-tipo">${n.tipo}</span><span class="recurso-nombre">${n.nombre}</span>${n.url && n.url !== '#' ? `<button class="recurso-abrir" onclick="window.open('${n.url}','_blank')">Abrir →</button>` : '<span style="font-size:0.75rem;color:var(--c-muted);">Próximamente</span>'}</div>
+    </div>`).join('') || '<p style="color:var(--c-muted);padding:1rem;">Sin recursos aún.</p>');
+
+  // Eventos
+  setHTML('eventosList', datos.eventos.map(ev => {
+    const d = new Date((ev.fecha || '') + 'T12:00:00');
+    const mes = isNaN(d) ? '' : d.toLocaleString('es',{month:'short'}).toUpperCase();
+    const dia = isNaN(d) ? '' : d.getDate();
+    return `<div class="evento-item"><div class="evento-fecha"><div class="evento-mes">${mes}</div><div class="evento-dia">${dia}</div></div><div><div class="evento-nombre">${ev.nombre}</div><div class="evento-desc">${ev.desc}</div></div><div class="evento-badge">${ev.badge}</div></div>`;
+  }).join('') || '<p style="color:var(--c-muted);padding:1rem;">Sin eventos próximos.</p>');
+
+  // Porcarts
+  setHTML('porcartsGrid', datos.porcarts.map(pc => {
+    const hasBg = pc.bgUrl && pc.bgUrl.trim();
+    const safe = (pc.texto||'').replace(/'/g,"\'");
+    const safeRef = (pc.ref||'').replace(/'/g,"\'");
+    return `<div class="porcart ${hasBg?'has-bg':''}" onclick="copiarTexto('${safe} — ${safeRef}')"><div class="porcart-bg" ${hasBg?`style="background-image:url('${pc.bgUrl}')"` : ''}></div><div class="porcart-overlay"></div><div class="porcart-content"><div class="porcart-verse">"${pc.texto}"</div><div class="porcart-ref">${pc.ref}</div></div><span class="porcart-share">📋 Copiar</span></div>`;
+  }).join('') || '<p style="color:var(--c-muted);padding:1rem;">Sin versículos aún.</p>');
+
+  // Galería
+  setHTML('galeriaGrid', datos.galeria.length > 0 ? datos.galeria.map(g => `<div class="galeria-item"><img src="${g.url}" alt="${g.caption}" loading="lazy"><div class="galeria-caption">${g.caption}</div></div>`).join('') : '<div class="galeria-empty">📸 Sin fotos aún.</div>');
+
+  // Testimonios
+  setHTML('testimoniosGrid', datos.testimonios.map(t => `<div class="testimonio-card"><div class="testimonio-texto">"${t.texto}"</div><div class="testimonio-autor">— ${t.autor}</div></div>`).join(''));
+
+  // Redes sociales
+  const redes = [];
+  if (datos.fb) redes.push(`<a class="social-link" href="${datos.fb}" target="_blank">f</a>`);
+  if (datos.ig) redes.push(`<a class="social-link" href="${datos.ig}" target="_blank">ig</a>`);
+  if (datos.yt) redes.push(`<a class="social-link" href="${datos.yt}" target="_blank">yt</a>`);
+  if (datos.wa) redes.push(`<a class="social-link" href="https://wa.me/${datos.wa.replace(/\D/g,'')}" target="_blank">wa</a>`);
+  setHTML('socialLinks', redes.join(''));
+}
+
+// ══════════════════════════════════════════════════════
+// PANEL ADMIN
+// ══════════════════════════════════════════════════════
+function abrirAdmin() {
+  el('admin-overlay').classList.add('open');
+  el('admin-login').style.display = '';
+  el('admin-panel').style.display = 'none';
+  el('adminPass').value = '';
+  el('loginError').style.display = 'none';
+  setTimeout(() => el('adminPass').focus(), 100);
+}
+function cerrarAdmin() { el('admin-overlay').classList.remove('open'); }
+
+async function adminLogin() {
+  const v = el('adminPass').value;
+  if (v === PASS) {
+    el('admin-login').style.display = 'none';
+    el('admin-panel').style.display = 'block';
+    // Recargar datos frescos de Supabase
+    await cargarDesdeSupabase();
+    renderSitio();
+    rellenarAdmin();
+  } else {
+    el('loginError').style.display = 'block';
+    el('adminPass').value = '';
+  }
+}
+
+function showTab(id, btn) {
+  document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+  el(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function rellenarAdmin() {
+  el('cfg-nombre').value    = datos.nombre || '';
+  el('cfg-letra').value     = datos.letra || '';
+  el('cfg-versiculo').value = datos.versiculo || '';
+  el('cfg-versiculo-ref').value = datos.versiculoRef || '';
+  el('cfg-mision').value    = datos.mision || '';
+  el('cfg-dir').value       = datos.dir || '';
+  el('cfg-tel').value       = datos.tel || '';
+  el('cfg-email').value     = datos.email || '';
+  el('cfg-pastor').value    = datos.pastor || '';
+  el('cfg-pastor-ini').value = datos.pastorIni || '';
+  el('cfg-pastor-bio').value = datos.pastorBio || '';
+  el('cfg-fb').value = datos.fb || '';
+  el('cfg-ig').value = datos.ig || '';
+  el('cfg-yt').value = datos.yt || '';
+  el('cfg-wa').value = datos.wa || '';
+
+  // Logo preview
+  const logoInput = el('cfg-logo-url');
+  if (logoInput) {
+    logoInput.value = datos.logoUrl || '';
+    if (datos.logoUrl) previsualizarLogo(datos.logoUrl);
+    else { const w = el('logo-preview-wrap'); if (w) w.style.display = 'none'; }
+  }
+
+  // Horarios
+  const hf = el('horarios-form');
+  if (hf) {
+    hf.innerHTML = datos.horarios.map((h,i) => `
+      <div class="admin-grid-2" style="margin-bottom:0.5rem;">
+        <div><label class="admin-label">Día</label><input class="admin-input" id="hor-dia-${i}" value="${h.dia}"></div>
+        <div><label class="admin-label">Servicio</label><input class="admin-input" id="hor-serv-${i}" value="${h.servicio}"></div>
+      </div>
+      <div style="margin-bottom:1rem;"><label class="admin-label">Hora</label><input class="admin-input" id="hor-hora-${i}" value="${h.hora}"></div>
+    `).join('') + `<button class="admin-btn" style="background:transparent;border:1px solid var(--c-line);color:var(--c-muted);" onclick="agregarHorario()">+ Agregar horario</button>`;
+  }
+
+  // Conócenos
+  el('con-hero-url').value    = datos.heroImageUrl || '';
+  el('con-pastor-foto').value = datos.pastorFotoUrl || '';
+  el('con-pastor-rol').value  = datos.pastorRol || 'Pastor Principal';
+  el('con-footer-slogan').value = datos.footerSlogan || '';
+  el('con-footer-anio').value   = datos.footerAnio || '2025';
+
+  // Donaciones
+  el('dona-toggle').classList.toggle('on', datos.donacionesOn);
+  el('dona-url').value   = datos.donacionesUrl || '';
+  el('dona-texto').value = datos.donacionesTexto || '';
+
+  // Oración
+  rellenarOracionAdmin();
+
+  // Listas
+  renderAdminListas();
+}
+
+function rellenarOracionAdmin() {
+  const tog = el('ora-toggle'); if (tog) tog.classList.toggle('on', datos.oracionOn);
+  const wa = el('ora-wa-num'); if (wa) wa.value = datos.oracionWa || '';
+  const desc = el('ora-desc'); if (desc) desc.value = datos.oracionDescripcion || '';
+  const dl = el('ora-dias-lista');
+  if (dl) dl.innerHTML = (datos.oracionDias||[]).map((d,i) => `
+    <div class="admin-list-item" style="padding:0.6rem 1rem;">
+      <span>${d}</span>
+      <button class="admin-btn-danger" onclick="eliminarDiaCita(${i})">✕</button>
+    </div>`).join('');
+  const hl = el('ora-horarios-lista-admin');
+  if (hl) hl.innerHTML = (datos.oracionHorarios||[]).map((h,i) => `
+    <div class="admin-list-item">
+      <div class="admin-list-item-info"><span>${h.dia}</span><span class="admin-list-item-sub">${h.hora}</span></div>
+      <button class="admin-btn-danger" onclick="eliminarHorarioOracion(${i})">Eliminar</button>
+    </div>`).join('');
+}
+
+function renderAdminListas() {
+  setHTML('admin-predicas-list', datos.predicas.map((p,i) => `
+    <div class="admin-list-item">
+      ${p.imagenUrl ? `<img src="${p.imagenUrl}" style="width:56px;height:40px;object-fit:cover;border-radius:5px;flex-shrink:0;">` : '<div style="width:56px;height:40px;background:var(--c-dark4);border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">🎙️</div>'}
+      <div class="admin-list-item-info"><span>${p.titulo}</span><span class="admin-list-item-sub">${p.serie} · ${p.fecha}</span></div>
+      <button class="admin-btn-danger" onclick="eliminar('predicas',${i})">Eliminar</button>
+    </div>`).join(''));
+
+  setHTML('admin-eventos-list', datos.eventos.map((ev,i) => `
+    <div class="admin-list-item">
+      <div class="admin-list-item-info"><span>${ev.nombre}</span><span class="admin-list-item-sub">${ev.fecha} · ${ev.badge}</span></div>
+      <button class="admin-btn-danger" onclick="eliminar('eventos',${i})">Eliminar</button>
+    </div>`).join(''));
+
+  setHTML('admin-ninos-list', datos.ninos.map((n,i) => `
+    <div class="admin-list-item">
+      ${n.imagenUrl ? `<img src="${n.imagenUrl}" style="width:56px;height:40px;object-fit:cover;border-radius:5px;flex-shrink:0;">` : '<div style="width:56px;height:40px;background:var(--c-dark4);border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">📖</div>'}
+      <div class="admin-list-item-info"><span>${n.nombre}</span><span class="admin-list-item-sub">${n.tipo}</span></div>
+      <button class="admin-btn-danger" onclick="eliminar('ninos',${i})">Eliminar</button>
+    </div>`).join(''));
+
+  setHTML('admin-porcarts-list', datos.porcarts.map((pc,i) => `
+    <div class="admin-list-item">
+      <div class="admin-list-item-info"><span style="font-style:italic;">"${(pc.texto||'').substring(0,50)}..."</span><span class="admin-list-item-sub">${pc.ref}</span></div>
+      <button class="admin-btn-danger" onclick="eliminar('porcarts',${i})">Eliminar</button>
+    </div>`).join(''));
+
+  const ag = el('admin-galeria-list');
+  if (ag) ag.innerHTML = (datos.galeria||[]).map((g,i) => `
+    <div class="admin-list-item">
+      <div class="admin-list-item-info"><span>📸 ${g.caption||'Sin descripción'}</span></div>
+      <button class="admin-btn-danger" onclick="eliminar('galeria',${i})">Eliminar</button>
+    </div>`).join('') || '<p style="color:var(--c-muted);font-size:0.85rem;">Sin fotos.</p>';
+
+  const at = el('admin-testimonios-list');
+  if (at) at.innerHTML = (datos.testimonios||[]).map((t,i) => `
+    <div class="admin-list-item">
+      <div class="admin-list-item-info"><span style="font-style:italic;">"${(t.texto||'').substring(0,60)}..."</span><span class="admin-list-item-sub">— ${t.autor}</span></div>
+      <button class="admin-btn-danger" onclick="eliminar('testimonios',${i})">Eliminar</button>
+    </div>`).join('') || '<p style="color:var(--c-muted);font-size:0.85rem;">Sin testimonios.</p>';
+}
+
+// ──────────────────────────────────────────────────────
+// GUARDAR — todas las pestañas
+// ──────────────────────────────────────────────────────
+async function guardarDatos() {
+  datos.nombre       = el('cfg-nombre').value || datos.nombre;
+  datos.letra        = el('cfg-letra').value || datos.letra;
+  datos.logoUrl      = convertirUrlImagen(el('cfg-logo-url').value.trim());
+  datos.versiculo    = el('cfg-versiculo').value || datos.versiculo;
+  datos.versiculoRef = el('cfg-versiculo-ref').value || datos.versiculoRef;
+  datos.mision       = el('cfg-mision').value || datos.mision;
+  datos.dir          = el('cfg-dir').value || '';
+  datos.tel          = el('cfg-tel').value || '';
+  datos.email        = el('cfg-email').value || '';
+  datos.pastor       = el('cfg-pastor').value || '';
+  datos.pastorIni    = el('cfg-pastor-ini').value || '';
+  datos.pastorBio    = el('cfg-pastor-bio').value || '';
+  datos.fb = el('cfg-fb').value || '';
+  datos.ig = el('cfg-ig').value || '';
+  datos.yt = el('cfg-yt').value || '';
+  datos.wa = el('cfg-wa').value || '';
+  datos.horarios = datos.horarios.map((h,i) => ({
+    dia:      el('hor-dia-'+i)?.value  || h.dia,
+    servicio: el('hor-serv-'+i)?.value || h.servicio,
+    hora:     el('hor-hora-'+i)?.value || h.hora,
+  }));
+  renderSitio();
+  await guardarEnSupabase();
+  rellenarAdmin();
+}
+
+async function guardarFotos() {
+  datos.heroImageUrl  = convertirUrlImagen(el('con-hero-url').value.trim());
+  datos.pastorFotoUrl = convertirUrlImagen(el('con-pastor-foto').value.trim());
+  datos.pastorRol     = el('con-pastor-rol').value.trim() || 'Pastor Principal';
+  datos.footerSlogan  = el('con-footer-slogan').value.trim() || 'Todos son bienvenidos.';
+  datos.footerAnio    = el('con-footer-anio').value.trim() || '2025';
+  renderSitio();
+  await guardarEnSupabase();
+}
+
+async function guardarDonaciones() {
+  datos.donacionesUrl   = el('dona-url').value || '#';
+  datos.donacionesTexto = el('dona-texto').value || datos.donacionesTexto;
+  renderSitio();
+  await guardarEnSupabase();
+}
+
+async function guardarOracion() {
+  datos.oracionWa          = el('ora-wa-num').value.trim();
+  datos.oracionDescripcion = el('ora-desc').value.trim() || datos.oracionDescripcion;
+  renderSitio();
+  rellenarOracionAdmin();
+  await guardarEnSupabase();
+}
+
+function agregarHorario() {
+  datos.horarios.push({dia:'Sábado', servicio:'Nuevo servicio', hora:'6:00 PM'});
+  rellenarAdmin();
+}
+
+async function agregarPredica() {
+  const titulo = el('pred-titulo').value.trim();
+  if (!titulo) { toast('Escribe el título'); return; }
+  const hoy = new Date();
+  const fecha = hoy.getDate() + ' ' + hoy.toLocaleString('es',{month:'short'}) + ' ' + hoy.getFullYear();
+  datos.predicas.unshift({
+    titulo, serie: el('pred-serie').value || 'General',
+    predicador: el('pred-pred').value || datos.pastor, fecha,
+    audio: el('pred-audio').value.trim(),
+    imagenUrl: convertirUrlImagen(el('pred-imagen').value.trim()),
+    spotifyUrl: el('pred-spotify').value.trim(),
+  });
+  ['pred-titulo','pred-serie','pred-pred','pred-audio','pred-imagen','pred-spotify'].forEach(id => { const e = el(id); if(e) e.value=''; });
+  renderSitio(); renderAdminListas();
+  await guardarEnSupabase();
+  toast('✅ Predica agregada');
+}
+
+async function agregarEvento() {
+  const nombre = el('ev-nombre').value.trim();
+  const fecha  = el('ev-fecha').value;
+  if (!nombre || !fecha) { toast('Nombre y fecha requeridos'); return; }
+  datos.eventos.push({nombre, fecha, desc: el('ev-desc').value, badge: el('ev-badge').value || 'Evento'});
+  datos.eventos.sort((a,b) => new Date(a.fecha) - new Date(b.fecha));
+  ['ev-nombre','ev-fecha','ev-desc','ev-badge'].forEach(id => { const e = el(id); if(e) e.value=''; });
+  renderSitio(); renderAdminListas();
+  await guardarEnSupabase();
+  toast('✅ Evento agregado');
+}
+
+async function agregarRecursoNino() {
+  const nombre = el('nino-nombre').value.trim();
+  if (!nombre) { toast('Escribe el nombre'); return; }
+  datos.ninos.push({
+    nombre, tipo: el('nino-tipo').value,
+    imagenUrl: convertirUrlImagen(el('nino-imagen').value.trim()),
+    url: el('nino-url').value.trim() || '#',
+  });
+  ['nino-nombre','nino-imagen','nino-url'].forEach(id => { const e = el(id); if(e) e.value=''; });
+  renderSitio(); renderAdminListas();
+  await guardarEnSupabase();
+  toast('✅ Recurso agregado');
+}
+
+async function agregarPorcart() {
+  const texto = el('pc-texto').value.trim();
+  const ref   = el('pc-ref').value.trim();
+  if (!texto || !ref) { toast('Texto y referencia requeridos'); return; }
+  datos.porcarts.unshift({texto, ref, bgUrl: convertirUrlImagen(el('pc-bg').value.trim())});
+  ['pc-texto','pc-ref','pc-bg'].forEach(id => { const e = el(id); if(e) e.value=''; });
+  renderSitio(); renderAdminListas();
+  await guardarEnSupabase();
+  toast('✅ Porcart agregado');
+}
+
+async function agregarFotoGaleria() {
+  const url = el('gal-url').value.trim();
+  if (!url) { toast('Agrega la URL'); return; }
+  datos.galeria.push({url, caption: el('gal-caption').value.trim()});
+  el('gal-url').value = ''; el('gal-caption').value = '';
+  renderSitio(); renderAdminListas();
+  await guardarEnSupabase();
+  toast('✅ Foto agregada');
+}
+
+async function agregarTestimonio() {
+  const texto = el('test-texto').value.trim();
+  const autor = el('test-autor').value.trim();
+  if (!texto || !autor) { toast('Escribe el testimonio y el nombre'); return; }
+  datos.testimonios.push({texto, autor});
+  el('test-texto').value = ''; el('test-autor').value = '';
+  renderSitio(); renderAdminListas();
+  await guardarEnSupabase();
+  toast('✅ Testimonio agregado');
+}
+
+async function eliminar(tipo, idx) {
+  datos[tipo].splice(idx, 1);
+  renderSitio(); renderAdminListas();
+  await guardarEnSupabase();
+  toast('Eliminado');
+}
+
+// Toggles
+async function toggleDonaciones() {
+  datos.donacionesOn = !datos.donacionesOn;
+  el('dona-toggle').classList.toggle('on', datos.donacionesOn);
+  renderSitio();
+  await guardarEnSupabase();
+  toast(datos.donacionesOn ? 'Donaciones activadas' : 'Donaciones ocultas');
+}
+
+async function toggleOracion() {
+  datos.oracionOn = !datos.oracionOn;
+  el('ora-toggle').classList.toggle('on', datos.oracionOn);
+  renderSitio();
+  await guardarEnSupabase();
+  toast(datos.oracionOn ? 'Citas de oración activadas' : 'Citas de oración ocultas');
+}
+
+async function agregarDiaCita() {
+  const val = el('ora-nuevo-dia').value.trim();
+  if (!val) { toast('Escribe el día'); return; }
+  datos.oracionDias.push(val);
+  el('ora-nuevo-dia').value = '';
+  renderSitio(); rellenarOracionAdmin();
+  await guardarEnSupabase();
+  toast('Día agregado');
+}
+
+function eliminarDiaCita(i) {
+  datos.oracionDias.splice(i,1);
+  renderSitio(); rellenarOracionAdmin();
+  guardarEnSupabase();
+}
+
+async function agregarHorarioOracion() {
+  const dia  = el('ora-hor-dia').value.trim();
+  const hora = el('ora-hor-hora').value.trim();
+  if (!dia || !hora) { toast('Completa día y hora'); return; }
+  datos.oracionHorarios.push({dia, hora});
+  el('ora-hor-dia').value = ''; el('ora-hor-hora').value = '';
+  renderSitio(); rellenarOracionAdmin();
+  await guardarEnSupabase();
+  toast('Horario agregado');
+}
+
+function eliminarHorarioOracion(i) {
+  datos.oracionHorarios.splice(i,1);
+  renderSitio(); rellenarOracionAdmin();
+  guardarEnSupabase();
+}
+
+// Recargar desde Supabase
+async function recargarDesdeSupabase() {
+  const btn = document.querySelector('[onclick="recargarDesdeSupabase()"]');
+  if (btn) { btn.textContent = '⏳'; btn.disabled = true; }
+  await cargarDesdeSupabase();
+  renderSitio();
+  rellenarAdmin();
+  if (btn) { btn.textContent = '🔄 Recargar datos'; btn.disabled = false; }
+  toast('✅ Datos recargados');
+}
+
+// ──────────────────────────────────────────────────────
+// DIAGNÓSTICO Y SEGURIDAD
+// ──────────────────────────────────────────────────────
+async function diagnosticarTablas() {
+  const res = el('diagnostico-result');
+  if (!res) return;
+  res.style.display = 'block';
+  res.innerHTML = '⏳ Probando...<br>';
+  const sb = getSB();
+  const { data: ig, error: errIg } = await sb.from('iglesias').select('id,nombre').eq('slug', SLUG).single();
+  if (errIg) { res.innerHTML += `❌ iglesias: ${errIg.message}`; return; }
+  res.innerHTML += `✅ iglesias: "${ig.nombre}"<br>`;
+  const tablas = ['iglesias_contacto','iglesias_hero','pastores','horarios','predicas',
+    'eventos','recursos_ninos','porcarts','galeria','testimonios',
+    'donaciones_config','oracion_config','oracion_dias','oracion_horarios'];
+  for (const t of tablas) {
+    const {data, error} = await sb.from(t).select('*').eq('iglesia_id', ig.id).limit(1);
+    if (error) res.innerHTML += `❌ ${t}: ${error.message}<br>`;
+    else res.innerHTML += `✅ ${t}: ${data?.length||0} filas${data?.[0] ? ' | '+Object.keys(data[0]).join(', ') : ''}<br>`;
+  }
+  res.innerHTML += '<br>✅ Diagnóstico completo.';
+}
+
+async function verificarConexionSupabase() {
+  const el2 = el('supa-status');
+  if (!el2) return;
+  el2.textContent = 'Conectando...';
+  try {
+    const {data, error} = await getSB().from('iglesias').select('nombre').eq('slug', SLUG).single();
+    if (error) throw error;
+    el2.innerHTML = `✅ <strong style="color:#27ae60">Conectado.</strong> Iglesia: <strong>${data.nombre}</strong>`;
+  } catch(err) {
+    el2.innerHTML = `❌ <strong style="color:#e74c3c">Error:</strong> ${err.message}`;
+  }
+}
+
+function toggleVer(id, btn) {
+  const input = el(id);
+  input.type = input.type === 'text' ? 'password' : 'text';
+  btn.textContent = input.type === 'text' ? '🙈' : '👁';
+}
+
+document.addEventListener('input', function(e) {
+  if (e.target.id !== 'seg-nueva') return;
+  const v = e.target.value;
+  const strength = el('seg-fortaleza');
+  if (!strength) return;
+  if (!v) { strength.textContent = ''; return; }
+  let n = 0;
+  if (v.length >= 6) n++; if (v.length >= 10) n++;
+  if (/[0-9]/.test(v)) n++; if (/[^a-zA-Z0-9]/.test(v)) n++;
+  const t = ['','⚠ Débil','⚠ Regular','✓ Buena','✓ Fuerte'];
+  const col = ['','#e74c3c','#e67e22','#27ae60','#1abc9c'];
+  strength.textContent = t[n]||'⚠ Muy corta';
+  strength.style.color = col[n]||'#e74c3c';
+});
+
+function cambiarContrasena() {
+  const actual = el('seg-actual').value;
+  const nueva  = el('seg-nueva').value;
+  const conf   = el('seg-confirmar').value;
+  const errEl  = el('seg-error');
+  errEl.style.display = 'none';
+  const err = (m) => { errEl.textContent = m; errEl.style.display = 'block'; };
+  if (actual !== PASS) return err('Contraseña actual incorrecta.');
+  if (nueva.length < 6) return err('Mínimo 6 caracteres.');
+  if (nueva !== conf) return err('Las contraseñas no coinciden.');
+  if (nueva === PASS_DEFAULT) return err('No puedes usar la contraseña por defecto.');
+  PASS = nueva;
+  localStorage.setItem('iglesia_pass', nueva);
+  ['seg-actual','seg-nueva','seg-confirmar'].forEach(id => { const e = el(id); if(e) e.value=''; });
+  toast('✓ Contraseña cambiada');
+}
+
+// ──────────────────────────────────────────────────────
+// UTILIDADES
+// ──────────────────────────────────────────────────────
+function copiarTexto(txt) {
+  navigator.clipboard.writeText(txt).then(() => toast('¡Versículo copiado!')).catch(() => toast('Copiado'));
+}
+
+function convertirUrlImagen(url) {
+  if (!url || !url.trim()) return '';
+  url = url.trim();
+  const dm = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?.*id=)([a-zA-Z0-9_-]+)/);
+  if (dm) return 'https://drive.google.com/uc?export=view&id=' + dm[1];
+  if (url.includes('dropbox.com')) return url.replace('www.dropbox.com','dl.dropboxusercontent.com').replace('?dl=0','').replace('?dl=1','');
+  return url;
+}
+
+function previsualizarLogo(url) {
+  const wrap = el('logo-preview-wrap');
+  const img  = el('logo-preview-img');
+  const nom  = el('logo-preview-nombre');
+  if (!wrap || !img) return;
+  const urlF = convertirUrlImagen(url);
+  const input = el('cfg-logo-url');
+  if (input && urlF !== url && url) input.value = urlF;
+  if (urlF) {
+    img.src = urlF;
+    if (nom) nom.textContent = el('cfg-nombre')?.value || datos.nombre;
+    wrap.style.display = 'block';
+    img.onerror = () => { wrap.innerHTML = '<p style="color:#e74c3c;font-size:0.82rem;">⚠ No se pudo cargar la imagen.</p>'; };
+    img.onload  = () => { wrap.style.display = 'block'; };
+  } else { wrap.style.display = 'none'; }
+}
+
+function quitarLogo() {
+  const i = el('cfg-logo-url'); if (i) i.value = '';
+  const w = el('logo-preview-wrap'); if (w) w.style.display = 'none';
+  datos.logoUrl = '';
+  renderSitio();
+}
+
+async function subirImagenLocal(inputFileId, targetInputId, previewFn) {
+  const fi = el(inputFileId);
+  if (!fi || !fi.files || !fi.files[0]) return;
+  const file = fi.files[0];
+  if (!file.type.startsWith('image/')) { toast('⚠ Solo imágenes'); return; }
+  toast('⏳ Subiendo imagen...');
+  try {
+    const sb = getSB();
+    const ext = file.name.split('.').pop() || 'jpg';
+    const nombre = SLUG + '/' + Date.now() + '.' + ext;
+    const { error: upErr } = await sb.storage.from('imagenes').upload(nombre, file, {upsert:true, contentType: file.type});
+    if (upErr) throw upErr;
+    const { data: urlData } = sb.storage.from('imagenes').getPublicUrl(nombre);
+    const url = urlData.publicUrl;
+    const inp = el(targetInputId); if (inp) inp.value = url;
+    if (typeof previewFn === 'function') previewFn(url);
+    toast('✅ Imagen subida');
+  } catch(err) {
+    console.error('[Storage]', err);
+    // Fallback base64
+    const reader = new FileReader();
+    reader.onload = e => {
+      const inp = el(targetInputId); if (inp) inp.value = e.target.result;
+      if (typeof previewFn === 'function') previewFn(e.target.result);
+      toast('✓ Imagen cargada (local)');
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function dispararSelectorArchivo(targetInputId, previewFn) {
+  let fi = el('_file_picker_tmp'); if (fi) fi.remove();
+  fi = document.createElement('input');
+  fi.type = 'file'; fi.id = '_file_picker_tmp';
+  fi.accept = 'image/*'; fi.style.display = 'none';
+  document.body.appendChild(fi);
+  fi.onchange = () => subirImagenLocal('_file_picker_tmp', targetInputId, previewFn);
+  fi.click();
+}
+
+// Reproductor audio
+let playerActivo = null;
+function inicializarPlayers() {
+  datos.predicas.forEach((p,idx) => {
+    if (!p.audio) return;
+    const audio = el('audio-'+idx); if (!audio) return;
+    audio.ontimeupdate = () => {
+      const fill = el('fill-'+idx); const cur = el('cur-'+idx);
+      if (!audio.duration) return;
+      if (fill) fill.style.width = (audio.currentTime/audio.duration*100) + '%';
+      if (cur) cur.textContent = fmtTime(audio.currentTime);
+    };
+    audio.onloadedmetadata = () => { const d = el('dur-'+idx); if(d) d.textContent = fmtTime(audio.duration); };
+    audio.onended = () => { setBtnPlay(idx); const f = el('fill-'+idx); if(f) f.style.width='0%'; playerActivo=null; };
+  });
+}
+function togglePlay(idx) {
+  const audio = el('audio-'+idx); if (!audio) return;
+  if (playerActivo !== null && playerActivo !== idx) {
+    const prev = el('audio-'+playerActivo); if(prev){prev.pause();setBtnPlay(playerActivo);}
+  }
+  if (audio.paused) { audio.play().then(()=>{setBtnPause(idx);playerActivo=idx;}).catch(()=>toast('Error de audio')); }
+  else { audio.pause(); setBtnPlay(idx); playerActivo=null; }
+}
+function setBtnPlay(idx) { const b=el('btn-'+idx); if(b) b.innerHTML='<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'; }
+function setBtnPause(idx) { const b=el('btn-'+idx); if(b) b.innerHTML='<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>'; }
+function seekAudio(e,idx) {
+  const audio=el('audio-'+idx); const bar=el('prog-'+idx);
+  if(!audio||!bar||!audio.duration) return;
+  const r=bar.getBoundingClientRect();
+  audio.currentTime=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*audio.duration;
+}
+function setVolume(idx,val) { const a=el('audio-'+idx); if(a) a.volume=parseFloat(val); }
+function toggleMute(idx) { const a=el('audio-'+idx); if(a) a.muted=!a.muted; }
+function fmtTime(s) {
+  if(!s||isNaN(s)) return '0:00';
+  return Math.floor(s/60)+':'+(Math.floor(s%60)).toString().padStart(2,'0');
+}
+
+// Oración WhatsApp
+function enviarSolicitudOracion() {
+  const nombre = el('ora-nombre').value.trim();
+  const tel    = el('ora-tel').value.trim();
+  if (!nombre || !tel) { toast('Escribe tu nombre y teléfono'); return; }
+  const tipo  = el('ora-tipo').value;
+  const hora  = el('ora-hora').value;
+  const pet   = el('ora-peticion').value.trim();
+  const dias  = [...document.querySelectorAll('.dia-chip.selected')].map(e=>e.textContent).join(', ') || 'Cualquier día';
+  const waNum = (datos.oracionWa||datos.wa||'').replace(/\D/g,'');
+  if (!waNum) { toast('Sin WhatsApp configurado'); return; }
+  const msg = `🙏 *Solicitud de oración*
+*Nombre:* ${nombre}
+*Teléfono:* ${tel}
+*Petición:* ${tipo}
+*Día:* ${dias}
+*Hora:* ${hora}${pet?'
+*Mensaje:* '+pet:''}
+_Enviado desde ${datos.nombre}_`;
+  window.open('https://wa.me/'+waNum+'?text='+encodeURIComponent(msg),'_blank');
+  ['ora-nombre','ora-tel','ora-peticion'].forEach(id=>{const e=el(id);if(e)e.value='';});
+  document.querySelectorAll('.dia-chip.selected').forEach(e=>e.classList.remove('selected'));
+  toast('✅ Solicitud enviada');
+}
+
+// Toast
+function toast(msg) {
+  const t = el('toast'); if (!t) return;
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Loading
+function mostrarCargando() { const e=el('loadingScreen'); if(e) e.style.display='flex'; }
+function ocultarCargando() {
+  const e=el('loadingScreen'); if(!e) return;
+  e.style.transition='opacity 0.4s';
+  setTimeout(()=>{e.style.opacity='0'; setTimeout(()=>e.style.display='none',400);},100);
+}
+
+// NAV
+document.getElementById('menuBtn').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+document.getElementById('adminTrigger').addEventListener('click', (e) => {
+  e.stopPropagation();
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+// ──────────────────────────────────────────────────────
+// INIT
+// ──────────────────────────────────────────────────────
+mostrarCargando();
+cargarDesdeSupabase().then(() => {
+  renderSitio();
+  ocultarCargando();
+});
+</script>
+</body>
+</html>
